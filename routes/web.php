@@ -13,12 +13,12 @@ use App\Http\Controllers\AuthController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::redirect('/', '/dashboard');
 Route::middleware(['guest'])->group(function () {
     Route::get('/register-mahasiswa', [AuthController::class, 'showRegisterMahasiswaForm'])->name('register.mahasiswa');
     Route::post('/register-mahasiswa', [AuthController::class, 'registerMahasiswa']);
-
-    Route::get('/register-dosen', [AuthController::class, 'showRegisterDosen'])->name('register.dosen');
+    Route::get('/register-dosen', [AuthController::class, 'showRegisterDosenForm'])->name('register.dosen');
+    Route::post('/register-dosen', [AuthController::class, 'registerDosen']);
 
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);

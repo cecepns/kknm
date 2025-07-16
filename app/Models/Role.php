@@ -15,9 +15,6 @@ class Role extends Model
         'deskripsi',
     ];
 
-    /**
-     * Mendapatkan semua user yang memiliki role ini.
-     */
     public function users()
     {
         return $this->hasMany(User::class);

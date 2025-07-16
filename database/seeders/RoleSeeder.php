@@ -14,16 +14,12 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // Nonaktifkan Foreign Key Check untuk sementara
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         
-        // Kosongkan tabel. Sekarang ini aman untuk dijalankan.
         Role::truncate();
 
-        // Aktifkan kembali Foreign Key Check
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Buat data roles baru
         $roles = [
             [
                 'nama' => 'Kepala PPM',
@@ -62,7 +58,6 @@ class RoleSeeder extends Seeder
             ],
         ];
 
-        // Masukkan data ke dalam tabel 'roles'
         Role::insert($roles);
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
 
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+            $table->enum('tipe_akun', ['eksternal', 'internal']);
 
             $table->string('nim')->unique()->nullable();
             $table->string('nip_nidn')->unique()->nullable();

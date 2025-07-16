@@ -5,12 +5,15 @@
 @section('content')
 <div class="container">
     <h2>Register Mahasiswa KKN</h2>
-    <p>Daftar akun sesuai dengan peran</p>
+
+    <div class="tabs">
+        <a href="{{ route('register.mahasiswa') }}" class="tab-link">Mahasiswa KKN</a>
+        <a href="{{ route('register.dosen') }}" class="tab-link active">Dosen Pembimbing Lapangan</a>
+    </div>
 
     <form method="POST" action="{{ route('register.mahasiswa') }}">
         @csrf
 
-        {{-- Kolom Kiri --}}
         <div class="form-column">
             <div class="form-group">
                 <label for="nama">Nama</label>
@@ -63,7 +66,6 @@
             </div>
         </div>
 
-        {{-- Kolom Kanan --}}
         <div class="form-column">
             <div class="form-group">
                 <label for="program_studi">Program Studi (Prodi)</label>

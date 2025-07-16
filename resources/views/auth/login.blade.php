@@ -20,6 +20,6 @@
         @enderror
         <button type="submit" class="btn">Login</button>
     </form>
-    <p class="link">Belum punya akun? <a href="{{ route('register') }}">Register di sini</a></p>
+    <p class="link">Belum punya akun? <a href="{{ route('register.mahasiswa') }}">Register di sini</a></p>
 </div>
 @endsection

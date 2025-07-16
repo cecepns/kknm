@@ -15,8 +15,10 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/register-mahasiswa', [AuthController::class, 'showRegisterMahasiswaForm'])->name('register.mahasiswa');
+    Route::post('/register-mahasiswa', [AuthController::class, 'registerMahasiswa']);
+
+    Route::get('/register-dosen', [AuthController::class, 'showRegisterDosen'])->name('register.dosen');
 
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);

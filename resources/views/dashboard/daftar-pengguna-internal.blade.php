@@ -6,7 +6,7 @@
 
     <header>
         <h1>Kelola Pengguna Internal</h1>
-        <a href="#">+ Tambah Pengguna</a>
+        <a href="{{ route('form.pengguna.internal') }}">+ Tambah Pengguna</a>
     </header>
 
     <hr>

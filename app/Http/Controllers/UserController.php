@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password; 
 use App\Models\User;
+use App\Models\Role;
 
 class UserController extends Controller
 {
@@ -13,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('role')->where('tipe_akun', 'internal')->latest()->get();
-        return view('dashboard.daftar-penguna-internal', compact('users'));
+        return view('dashboard.daftar-pengguna-internal', compact('users'));
     }
 
     /**
@@ -21,7 +23,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        return view('dashboard.form-pengguna-internal', compact('roles'));
     }
 
     /**
@@ -29,7 +32,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Password::defaults()],
+            'role_id' => ['required', 'exists:roles,id'],
+            'status' => ['required', 'in:aktif,tidak aktif'],
+        ]);
+
+        User::create([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => $request->password,
+            'role_id' => $request->role_id,
+            'status' => $request->status,
+            'tipe_akun' => 'internal',
+        ]);
+
+        return redirect()->route('daftar.pengguna.internal')->with('success', 'Pengguna baru berhasil ditambahkan!');
     }
 
     /**

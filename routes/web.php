@@ -28,7 +28,9 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
-    Route::get('/kelola-pengguna-internal', [UserController::class, 'index'])->name('kelola.pengguna.internal');
+    Route::get('/kelola-pengguna-internal', [UserController::class, 'index'])->name('daftar.pengguna.internal');
+    Route::get('/kelola-pengguna-internal/form', [UserController::class, 'create'])->name('form.pengguna.internal');
+    Route::post('/kelola-pengguna-internal', [UserController::class, 'store'])->name('tambah.pengguna.internal');
     
     // Role Management
     Route::get('/roles', function () {

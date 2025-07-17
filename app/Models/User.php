@@ -24,6 +24,7 @@ class User extends Authenticatable
         'fakultas',
         'program_studi',
         'angkatan',
+        'tipe_akun',
         'status',
         'jenis_kkn',
         'no_kelompok_kkn',

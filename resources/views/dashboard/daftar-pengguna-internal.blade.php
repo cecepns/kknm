@@ -6,7 +6,7 @@
 
     <header>
         <h1>Kelola Pengguna Internal</h1>
-        <a href="{{ route('form.pengguna.internal') }}">+ Tambah Pengguna</a>
+        <a href="{{ route('form.tambah.pengguna.internal') }}">+ Tambah Pengguna</a>
     </header>
 
     <hr>
@@ -38,8 +38,7 @@
                 <td>{{ ucfirst($user->status) }}</td>
 
                 <td>
-                    <a href="#">Edit</a> |
-                    
+                    <a href="{{ route('form.edit.pengguna.internal', $user->id) }}">Edit</a> |
                     <a href="#" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</a>
                 </td>
             </tr>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password; 
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Role;
 
@@ -63,17 +64,39 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        $roles = Role::all();
+        return view('dashboard.form-pengguna-internal', compact('user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  User $user)
     {
-        //
+        $request->validate([
+            'nama' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'password' => ['nullable', 'confirmed', Password::defaults()],
+            'role_id' => ['required', 'exists:roles,id'],
+            'status' => ['required', 'in:aktif,tidak aktif'],
+        ]);
+
+        $updateData = [
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'role_id' => $request->role_id,
+            'status' => $request->status,
+        ];
+
+        if ($request->filled('password')) {
+            $updateData['password'] = $request->password;
+        }
+
+        $user->update($updateData);
+
+        return redirect()->route('daftar.pengguna.internal')->with('success', 'Data pengguna berhasil diperbarui!');
     }
 
     /**

@@ -9,7 +9,7 @@
             </a>
         </li>
         <li class="{{ request()->is('users') ? 'active' : '' }}">
-            <a href="{{ route('users') }}">
+            <a href="{{ route('kelola.pengguna.internal') }}">
                 <i class="icon-users"></i>Kelola Pengguna Internal
             </a>
         </li>

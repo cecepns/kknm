@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController; 
+use App\Http\Controllers\UserController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +28,7 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
-    
-    // User Management
-    Route::get('/users', function () {
-        return view('admin.users.index');
-    })->name('users');
+    Route::get('/kelola-pengguna-internal', [UserController::class, 'index'])->name('kelola.pengguna.internal');
     
     // Role Management
     Route::get('/roles', function () {

@@ -39,7 +39,13 @@
 
                 <td>
                     <a href="{{ route('form.edit.pengguna.internal', $user->id) }}">Edit</a> |
-                    <a href="#" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</a>
+                    <form action="{{ route('hapus.pengguna.internal', $user->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')" style="background:none; border:none; padding:0; color:blue; text-decoration:underline; cursor:pointer;">
+                            Hapus
+                        </button>
+                    </form>
                 </td>
             </tr>
             @empty

@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('role')->where('tipe_akun', 'internal')->latest()->get();
-        return view('dashboard.daftar-pengguna-internal', compact('users'));
+        return view('kelola-pengguna-internal.daftar', compact('users'));
     }
 
     /**
@@ -25,7 +25,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('dashboard.form-pengguna-internal', compact('roles'));
+        return view('kelola-pengguna-internal.form', compact('roles'));
     }
 
     /**
@@ -67,7 +67,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('dashboard.form-pengguna-internal', compact('user', 'roles'));
+        return view('kelola-pengguna-internal.form', compact('user', 'roles'));
     }
 
     /**
@@ -102,8 +102,14 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('daftar.pengguna.internal')->with('success', 'Pengguna berhasil dihapus!');
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController; 
 use App\Http\Controllers\UserController; 
+use App\Http\Controllers\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,56 +36,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kelola-pengguna-internal', [UserController::class, 'store'])->name('tambah.pengguna.internal');
     Route::get('/kelola-pengguna-internal/{user}/edit', [UserController::class, 'edit'])->name('form.edit.pengguna.internal');
     Route::put('/kelola-pengguna-internal/{user}', [UserController::class, 'update'])->name('edit.pengguna.internal');
+    Route::delete('/kelola-pengguna-internal/{user}', [UserController::class, 'destroy'])->name('hapus.pengguna.internal');
     
-    // Role Management
-    Route::get('/roles', function () {
-        return view('admin.roles.index');
-    })->name('roles');
-    
-    // Announcement Management
-    Route::get('/announcements', function () {
-        return view('admin.announcements.index');
-    })->name('announcements');
-    
-    Route::get('/announcement-access', function () {
-        return view('admin.announcements.access');
-    })->name('announcement-access');
-    
-    // FAQ Management
-    Route::get('/faq', function () {
-        return view('admin.faq.index');
-    })->name('faq');
-    
-    Route::get('/faq-access', function () {
-        return view('admin.faq.access');
-    })->name('faq-access');
-    
-    // Knowledge Classification
-    Route::get('/knowledge', function () {
-        return view('admin.knowledge.index');
-    })->name('knowledge');
-    
-    // Repository Management
-    Route::get('/repository', function () {
-        return view('admin.repository.index');
-    })->name('repository');
-    
-    Route::get('/public-repository', function () {
-        return view('admin.repository.public');
-    })->name('public-repository');
-    
-    // Forum Management
-    Route::get('/forum-category', function () {
-        return view('admin.forum.category');
-    })->name('forum-category');
-    
-    Route::get('/forum', function () {
-        return view('admin.forum.index');
-    })->name('forum');
-    
-    Route::get('/forum-management', function () {
-        return view('admin.forum.management');
-    })->name('forum-management');
+    // Kelola FAQ
+    Route::get('/kelola-faq',  [FaqController::class, 'index'])->name('daftar.kelola.faq');
+    Route::get('/kelola-faq/tambah', [FaqController::class, 'create'])->name('form.tambah.kelola.faq');
+    Route::post('/kelola-faq', [FaqController::class, 'store'])->name('tambah.kelola.faq');
+    Route::get('/kelola-faq/{faq}/edit', [FaqController::class, 'edit'])->name('form.edit.kelola.faq');
+    Route::put('/kelola-faq/{faq}', [FaqController::class, 'update'])->name('edit.kelola.faq');
+    Route::delete('/kelola-faq/{faq}', [FaqController::class, 'destroy'])->name('hapus.kelola.faq');
     
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

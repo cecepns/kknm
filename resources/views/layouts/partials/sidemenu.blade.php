@@ -3,68 +3,68 @@
         <h3>Admin Panel</h3>
     </div>
     <ul class="sidebar-menu">
-        <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
+        <li>
             <a href="{{ route('dashboard') }}">
                 <i class="icon-home"></i>Home
             </a>
         </li>
-        <li class="{{ request()->is('users') ? 'active' : '' }}">
+        <li>
             <a href="{{ route('daftar.pengguna.internal') }}">
                 <i class="icon-users"></i>Kelola Pengguna Internal
             </a>
         </li>
         <li class="{{ request()->is('roles') ? 'active' : '' }}">
-            <a href="{{ route('roles') }}">
+            <a href="#">
                 <i class="icon-shield"></i>Kelola Role
             </a>
         </li>
         <li class="{{ request()->is('announcements') ? 'active' : '' }}">
-            <a href="{{ route('announcements') }}">
+            <a href="#">
                 <i class="icon-flag"></i>Kelola Pengumuman
             </a>
         </li>
         <li class="{{ request()->is('announcement-access') ? 'active' : '' }}">
-            <a href="{{ route('announcement-access') }}">
+            <a href="#">
                 <i class="icon-info"></i>Akses Pengumuman
             </a>
         </li>
         <li class="{{ request()->is('faq') ? 'active' : '' }}">
-            <a href="{{ route('faq') }}">
+            <a href="{{ route('daftar.kelola.faq') }}">
                 <i class="icon-question"></i>Kelola FAQ
             </a>
         </li>
         <li class="{{ request()->is('faq-access') ? 'active' : '' }}">
-            <a href="{{ route('faq-access') }}">
+            <a href="#">
                 <i class="icon-faq"></i>Akses FAQ
             </a>
         </li>
         <li class="{{ request()->is('knowledge') ? 'active' : '' }}">
-            <a href="{{ route('knowledge') }}">
+            <a href="#">
                 <i class="icon-bookmark"></i>Klasifikasi Pengetahuan
             </a>
         </li>
         <li class="{{ request()->is('repository') ? 'active' : '' }}">
-            <a href="{{ route('repository') }}">
+            <a href="#">
                 <i class="icon-folder"></i>Kelola Repositori
             </a>
         </li>
         <li class="{{ request()->is('public-repository') ? 'active' : '' }}">
-            <a href="{{ route('public-repository') }}">
+            <a href="#">
                 <i class="icon-globe"></i>Repositori Publik
             </a>
         </li>
         <li class="{{ request()->is('forum-category') ? 'active' : '' }}">
-            <a href="{{ route('forum-category') }}">
+            <a href="#">
                 <i class="icon-hash"></i>Kelola Kategori Forum
             </a>
         </li>
         <li class="{{ request()->is('forum') ? 'active' : '' }}">
-            <a href="{{ route('forum') }}">
+            <a href="#">
                 <i class="icon-chat"></i>Forum Diskusi
             </a>
         </li>
         <li class="{{ request()->is('forum-management') ? 'active' : '' }}">
-            <a href="{{ route('forum-management') }}">
+            <a href="#">
                 <i class="icon-group"></i>Kelola Forum Diskusi
             </a>
         </li>

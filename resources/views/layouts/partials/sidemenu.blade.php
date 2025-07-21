@@ -18,8 +18,8 @@
                 <i class="icon-shield"></i>Kelola Role
             </a>
         </li>
-        <li class="{{ request()->is('announcements') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('kelola-pengumuman*') ? 'active' : '' }}">
+            <a href="{{ route('daftar.kelola.pengumuman') }}">
                 <i class="icon-flag"></i>Kelola Pengumuman
             </a>
         </li>
@@ -28,12 +28,12 @@
                 <i class="icon-info"></i>Akses Pengumuman
             </a>
         </li>
-        <li class="{{ request()->is('faq') ? 'active' : '' }}">
+        <li class="{{ request()->is('kelola-faq*') ? 'active' : '' }}">
             <a href="{{ route('daftar.kelola.faq') }}">
                 <i class="icon-question"></i>Kelola FAQ
             </a>
         </li>
-        <li class="{{ request()->is('faq-access') ? 'active' : '' }}">
+        <li class="{{ request()->is('akses-faq') ? 'active' : '' }}">
             <a href="{{ route('akses.faq') }}">
                 <i class="icon-faq"></i>Akses FAQ
             </a>

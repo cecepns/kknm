@@ -12,8 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('announcements', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // Kolom ID primary key otomatis
+            $table->string('title'); // Kolom untuk judul pengumuman
+            $table->longText('content'); // Kolom untuk isi konten, bisa sangat panjang
+            $table->date('published_date')->nullable(); // Kolom tanggal publikasi, boleh kosong
+            
+            // Kolom untuk mencatat siapa yang membuat, terhubung ke tabel 'users'
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            
+            $table->timestamps(); // Kolom created_at dan updated_at otomatis
         });
     }
 

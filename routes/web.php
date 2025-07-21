@@ -37,6 +37,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kelola-pengguna-internal/{user}/edit', [UserController::class, 'edit'])->name('form.edit.pengguna.internal');
     Route::put('/kelola-pengguna-internal/{user}', [UserController::class, 'update'])->name('edit.pengguna.internal');
     Route::delete('/kelola-pengguna-internal/{user}', [UserController::class, 'destroy'])->name('hapus.pengguna.internal');
+
+    // Akses FAQ
+    Route::get('/akses-faq', [FaqController::class, 'publicIndex'])->name('akses.faq');
     
     // Kelola FAQ
     Route::get('/kelola-faq',  [FaqController::class, 'index'])->name('daftar.kelola.faq');

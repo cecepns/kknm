@@ -16,6 +16,13 @@ class FaqController extends Controller
         return view('kelola-faq.daftar', compact('faqs'));
     }
 
+    public function publicIndex()
+    {
+        $faqs = Faq::latest()->get();
+        return view('akses-faq.daftar', compact('faqs'));
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */

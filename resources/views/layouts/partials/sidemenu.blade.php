@@ -34,7 +34,7 @@
             </a>
         </li>
         <li class="{{ request()->is('faq-access') ? 'active' : '' }}">
-            <a href="#">
+            <a href="{{ route('akses.faq') }}">
                 <i class="icon-faq"></i>Akses FAQ
             </a>
         </li>

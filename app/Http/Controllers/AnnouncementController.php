@@ -78,4 +78,26 @@ class AnnouncementController extends Controller
         $announcement->delete();
         return redirect()->route('daftar.kelola.pengumuman')->with('success', 'Pengumuman berhasil dihapus!');
     }
+
+    /**
+     * Menampilkan daftar pengumuman untuk akses publik (tanpa edit/delete)
+     */
+    public function publicIndex()
+    {
+        $announcements = Announcement::with('user')
+            ->orderBy('published_date', 'desc')
+            ->get();
+
+        return view('akses-pengumuman.daftar', compact('announcements'));
+    }
+
+    /**
+     * Menampilkan detail pengumuman untuk akses publik
+     */
+    public function publicShow($id)
+    {
+        $announcement = Announcement::with('user')->findOrFail($id);
+
+        return view('akses-pengumuman.detail', compact('announcement'));
+    }
 }

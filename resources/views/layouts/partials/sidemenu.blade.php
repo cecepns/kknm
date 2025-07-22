@@ -23,8 +23,8 @@
                 <i class="icon-flag"></i>Kelola Pengumuman
             </a>
         </li>
-        <li class="{{ request()->is('announcement-access') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('akses-pengumuman*') ? 'active' : '' }}">
+            <a href="{{ route('akses.pengumuman') }}">
                 <i class="icon-info"></i>Akses Pengumuman
             </a>
         </li>

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\AnnouncementController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,6 +63,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kelola-pengumuman/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('form.edit.kelola.pengumuman');
     Route::put('/kelola-pengumuman/{announcement}', [AnnouncementController::class, 'update'])->name('edit.kelola.pengumuman');
     Route::delete('/kelola-pengumuman/{announcement}', [AnnouncementController::class, 'destroy'])->name('hapus.kelola.pengumuman');
+    
+    // Akses Pengumuman (View Only)
+    Route::get('/akses-pengumuman', [AnnouncementController::class, 'publicIndex'])->name('akses.pengumuman');
+    Route::get('/akses-pengumuman/{id}', [AnnouncementController::class, 'publicShow'])->name('akses.pengumuman.detail');
     
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

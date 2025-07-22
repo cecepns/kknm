@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-<div class="container">
+<div style="max-width: 500px; padding: 50px">
     <h2>Form Login</h2>
     <form method="POST" action="{{ route('login') }}">
         @csrf

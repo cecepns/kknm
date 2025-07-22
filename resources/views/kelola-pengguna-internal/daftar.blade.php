@@ -3,21 +3,24 @@
 @section('title', 'Kelola Pengguna Internal')
 
 @section('content')
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Kelola Pengguna Internal</h1>
+        <p class="text-gray-600">Kelola data pengguna internal sistem KMS KKN</p>
+    </div>
+    <a href="{{ route('form.tambah.pengguna.internal') }}" class="btn btn-primary">
+        👤 Tambah Pengguna
+    </a>
+</div>
 
-    <header>
-        <h1>Kelola Pengguna Internal</h1>
-        <a href="{{ route('form.tambah.pengguna.internal') }}">+ Tambah Pengguna</a>
-    </header>
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
-    <hr>
-
-    @if(session('success'))
-        <div>
-            <p>{{ session('success') }}</p>
-        </div>
-    @endif
-
-    <table>
+<div class="table-container">
+    <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -31,29 +34,36 @@
         <tbody>
             @forelse($users as $user)
             <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->nama }}</td>
+                <td class="font-medium">{{ $user->id }}</td>
+                <td class="font-medium">{{ $user->nama }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->role->nama ?? 'Tanpa Role' }}</td>
-                <td>{{ ucfirst($user->status) }}</td>
-
                 <td>
-                    <a href="{{ route('form.edit.pengguna.internal', $user->id) }}">Edit</a> |
-                    <form action="{{ route('hapus.pengguna.internal', $user->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')" style="background:none; border:none; padding:0; color:blue; text-decoration:underline; cursor:pointer;">
-                            Hapus
-                        </button>
-                    </form>
+                    <span class="badge">{{ $user->role->nama ?? 'Tanpa Role' }}</span>
+                </td>
+                <td>
+                    <span class="status-badge status-{{ $user->status == 'aktif' ? 'active' : 'inactive' }}">
+                        {{ ucfirst($user->status) }}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-links">
+                        <a href="{{ route('form.edit.pengguna.internal', $user->id) }}">Edit</a>
+                        <form action="{{ route('hapus.pengguna.internal', $user->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-link" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                Hapus
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="6" style="text-align: center;">Tidak ada data pengguna internal untuk ditampilkan.</td>
+                <td colspan="6" class="text-center text-gray-500">Tidak ada data pengguna internal untuk ditampilkan.</td>
             </tr>
             @endforelse
         </tbody>
     </table>
-
+</div>
 @endsection

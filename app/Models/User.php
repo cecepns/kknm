@@ -15,21 +15,21 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'nama',
+        'name',
         'email',
         'password',
         'role_id',
-        'nim',
-        'nip_nidn',
-        'fakultas',
-        'program_studi',
-        'angkatan',
-        'tipe_akun',
+        'student_id',
+        'employee_id',
+        'faculty',
+        'study_program',
+        'batch_year',
+        'account_type',
         'status',
-        'jenis_kkn',
-        'no_kelompok_kkn',
-        'lokasi_kkn',
-        'tahun_kkn',
+        'kkn_type',
+        'kkn_group_number',
+        'kkn_location',
+        'kkn_year',
     ];
 
     /**

@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('role')->where('tipe_akun', 'internal')->latest()->get();
+        $users = User::with('role')->where('account_type', 'internal')->latest()->get();
         return view('kelola-pengguna-internal.daftar', compact('users'));
     }
 
@@ -34,7 +34,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
             'role_id' => ['required', 'exists:roles,id'],
@@ -42,12 +42,12 @@ class UserController extends Controller
         ]);
 
         User::create([
-            'nama' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
             'role_id' => $request->role_id,
             'status' => $request->status,
-            'tipe_akun' => 'internal',
+            'account_type' => 'internal',
         ]);
 
         return redirect()->route('daftar.pengguna.internal')->with('success', 'Pengguna baru berhasil ditambahkan!');
@@ -76,7 +76,7 @@ class UserController extends Controller
     public function update(Request $request,  User $user)
     {
         $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'password' => ['nullable', 'confirmed', Password::defaults()],
             'role_id' => ['required', 'exists:roles,id'],
@@ -84,7 +84,7 @@ class UserController extends Controller
         ]);
 
         $updateData = [
-            'nama' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
             'role_id' => $request->role_id,
             'status' => $request->status,

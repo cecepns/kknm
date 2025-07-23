@@ -91,13 +91,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
         $user = User::create([
-            'nama' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -145,33 +145,33 @@ class AuthController extends Controller
     public function registerMahasiswa(Request $request)
     {
         $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'nim' => ['required', 'string', 'max:255', 'unique:users,nim'],
-            'fakultas' => ['required', 'string'],
-            'program_studi' => ['required', 'string'],
-            'angkatan' => ['required', 'string'],
-            'jenis_kkn' => ['required', 'string'],
-            'no_kelompok_kkn' => ['required', 'string'],
-            'lokasi_kkn' => ['required', 'string'],
-            'tahun_kkn' => ['required', 'string'],
+            'student_id' => ['required', 'string', 'max:255', 'unique:users,student_id'],
+            'faculty' => ['required', 'string'],
+            'study_program' => ['required', 'string'],
+            'batch_year' => ['required', 'string'],
+            'kkn_type' => ['required', 'string'],
+            'kkn_group_number' => ['required', 'string'],
+            'kkn_location' => ['required', 'string'],
+            'kkn_year' => ['required', 'string'],
         ]);
 
         $user = User::create([
-            'nama' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
             'role_id' => 4,
-            'tipe_akun' => 'eksternal',
-            'nim' => $request->nim,
-            'fakultas' => $request->fakultas,
-            'program_studi' => $request->program_studi,
-            'angkatan' => $request->angkatan,
-            'jenis_kkn' => $request->jenis_kkn,
-            'no_kelompok_kkn' => $request->no_kelompok_kkn,
-            'lokasi_kkn' => $request->lokasi_kkn,
-            'tahun_kkn' => $request->tahun_kkn,
+            'account_type' => 'eksternal',
+            'student_id' => $request->student_id,
+            'faculty' => $request->faculty,
+            'study_program' => $request->study_program,
+            'batch_year' => $request->batch_year,
+            'kkn_type' => $request->kkn_type,
+            'kkn_group_number' => $request->kkn_group_number,
+            'kkn_location' => $request->kkn_location,
+            'kkn_year' => $request->kkn_year,
         ]);
 
         Auth::login($user);
@@ -182,23 +182,23 @@ class AuthController extends Controller
     public function registerDosen(Request $request)
     {
         $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'nip_nidn' => ['required', 'string', 'max:255', 'unique:users,nip_nidn'],
-            'fakultas' => ['required', 'string'],
-            'program_studi' => ['required', 'string'],
+            'employee_id' => ['required', 'string', 'max:255', 'unique:users,employee_id'],
+            'faculty' => ['required', 'string'],
+            'study_program' => ['required', 'string'],
         ]);
 
         $user = User::create([
-            'nama' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
             'role_id' => 5,
-            'tipe_akun' => 'eksternal',
-            'nip_nidn' => $request->nip_nidn,
-            'fakultas' => $request->fakultas,
-            'program_studi' => $request->program_studi,
+            'account_type' => 'eksternal',
+            'employee_id' => $request->employee_id,
+            'faculty' => $request->faculty,
+            'study_program' => $request->study_program,
         ]);
 
         Auth::login($user);

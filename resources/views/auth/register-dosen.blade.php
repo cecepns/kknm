@@ -17,17 +17,17 @@
 
         <div class="form-column">
             <div class="form-group">
-                <label for="nip_nidn">NIP/NIDN</label>
-                <input type="text" id="nip_nidn" name="nip_nidn" class="form-control" value="{{ old('nip_nidn') }}" required autofocus>
-                @error('nip_nidn')
+                <label for="employee_id">NIP/NIDN</label>
+                <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ old('employee_id') }}" required autofocus>
+                @error('employee_id')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="nama">Nama</label>
-                <input type="text" id="nama" name="nama" class="form-control" value="{{ old('nama') }}" required>
-                @error('nama')
+                <label for="name">Nama</label>
+                <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required>
+                @error('name')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
@@ -56,27 +56,27 @@
 
         <div class="form-column">
             <div class="form-group">
-                <label for="fakultas">Fakultas</label>
-                <select id="fakultas" name="fakultas" class="form-control" required>
+                <label for="faculty">Fakultas</label>
+                <select id="faculty" name="faculty" class="form-control" required>
                     <option value="">Pilih Fakultas</option>
                     @foreach($fakultas as $item)
-                        <option value="{{ $item['value'] }}" {{ old('fakultas') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
+                        <option value="{{ $item['value'] }}" {{ old('faculty') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
                     @endforeach
                 </select>
-                @error('fakultas')
+                @error('faculty')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="program_studi">Program Studi (Prodi)</label>
-                <select id="program_studi" name="program_studi" class="form-control" required>
+                <label for="study_program">Program Studi (Prodi)</label>
+                <select id="study_program" name="study_program" class="form-control" required>
                     <option value="">Pilih Program Studi</option>
                     @foreach($program_studi as $item)
-                        <option value="{{ $item['value'] }}" {{ old('program_studi') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
+                        <option value="{{ $item['value'] }}" {{ old('study_program') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
                     @endforeach
                 </select>
-                @error('program_studi')
+                @error('study_program')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>

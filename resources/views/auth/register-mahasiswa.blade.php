@@ -16,9 +16,9 @@
 
         <div class="form-column">
             <div class="form-group">
-                <label for="nama">Nama</label>
-                <input type="text" id="nama" name="nama" class="form-control" value="{{ old('nama') }}" required autofocus>
-                @error('nama')
+                <label for="name">Nama</label>
+                <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required autofocus>
+                @error('name')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
@@ -45,22 +45,22 @@
             </div>
 
             <div class="form-group">
-                <label for="nim">NIM</label>
-                <input type="text" id="nim" name="nim" class="form-control" value="{{ old('nim') }}" required>
-                @error('nim')
+                <label for="student_id">NIM</label>
+                <input type="text" id="student_id" name="student_id" class="form-control" value="{{ old('student_id') }}" required>
+                @error('student_id')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="fakultas">Fakultas</label>
-                <select id="fakultas" name="fakultas" class="form-control" required>
+                <label for="faculty">Fakultas</label>
+                <select id="faculty" name="faculty" class="form-control" required>
                     <option value="">Pilih Fakultas</option>
                     @foreach($fakultas as $item)
-                        <option value="{{ $item['value'] }}" {{ old('fakultas') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
+                        <option value="{{ $item['value'] }}" {{ old('faculty') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
                     @endforeach
                 </select>
-                @error('fakultas')
+                @error('faculty')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
@@ -68,74 +68,74 @@
 
         <div class="form-column">
             <div class="form-group">
-                <label for="program_studi">Program Studi (Prodi)</label>
-                <select id="program_studi" name="program_studi" class="form-control" required>
+                <label for="study_program">Program Studi (Prodi)</label>
+                <select id="study_program" name="study_program" class="form-control" required>
                     <option value="">Pilih Program Studi</option>
                     @foreach($program_studi as $item)
-                        <option value="{{ $item['value'] }}" {{ old('program_studi') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
+                        <option value="{{ $item['value'] }}" {{ old('study_program') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
                     @endforeach
                 </select>
-                @error('program_studi')
+                @error('study_program')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="angkatan">Angkatan</label>
-                <select id="angkatan" name="angkatan" class="form-control" required>
+                <label for="batch_year">Angkatan</label>
+                <select id="batch_year" name="batch_year" class="form-control" required>
                     <option value="">Pilih Angkatan</option>
                     @foreach($angkatan as $tahun)
-                        <option value="{{ $tahun }}" {{ old('angkatan') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
+                        <option value="{{ $tahun }}" {{ old('batch_year') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
                     @endforeach
                 </select>
-                @error('angkatan')
+                @error('batch_year')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="jenis_kkn">Jenis KKN</label>
-                <select id="jenis_kkn" name="jenis_kkn" class="form-control" required>
+                <label for="kkn_type">Jenis KKN</label>
+                <select id="kkn_type" name="kkn_type" class="form-control" required>
                     <option value="">Pilih Jenis KKN</option>
                     @foreach($jenis_kkn as $item)
-                        <option value="{{ $item['value'] }}" {{ old('jenis_kkn') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
+                        <option value="{{ $item['value'] }}" {{ old('kkn_type') == $item['value'] ? 'selected' : '' }}>{{ $item['label'] }}</option>
                     @endforeach
                 </select>
-                @error('jenis_kkn')
+                @error('kkn_type')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="no_kelompok_kkn">No Kelompok KKN</label>
-                <select id="no_kelompok_kkn" name="no_kelompok_kkn" class="form-control" required>
+                <label for="kkn_group_number">No Kelompok KKN</label>
+                <select id="kkn_group_number" name="kkn_group_number" class="form-control" required>
                     <option value="">Pilih Nomor Kelompok KKN</option>
                     @foreach($no_kelompok_kkn as $no_kelompok)
-                        <option value="{{ $no_kelompok }}" {{ old('no_kelompok_kkn') == $no_kelompok ? 'selected' : '' }}>{{ $no_kelompok }}</option>
+                        <option value="{{ $no_kelompok }}" {{ old('kkn_group_number') == $no_kelompok ? 'selected' : '' }}>{{ $no_kelompok }}</option>
                     @endforeach
                 </select>
-                @error('no_kelompok_kkn')
+                @error('kkn_group_number')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="lokasi_kkn">Lokasi KKN</label>
-                <input type="text" id="lokasi_kkn" name="lokasi_kkn" class="form-control" value="{{ old('lokasi_kkn') }}" required>
-                @error('lokasi_kkn')
+                <label for="kkn_location">Lokasi KKN</label>
+                <input type="text" id="kkn_location" name="kkn_location" class="form-control" value="{{ old('kkn_location') }}" required>
+                @error('kkn_location')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="tahun_kkn">Tahun KKN</label>
-                <select id="tahun_kkn" name="tahun_kkn" class="form-control" required>
+                <label for="kkn_year">Tahun KKN</label>
+                <select id="kkn_year" name="kkn_year" class="form-control" required>
                     <option value="">Pilih Tahun KKN</option>
                     @foreach($tahun_kkn as $tahun)
-                        <option value="{{ $tahun }}" {{ old('tahun_kkn') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
+                        <option value="{{ $tahun }}" {{ old('kkn_year') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
                     @endforeach
                 </select>
-                @error('tahun_kkn')
+                @error('kkn_year')
                     <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>

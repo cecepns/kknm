@@ -35,7 +35,7 @@
                             <tr>
                                 <td class="font-medium">{{ $announcement->title }}</td>
                                 <td>{{ \Carbon\Carbon::parse($announcement->published_date)->format('d F Y') }}</td>
-                                <td>{{ $announcement->user->nama ?? 'N/A' }}</td>
+                                <td>{{ $announcement->user->name ?? 'N/A' }}</td>
                                 <td>
                                     <div class="announcement-preview">
                                         {!! \Illuminate\Support\Str::limit(strip_tags($announcement->content), 100, '...') !!}

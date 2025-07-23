@@ -17,10 +17,10 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@kms.kkn'],
             [
-                'nama' => 'Admin',
+                'name' => 'Admin',
                 'password' => Hash::make('admin123456'),
                 'role_id' => 3,
-                'tipe_akun' => 'internal',
+                'account_type' => 'internal',
                 'status' => 'aktif',
             ]
         );

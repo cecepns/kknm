@@ -35,10 +35,10 @@
             @forelse($users as $user)
             <tr>
                 <td class="font-medium">{{ $user->id }}</td>
-                <td class="font-medium">{{ $user->nama }}</td>
+                <td class="font-medium">{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    <span class="badge">{{ $user->role->nama ?? 'Tanpa Role' }}</span>
+                    <span class="badge">{{ $user->role->name ?? 'Tanpa Role' }}</span>
                 </td>
                 <td>
                     <span class="status-badge status-{{ $user->status == 'aktif' ? 'active' : 'inactive' }}">

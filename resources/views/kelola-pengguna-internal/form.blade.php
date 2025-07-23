@@ -17,9 +17,9 @@
 
             <div class="grid grid-cols-2 gap-6">
                 <div class="form-group">
-                    <label for="nama">Nama Lengkap</label>
-                    <input type="text" id="nama" name="nama" class="form-control @error('nama') error @enderror" value="{{ old('nama', $user->nama ?? '') }}" required>
-                    @error('nama')
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" id="name" name="name" class="form-control @error('name') error @enderror" value="{{ old('name', $user->name ?? '') }}" required>
+                    @error('name')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
@@ -68,7 +68,7 @@
                     <select id="role_id" name="role_id" class="form-control @error('role_id') error @enderror" required>
                         <option value="">Pilih Role</option>
                         @foreach($roles as $role)
-                            <option value="{{ $role->id }}" {{ old('role_id', $user->role_id ?? '') == $role->id ? 'selected' : '' }}>{{ $role->nama }}</option>
+                            <option value="{{ $role->id }}" {{ old('role_id', $user->role_id ?? '') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                         @endforeach
                     </select>
                     @error('role_id')

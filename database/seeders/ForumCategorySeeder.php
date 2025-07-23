@@ -22,25 +22,17 @@ class ForumCategorySeeder extends Seeder
 
         $categories = [
             [
-                'name' => 'Kategori 1',
-                'description' => 'Deskripsi kategori 1',
+                'name' => 'Kegiatan',
+                'description' => 'Kegiataan kkn',
                 'topic_count' => 10,
                 'created_by' => 3, // Admin
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Kategori 2',
-                'description' => 'Deskripsi kategori 2',
+                'name' => 'Laporan',
+                'description' => 'Laporan kkn',
                 'topic_count' => 5,
-                'created_by' => 3, // Admin
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Kategori 3',
-                'description' => 'Deskripsi kategori 3',
-                'topic_count' => 15,
                 'created_by' => 3, // Admin
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController; 
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\ForumCategoryController;
 
 
 /*
@@ -67,6 +68,14 @@ Route::middleware(['auth'])->group(function () {
     // Akses Pengumuman (View Only)
     Route::get('/akses-pengumuman', [AnnouncementController::class, 'publicIndex'])->name('akses.pengumuman');
     Route::get('/akses-pengumuman/{id}', [AnnouncementController::class, 'publicShow'])->name('akses.pengumuman.detail');
+    
+    // Kelola Kategori Forum (CRUD)
+    Route::get('/kelola-kategori-forum', [ForumCategoryController::class, 'index'])->name('daftar.kelola.kategori.forum');
+    Route::get('/kelola-kategori-forum/tambah', [ForumCategoryController::class, 'create'])->name('form.tambah.kelola.kategori.forum');
+    Route::post('/kelola-kategori-forum', [ForumCategoryController::class, 'store'])->name('tambah.kelola.kategori.forum');
+    Route::get('/kelola-kategori-forum/{forumCategory}/edit', [ForumCategoryController::class, 'edit'])->name('form.edit.kelola.kategori.forum');
+    Route::put('/kelola-kategori-forum/{forumCategory}', [ForumCategoryController::class, 'update'])->name('edit.kelola.kategori.forum');
+    Route::delete('/kelola-kategori-forum/{forumCategory}', [ForumCategoryController::class, 'destroy'])->name('hapus.kelola.kategori.forum');
     
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

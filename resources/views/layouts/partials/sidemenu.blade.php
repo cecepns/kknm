@@ -53,8 +53,8 @@
                 <i class="icon-globe"></i>Repositori Publik
             </a>
         </li>
-        <li class="{{ request()->is('forum-category') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('kelola-kategori-forum*') ? 'active' : '' }}">
+            <a href="{{ route('daftar.kelola.kategori.forum') }}">
                 <i class="icon-hash"></i>Kelola Kategori Forum
             </a>
         </li>

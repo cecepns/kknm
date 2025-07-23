@@ -38,7 +38,7 @@
                             {{ $category->description ?? 'Tidak ada deskripsi' }}
                         </div>
                     </td>
-                    <td>{{ $category->topic_count }}</td>
+                    <td>{{ $category->discussions->count() }}</td>
                     <td>
                         <div class="action-links">
                             <a href="{{ route('form.edit.kelola.kategori.forum', $category->id) }}">Edit</a>

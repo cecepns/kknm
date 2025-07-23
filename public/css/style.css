@@ -57,27 +57,27 @@ a:hover {
     background-color: #f8fafc;
 }
 
-/* Header */
+/* Header - Updated to match the dark design */
 .header {
     position: fixed;
     top: 0;
     left: 250px;
     right: 0;
     height: 60px;
-    background: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 2rem;
     z-index: 100;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .header-brand {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #1e293b;
+    color: #ffffff;
 }
 
 .header-user {
@@ -86,28 +86,36 @@ a:hover {
     gap: 1rem;
 }
 
-/* Sidebar */
+/* User icon placeholder */
+.header-user::before {
+    content: "👤";
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+/* Sidebar - Updated to match the white design */
 .sidebar {
     position: fixed;
     left: 0;
     top: 0;
     width: 250px;
     height: 100vh;
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    color: #e2e8f0;
+    background: #ffffff;
+    color: #374151;
     overflow-y: auto;
     z-index: 200;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #e5e7eb;
 }
 
 .sidebar-header {
     padding: 1.5rem;
-    border-bottom: 1px solid #475569;
+    border-bottom: 1px solid #e5e7eb;
     text-align: center;
 }
 
 .sidebar-header h3 {
-    color: #ffffff;
+    color: #1e293b;
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0;
@@ -129,7 +137,7 @@ a:hover {
     align-items: center;
     gap: 0.75rem;
     padding: 0.875rem 1.5rem;
-    color: #cbd5e1;
+    color: #6b7280;
     text-decoration: none;
     transition: all 0.2s ease;
     font-weight: 500;
@@ -144,26 +152,26 @@ a:hover {
 
 .sidebar-menu li a:hover,
 .btn-logout-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background-color: #f3f4f6;
+    color: #374151;
     transform: translateX(4px);
 }
 
 .sidebar-menu li.active {
-    background-color: rgba(59, 130, 246, 0.2);
-    border-right: 3px solid #3b82f6;
+    background-color: #e0f2fe;
+    border-right: 3px solid #0ea5e9;
 }
 
 .sidebar-menu li.active a {
-    color: #ffffff;
+    color: #0ea5e9;
     font-weight: 600;
 }
 
-/* Icons */
+/* Icons - Updated to use line-style icons */
 .icon-home::before { content: "🏠"; }
 .icon-users::before { content: "👥"; }
 .icon-shield::before { content: "🛡️"; }
-.icon-flag::before { content: "🚩"; }
+.icon-flag::before { content: "📄"; }
 .icon-info::before { content: "ℹ️"; }
 .icon-question::before { content: "❓"; }
 .icon-faq::before { content: "📋"; }
@@ -186,7 +194,7 @@ a:hover {
 
 .content-wrapper {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     padding: 2rem;
     border: 1px solid #e2e8f0;
@@ -199,9 +207,7 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #f1f5f9;
+    margin-bottom: 1rem;
 }
 
 .page-title {
@@ -219,7 +225,7 @@ a:hover {
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
@@ -230,15 +236,18 @@ a:hover {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+    background: #ffffff;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    background: #f9fafb;
+    color: #1f2937;
     transform: translateY(-1px);
-    box-shadow: 0 6px 12px -1px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .btn-secondary {
@@ -303,7 +312,7 @@ a:hover {
     width: 100%;
     padding: 0.75rem 1rem;
     border: 2px solid #e5e7eb;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 0.875rem;
     transition: all 0.2s ease;
     background-color: #ffffff;
@@ -351,7 +360,7 @@ select.form-control {
 /* ===== TABLES ===== */
 .table-container {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     border: 1px solid #e2e8f0;
@@ -402,7 +411,7 @@ select.form-control {
 
 .action-links a {
     padding: 0.375rem 0.75rem;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 0.75rem;
     font-weight: 500;
     text-decoration: none;
@@ -435,7 +444,7 @@ select.form-control {
     padding: 0.25rem 0.75rem;
     font-size: 0.75rem;
     font-weight: 600;
-    border-radius: 9999px;
+    border-radius: 6px;
     background-color: #e2e8f0;
     color: #475569;
 }
@@ -446,7 +455,7 @@ select.form-control {
     padding: 0.25rem 0.75rem;
     font-size: 0.75rem;
     font-weight: 600;
-    border-radius: 9999px;
+    border-radius: 6px;
     text-transform: capitalize;
 }
 
@@ -465,7 +474,7 @@ select.form-control {
     background: none;
     border: none;
     padding: 0.375rem 0.75rem;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 0.75rem;
     font-weight: 500;
     text-decoration: none;
@@ -482,11 +491,17 @@ select.form-control {
 
 /* ===== FAQ COMPONENTS ===== */
 .search-container {
-    max-width: 400px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .search-bar {
     position: relative;
+    flex: 1;
+    max-width: 400px;
 }
 
 .search-bar .form-control {
@@ -495,31 +510,43 @@ select.form-control {
     background-repeat: no-repeat;
     background-position: 0.75rem center;
     background-size: 1.25rem;
+    border-radius: 6px;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+}
+
+.search-bar .form-control:focus {
+    background-color: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.faq-section {
+    margin-top: 1rem;
 }
 
 .faq-grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
 .faq-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
+    border-radius: 6px;
     overflow: hidden;
     transition: all 0.2s ease;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.75rem;
 }
 
 .faq-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .faq-card-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid #f1f5f9;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -527,7 +554,7 @@ select.form-control {
 }
 
 .faq-question {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #1e293b;
     margin: 0;
@@ -537,51 +564,54 @@ select.form-control {
 
 .faq-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.25rem;
     flex-shrink: 0;
 }
 
 .btn-edit {
-    padding: 0.375rem 0.75rem;
-    background-color: #dbeafe;
-    color: #1d4ed8;
-    border-radius: 6px;
-    font-size: 0.75rem;
+    padding: 0.375rem;
+    background-color: transparent;
+    color: #6b7280;
+    border-radius: 4px;
+    font-size: 0.875rem;
     font-weight: 500;
     text-decoration: none;
     transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-edit:hover {
-    background-color: #bfdbfe;
-    color: #1e40af;
+    background-color: #f3f4f6;
+    color: #374151;
 }
 
 .btn-delete {
-    padding: 0.375rem 0.75rem;
-    background-color: #fee2e2;
-    color: #dc2626;
+    padding: 0.375rem;
+    background-color: transparent;
+    color: #6b7280;
     border: none;
-    border-radius: 6px;
-    font-size: 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .btn-delete:hover {
-    background-color: #fecaca;
-    color: #b91c1c;
+    background-color: #f3f4f6;
+    color: #dc2626;
 }
 
 .faq-card-body {
-    padding: 1.5rem;
+    padding: 0 1rem 1rem 1rem;
 }
 
 .faq-answer {
-    color: #64748b;
-    line-height: 1.6;
+    color: #6b7280;
+    line-height: 1.5;
     margin: 0;
+    font-size: 0.875rem;
 }
 
 /* Empty State */
@@ -591,7 +621,7 @@ select.form-control {
     padding: 4rem 2rem;
     background: #ffffff;
     border: 2px dashed #e2e8f0;
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .empty-icon {
@@ -612,7 +642,7 @@ select.form-control {
 /* ===== TRIX EDITOR STYLING ===== */
 .trix-content {
     border: 2px solid #e5e7eb;
-    border-radius: 8px;
+    border-radius: 6px;
     min-height: 200px;
     padding: 1rem;
     font-size: 0.875rem;
@@ -637,7 +667,7 @@ select.form-control {
 trix-toolbar {
     border: 2px solid #e5e7eb;
     border-bottom: none;
-    border-radius: 8px 8px 0 0;
+    border-radius: 6px 6px 0 0;
     background: #f8fafc;
     padding: 0.5rem;
 }
@@ -714,14 +744,14 @@ trix-toolbar .trix-button.trix-active:hover {
     color: #64748b;
     background: #f8fafc;
     padding: 1rem;
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 6px 6px 0;
 }
 
 .trix-content pre {
     background: #1e293b;
     color: #e2e8f0;
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 6px;
     overflow-x: auto;
     margin: 1rem 0;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
@@ -732,7 +762,7 @@ trix-toolbar .trix-button.trix-active:hover {
     background: #f1f5f9;
     color: #dc2626;
     padding: 0.125rem 0.25rem;
-    border-radius: 4px;
+    border-radius: 3px;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: 0.875rem;
 }
@@ -749,7 +779,7 @@ trix-toolbar .trix-button.trix-active:hover {
 .trix-content img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 6px;
     margin: 1rem 0;
 }
 
@@ -757,6 +787,8 @@ trix-toolbar .trix-button.trix-active:hover {
     width: 100%;
     border-collapse: collapse;
     margin: 1rem 0;
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 .trix-content th,
@@ -823,7 +855,7 @@ trix-toolbar .trix-button.trix-active:hover {
 .announcement-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
     transition: all 0.2s ease;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -908,7 +940,7 @@ trix-toolbar .trix-button.trix-active:hover {
 
 .announcement-detail-content {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     border: 1px solid #e2e8f0;
     overflow: hidden;
@@ -919,6 +951,7 @@ trix-toolbar .trix-button.trix-active:hover {
     font-size: 1rem;
     line-height: 1.7;
     color: #374151;
+    border-radius: 0 0 6px 6px;
 }
 
 /* Content styling for announcement detail */
@@ -960,7 +993,7 @@ trix-toolbar .trix-button.trix-active:hover {
     font-style: italic;
     color: #64748b;
     background: #f8fafc;
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 6px 6px 0;
 }
 
 .announcement-detail-content .content-wrapper img {
@@ -996,7 +1029,7 @@ trix-toolbar .trix-button.trix-active:hover {
 .announcement-share {
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -1040,7 +1073,7 @@ trix-toolbar .trix-button.trix-active:hover {
 /* ===== ALERTS ===== */
 .alert {
     padding: 1rem 1.5rem;
-    border-radius: 8px;
+    border-radius: 6px;
     margin-bottom: 1.5rem;
     border: 1px solid transparent;
     font-weight: 500;
@@ -1073,7 +1106,7 @@ trix-toolbar .trix-button.trix-active:hover {
 /* ===== CARDS ===== */
 .card {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     border: 1px solid #e2e8f0;
     overflow: hidden;
@@ -1205,6 +1238,15 @@ trix-toolbar .trix-button.trix-active:hover {
         align-items: flex-start;
     }
     
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-bar {
+        max-width: none;
+    }
+    
     .grid-cols-2,
     .grid-cols-3,
     .grid-cols-4 {
@@ -1225,7 +1267,7 @@ trix-toolbar .trix-button.trix-active:hover {
     }
     
     .faq-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
     
     .faq-card-header {
@@ -1285,7 +1327,7 @@ trix-toolbar .trix-button.trix-active:hover {
 
 ::-webkit-scrollbar-thumb {
     background: #cbd5e1;
-    border-radius: 3px;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

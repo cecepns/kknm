@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ForumCategoryController;
+use App\Http\Controllers\ForumDiscussionController;
 
 
 /*
@@ -76,6 +77,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kelola-kategori-forum/{forumCategory}/edit', [ForumCategoryController::class, 'edit'])->name('form.edit.kelola.kategori.forum');
     Route::put('/kelola-kategori-forum/{forumCategory}', [ForumCategoryController::class, 'update'])->name('edit.kelola.kategori.forum');
     Route::delete('/kelola-kategori-forum/{forumCategory}', [ForumCategoryController::class, 'destroy'])->name('hapus.kelola.kategori.forum');
+    
+    // Forum Diskusi (CRUD)
+    Route::get('/forum-diskusi', [ForumDiscussionController::class, 'index'])->name('forum.diskusi');
+    Route::get('/forum-diskusi/tambah', [ForumDiscussionController::class, 'create'])->name('form.tambah.forum.diskusi');
+    Route::post('/forum-diskusi', [ForumDiscussionController::class, 'store'])->name('tambah.forum.diskusi');
+    Route::get('/forum-diskusi/{id}', [ForumDiscussionController::class, 'show'])->name('forum.diskusi.detail');
+    Route::post('/forum-diskusi/{id}/komentar', [ForumDiscussionController::class, 'storeComment'])->name('tambah.komentar');
+    Route::get('/forum-diskusi/{id}/edit', [ForumDiscussionController::class, 'edit'])->name('form.edit.forum.diskusi');
+    Route::put('/forum-diskusi/{id}', [ForumDiscussionController::class, 'update'])->name('edit.forum.diskusi');
+    Route::delete('/forum-diskusi/{id}', [ForumDiscussionController::class, 'destroy'])->name('hapus.forum.diskusi');
     
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

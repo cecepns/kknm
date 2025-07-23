@@ -58,14 +58,9 @@
                 <i class="icon-hash"></i>Kelola Kategori Forum
             </a>
         </li>
-        <li class="{{ request()->is('forum') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('forum-diskusi*') ? 'active' : '' }}">
+            <a href="{{ route('forum.diskusi') }}">
                 <i class="icon-chat"></i>Forum Diskusi
-            </a>
-        </li>
-        <li class="{{ request()->is('forum-management') ? 'active' : '' }}">
-            <a href="#">
-                <i class="icon-group"></i>Kelola Forum Diskusi
             </a>
         </li>
         <li>

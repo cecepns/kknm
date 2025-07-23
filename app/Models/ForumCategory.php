@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ForumCategory extends Model
 {
@@ -28,5 +29,21 @@ class ForumCategory extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Mendefinisikan relasi bahwa setiap kategori forum 'memiliki banyak' diskusi.
+     */
+    public function discussions(): HasMany
+    {
+        return $this->hasMany(ForumDiscussion::class, 'forum_category_id');
+    }
+
+    /**
+     * Mendapatkan jumlah topik/diskusi dalam kategori ini.
+     */
+    public function getTopicCountAttribute()
+    {
+        return $this->discussions()->count();
     }
 }

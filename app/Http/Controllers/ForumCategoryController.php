@@ -13,7 +13,7 @@ class ForumCategoryController extends Controller
      */
     public function index()
     {
-        $categories = ForumCategory::with('user')->latest()->get();
+        $categories = ForumCategory::with(['user', 'discussions'])->latest()->get();
         return view('kelola-kategori-forum.daftar', compact('categories'));
     }
 

@@ -20,43 +20,92 @@ class RoleSeeder extends Seeder
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $roles = [
-            [
-                'name' => 'Kepala PPM',
-                'access' => 'semua',
-                'description' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+        // Define all available permissions
+        $permissions = [
+            'kelola-pengguna-internal',
+            'kelola-roles',
+            'kelola-pengumuman',
+            'akses-pengumuman',
+            'kelola-faq',
+            'akses-faq',
+            'klasifikasi-pengetahuan',
+            'kelola-repositori',
+            'repositori-publik',
+            'kelola-katergori-forum',
+            'forum-diskusi',
+            'kelola-forum-diskusi',
+            'validasi-pengetahuan',
+            'verifikasi-pengetahuan',
+            'unggah-pengetahuan',
+            'monitoring-aktifitas',
+        ];
+
+        // Helper function to create access string from permission array
+        $createAccess = function(array $perms) use ($permissions) {
+            return implode('|', $perms);
+        };
+
+        // Define role permissions
+        $rolePermissions = [
+            'Kepala PPM' => [
+                'akses-pengumuman',
+                'akses-faq',
+                'validasi-pengetahuan',
+                'repositori-publik',
+                'forum-diskusi',
+                'monitoring-aktifitas',
             ],
-            [
-                'name' => 'Koordinator KKN',
-                'access' => 'semua',
-                'description' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+            'Koordinator KKN' => [
+                'akses-pengumuman',
+                'akses-faq',
+                'verifikasi-pengetahuan',
+                'klasifikasi-pengetahuan',
+                'kelola-repositori',
+                'repositori-publik',
+                'forum-diskusi',
+                'monitoring-aktifitas',
             ],
-            [
-                'name' => 'Admin',
-                'access' => 'semua',
-                'description' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+            'Admin' => [
+                'kelola-pengguna-internal',
+                'kelola-roles',
+                'kelola-pengumuman',
+                'akses-pengumuman',
+                'kelola-faq',
+                'akses-faq',
+                'klasifikasi-pengetahuan',
+                'kelola-repositori',
+                'repositori-publik',
+                'kelola-katergori-forum',
+                'forum-diskusi',
+                'kelola-forum-diskusi',
             ],
-            [
-                'name' => 'Mahasiswa KKN',
-                'access' => 'semua',
-                'description' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+            'Mahasiswa KKN' => [
+                'akses-pengumuman',
+                'akses-faq',
+                'unggah-pengetahuan',
+                'repositori-publik',
+                'forum-diskusi',
             ],
-            [
-                'name' => 'Dosen Pembimbing Lapangan',
-                'access' => 'semua',
-                'description' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+            'Dosen Pembimbing Lapangan' => [
+                'akses-pengumuman',
+                'akses-faq',
+                'unggah-pengetahuan',
+                'repositori-publik',
+                'forum-diskusi',
             ],
         ];
+
+        // Build roles array
+        $roles = [];
+        foreach ($rolePermissions as $roleName => $perms) {
+            $roles[] = [
+                'name' => $roleName,
+                'access' => $createAccess($perms),
+                'description' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
 
         Role::insert($roles);
     }

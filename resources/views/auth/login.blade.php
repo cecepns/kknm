@@ -3,23 +3,40 @@
 @section('title', 'Login')
 
 @section('content')
-<div style="max-width: 500px; padding: 50px">
-    <h2>Form Login</h2>
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Login</h1>
+            <p class="auth-subtitle">Masuk ke akun KMS KKN Anda</p>
         </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
+        
+        <div class="auth-body">
+            <form method="POST" action="{{ route('login') }}" class="auth-form">
+                @csrf
+                
+                <div class="auth-form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required autofocus>
+                    @error('email')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+                
+                <div class="auth-form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                    @error('password')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+                
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
         </div>
-        @error('email')
-            <div class="error-message" style="margin-bottom: 15px; text-align:center;">{{ $message }}</div>
-        @enderror
-        <button type="submit" class="btn">Login</button>
-    </form>
-    <p class="link">Belum punya akun? <a href="{{ route('register.mahasiswa') }}">Register di sini</a></p>
+        
+        <div class="auth-footer">
+            <p>Belum punya akun? <a href="{{ route('register.mahasiswa') }}" class="auth-link">Register di sini</a></p>
+        </div>
+    </div>
 </div>
 @endsection

@@ -1,73 +1,155 @@
 <aside class="sidebar">
     <div class="sidebar-header">
-        <h3>Admin Panel</h3>
+        <h3>{{ auth()->user()->role->name ?? 'User Panel' }}</h3>
     </div>
     <ul class="sidebar-menu">
-        <li>
+        <!-- Dashboard - Semua role bisa akses -->
+        <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}">
-                <i class="icon-home"></i>Home
+                Dashboard
             </a>
         </li>
-        <li>
+
+        <!-- Menu untuk Admin -->
+        @permission('kelola-pengguna-internal')
+        <li class="{{ request()->is('kelola-pengguna-internal*') ? 'active' : '' }}">
             <a href="{{ route('daftar.pengguna.internal') }}">
-                <i class="icon-users"></i>Kelola Pengguna Internal
+                Kelola Pengguna Internal
             </a>
         </li>
-        <li class="{{ request()->is('roles') ? 'active' : '' }}">
+        @endpermission
+
+        @permission('kelola-roles')
+        <li class="{{ request()->is('roles*') ? 'active' : '' }}">
             <a href="#">
-                <i class="icon-shield"></i>Kelola Role
+                Kelola Role
             </a>
         </li>
+        @endpermission
+
+        <!-- Menu untuk Admin dan Koordinator KKN -->
+        @permission('kelola-pengumuman')
         <li class="{{ request()->is('kelola-pengumuman*') ? 'active' : '' }}">
             <a href="{{ route('daftar.kelola.pengumuman') }}">
-                <i class="icon-flag"></i>Kelola Pengumuman
+                Kelola Pengumuman
             </a>
         </li>
+        @endpermission
+
+        <!-- Menu untuk semua role -->
+        @permission('akses-pengumuman')
         <li class="{{ request()->is('akses-pengumuman*') ? 'active' : '' }}">
             <a href="{{ route('akses.pengumuman') }}">
-                <i class="icon-info"></i>Akses Pengumuman
+                Akses Pengumuman
             </a>
         </li>
+        @endpermission
+
+        <!-- Menu untuk Admin -->
+        @permission('kelola-faq')
         <li class="{{ request()->is('kelola-faq*') ? 'active' : '' }}">
             <a href="{{ route('daftar.kelola.faq') }}">
-                <i class="icon-question"></i>Kelola FAQ
+                Kelola FAQ
             </a>
         </li>
+        @endpermission
+
+        <!-- Menu untuk semua role -->
+        @permission('akses-faq')
         <li class="{{ request()->is('akses-faq') ? 'active' : '' }}">
             <a href="{{ route('akses.faq') }}">
-                <i class="icon-faq"></i>Akses FAQ
+                Akses FAQ
             </a>
         </li>
-        <li class="{{ request()->is('knowledge') ? 'active' : '' }}">
+        @endpermission
+
+        <!-- Menu untuk Koordinator KKN -->
+        @permission('klasifikasi-pengetahuan')
+        <li class="{{ request()->is('knowledge*') ? 'active' : '' }}">
             <a href="#">
-                <i class="icon-bookmark"></i>Klasifikasi Pengetahuan
+                Klasifikasi Pengetahuan
             </a>
         </li>
-        <li class="{{ request()->is('repository') ? 'active' : '' }}">
+        @endpermission
+
+        <!-- Menu untuk Koordinator KKN -->
+        @permission('kelola-repositori')
+        <li class="{{ request()->is('repository*') ? 'active' : '' }}">
             <a href="#">
-                <i class="icon-folder"></i>Kelola Repositori
+                Kelola Repositori
             </a>
         </li>
-        <li class="{{ request()->is('public-repository') ? 'active' : '' }}">
+        @endpermission
+
+        <!-- Menu untuk semua role -->
+        @permission('repositori-publik')
+        <li class="{{ request()->is('public-repository*') ? 'active' : '' }}">
             <a href="#">
-                <i class="icon-globe"></i>Repositori Publik
+                Repositori Publik
             </a>
         </li>
+        @endpermission
+
+        <!-- Menu untuk Admin -->
+        @permission('kelola-kategori-forum')
         <li class="{{ request()->is('kelola-kategori-forum*') ? 'active' : '' }}">
             <a href="{{ route('daftar.kelola.kategori.forum') }}">
-                <i class="icon-hash"></i>Kelola Kategori Forum
+                Kelola Kategori Forum
             </a>
         </li>
+        @endpermission
+
+        <!-- Menu untuk semua role -->
+        @permission('forum-diskusi')
         <li class="{{ request()->is('forum-diskusi*') ? 'active' : '' }}">
             <a href="{{ route('forum.diskusi') }}">
-                <i class="icon-chat"></i>Forum Diskusi
+                Forum Diskusi
             </a>
         </li>
+        @endpermission
+
+        <!-- Menu untuk Kepala PPM dan Koordinator KKN -->
+        @permission('monitoring-aktifitas')
+        <li class="{{ request()->is('monitoring*') ? 'active' : '' }}">
+            <a href="#">
+                Monitoring Aktifitas
+            </a>
+        </li>
+        @endpermission
+
+        <!-- Menu untuk Kepala PPM -->
+        @permission('validasi-pengetahuan')
+        <li class="{{ request()->is('validasi*') ? 'active' : '' }}">
+            <a href="#">
+                Validasi Pengetahuan
+            </a>
+        </li>
+        @endpermission
+
+        <!-- Menu untuk Koordinator KKN -->
+        @permission('verifikasi-pengetahuan')
+        <li class="{{ request()->is('verifikasi*') ? 'active' : '' }}">
+            <a href="#">
+                Verifikasi Pengetahuan
+            </a>
+        </li>
+        @endpermission
+
+        <!-- Menu untuk Mahasiswa KKN dan Dosen Pembimbing -->
+        @permission('unggah-pengetahuan')
+        <li class="{{ request()->is('unggah*') ? 'active' : '' }}">
+            <a href="#">
+                Unggah Pengetahuan
+            </a>
+        </li>
+        @endpermission
+
+        <!-- Logout - Semua role bisa akses -->
         <li>
             <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                 @csrf
                 <button type="submit" class="btn-logout-link">
-                    <i class="icon-logout"></i>Logout
+                    Logout
                 </button>
             </form>
         </li>

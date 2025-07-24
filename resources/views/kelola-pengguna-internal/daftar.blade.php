@@ -8,9 +8,11 @@
         <h1 class="page-title">Kelola Pengguna Internal</h1>
         <p class="text-gray-600">Kelola data pengguna internal sistem KMS KKN</p>
     </div>
+    @permission('kelola-pengguna-internal')
     <a href="{{ route('form.tambah.pengguna.internal') }}" class="btn btn-primary">
         👤 Tambah Pengguna
     </a>
+    @endpermission
 </div>
 
 @if(session('success'))
@@ -46,6 +48,7 @@
                     </span>
                 </td>
                 <td>
+                    @permission('kelola-pengguna-internal')
                     <div class="action-links">
                         <a href="{{ route('form.edit.pengguna.internal', $user->id) }}">Edit</a>
                         <form action="{{ route('hapus.pengguna.internal', $user->id) }}" method="POST" style="display: inline;">
@@ -56,6 +59,7 @@
                             </button>
                         </form>
                     </div>
+                    @endpermission
                 </td>
             </tr>
             @empty

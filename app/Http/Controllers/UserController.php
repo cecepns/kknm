@@ -15,6 +15,11 @@ class UserController extends Controller
      */
     public function index()
     {
+        // Check permission
+        if (!auth()->user()->hasPermission('kelola-pengguna-internal')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $users = User::with('role')->where('account_type', 'internal')->latest()->get();
         return view('kelola-pengguna-internal.daftar', compact('users'));
     }
@@ -24,6 +29,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        // Check permission
+        if (!auth()->user()->hasPermission('kelola-pengguna-internal')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $roles = Role::all();
         return view('kelola-pengguna-internal.form', compact('roles'));
     }
@@ -33,6 +43,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // Check permission
+        if (!auth()->user()->hasPermission('kelola-pengguna-internal')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],

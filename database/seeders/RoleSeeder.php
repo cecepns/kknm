@@ -75,7 +75,7 @@ class RoleSeeder extends Seeder
                 'klasifikasi-pengetahuan',
                 'kelola-repositori',
                 'repositori-publik',
-                'kelola-katergori-forum',
+                'kelola-kategori-forum',
                 'forum-diskusi',
                 'kelola-forum-diskusi',
             ],

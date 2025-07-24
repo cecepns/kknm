@@ -84,7 +84,7 @@
                     </div>
                     <div class="comment-body">
                         {{ $comment->content }}
-                    </div>T
+                    </div>
                 </div>
             @empty
                 <div class="empty-comments">

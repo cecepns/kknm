@@ -61,6 +61,34 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+## Development Tools
+
+### ESLint Configuration
+
+This project uses ESLint for JavaScript/TypeScript code quality and consistency. The configuration follows modern JavaScript best practices and includes:
+
+- **Code Quality Rules**: Prevents unused variables, console statements, and debugger statements
+- **Best Practices**: Enforces const usage, arrow functions, and early returns
+- **Readability**: Consistent indentation, quotes, and spacing
+- **Performance**: Prevents common performance issues
+
+#### Available Commands
+
+```bash
+# Check for linting issues
+npm run lint
+
+# Fix automatically fixable issues
+npm run lint:fix
+```
+
+#### Configuration Files
+
+- `eslint.config.js` - Main ESLint configuration
+- `.eslintignore` - Files and directories to ignore
+- `.prettierrc` - Prettier formatting configuration
+- `.vscode/settings.json` - VS Code integration settings
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

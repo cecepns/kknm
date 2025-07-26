@@ -19,6 +19,12 @@
     </div>
 @endif
 
+@if (session('error'))
+    <div class="alert alert-error">
+        {{ session('error') }}
+    </div>
+@endif
+
 <div class="table-container">
     <table class="table">
                             <thead>

@@ -72,6 +72,23 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kelola-pengumuman/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('form.edit.kelola.pengumuman');
         Route::put('/kelola-pengumuman/{announcement}', [AnnouncementController::class, 'update'])->name('edit.kelola.pengumuman');
         Route::delete('/kelola-pengumuman/{announcement}', [AnnouncementController::class, 'destroy'])->name('hapus.kelola.pengumuman');
+        
+        // File upload route for Trix editor
+        Route::post('/kelola-pengumuman/upload-file', [AnnouncementController::class, 'uploadFile'])->name('upload.file.pengumuman');
+        
+
+        
+        // File access route for uploaded files
+        Route::get('/storage/announcements/{filename}', function($filename) {
+            $path = storage_path('app/public/announcements/' . $filename);
+            if (file_exists($path)) {
+                return response()->file($path);
+            }
+            abort(404);
+        })->name('file.announcement')->where('filename', '.*');
+        
+        // File delete route
+        Route::delete('/kelola-pengumuman/delete-file', [AnnouncementController::class, 'deleteFile'])->name('delete.file.pengumuman');
     });
     
     // Akses Pengumuman (View Only) - memerlukan permission akses-pengumuman

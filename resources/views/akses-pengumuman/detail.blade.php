@@ -30,24 +30,6 @@
             {!! $announcement->content !!}
         </div>
     </div>
-
-    <!-- Share Section -->
-    <div class="announcement-share mt-8">
-        <h3>Bagikan Pengumuman</h3>
-        <div class="share-buttons">
-            <button class="btn btn-secondary btn-sm" onclick="copyToClipboard(window.location.href)">
-                📋 Salin Link
-            </button>
-            <a href="https://wa.me/?text={{ urlencode($announcement->title . ' - ' . request()->url()) }}" 
-               target="_blank" class="btn btn-success btn-sm">
-                📱 WhatsApp
-            </a>
-            <a href="https://twitter.com/intent/tweet?text={{ urlencode($announcement->title . ' - ' . request()->url()) }}" 
-               target="_blank" class="btn btn-info btn-sm">
-                🐦 Twitter
-            </a>
-        </div>
-    </div>
 </div>
 
 <script>

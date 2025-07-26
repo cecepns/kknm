@@ -213,6 +213,21 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        // ANCHOR: Check if user exists and is active before attempting authentication
+        $user = User::where('email', $credentials['email'])->first();
+        
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'email' => 'Email atau password yang Anda masukkan salah.',
+            ]);
+        }
+
+        if ($user->status !== 'aktif') {
+            throw ValidationException::withMessages([
+                'email' => 'Akun Anda tidak aktif. Silakan hubungi administrator.',
+            ]);
+        }
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('dashboard');

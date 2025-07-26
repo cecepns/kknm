@@ -266,13 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			attachment.remove();		
             
-            if (data.success) {
-                // Remove the uploading placeholder first
-                const uploadingPlaceholder = trixEditor.querySelector('.uploading-placeholder');
-                if (uploadingPlaceholder) {
-                    uploadingPlaceholder.remove();
-                }
-                
+            if (data.success) {        
                 // Then insert the actual content
                 const isImage = attachment.file.type.startsWith('image/');
                 
@@ -299,10 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('File uploaded successfully:', data.url);
             } else {
                 // Show error and remove uploading placeholder
-                const uploadingPlaceholder = trixEditor.querySelector('.uploading-placeholder');
-                if (uploadingPlaceholder) {
-                    uploadingPlaceholder.remove();
-                }
+                attachment.remove();
             }
         })
         .catch(error => {
@@ -314,10 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Remove uploading placeholder on error
-            const uploadingPlaceholder = trixEditor.querySelector('.uploading-placeholder');
-            if (uploadingPlaceholder) {
-                uploadingPlaceholder.remove();
-            }
+            attachment.remove();
             
             console.error('Upload error:', error);
         });

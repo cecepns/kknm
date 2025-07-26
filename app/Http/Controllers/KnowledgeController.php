@@ -14,7 +14,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Show Upload Form
     public function create()
     {
-        return view('unggah-pengetahuan.form')
+        return view('kelola-pengetahuan.form')
             ->with('jenis_kkn', UniversityDataHelper::getJenisKKN())
             ->with('tahun_kkn', UniversityDataHelper::getTahunKKN())
             ->with('nomor_kelompok_kkn', UniversityDataHelper::getNoKelompokKKN())

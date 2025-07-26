@@ -21,27 +21,41 @@
                 
                 <div class="auth-form-row">
                     <div class="auth-form-group">
-                        <label for="employee_id">NIP/NIDN</label>
-                        <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ old('employee_id') }}" required autofocus>
-                        @error('employee_id')
-                            <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="auth-form-group">
                         <label for="name">Nama</label>
                         <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required>
                         @error('name')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
-                </div>
-                
-                <div class="auth-form-row">
                     <div class="auth-form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required>
                         @error('email')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="auth-form-row">
+                    <div class="auth-form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                        @error('password')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
+                    <div class="auth-form-group">
+                        <label for="password_confirmation">Konfirmasi Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="auth-form-row">
+                    <div class="auth-form-group">
+                        <label for="employee_id">NIP/NIDN</label>
+                        <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ old('employee_id') }}" required autofocus>
+                        @error('employee_id')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
@@ -60,20 +74,6 @@
                     </div>
                 </div>
                 
-                <div class="auth-form-row">
-                    <div class="auth-form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" class="form-control" required>
-                        @error('password')
-                            <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="auth-form-group">
-                        <label for="password_confirmation">Konfirmasi Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
-                    </div>
-                </div>
                 
                 <div class="auth-form-group">
                     <label for="study_program">Program Studi (Prodi)</label>

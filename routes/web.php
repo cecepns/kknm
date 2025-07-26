@@ -7,6 +7,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumDiscussionController;
+use App\Http\Controllers\KnowledgeController;
 
 
 /*
@@ -117,6 +118,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/forum-diskusi/{id}/edit', [ForumDiscussionController::class, 'edit'])->name('form.edit.forum.diskusi');
         Route::put('/forum-diskusi/{id}', [ForumDiscussionController::class, 'update'])->name('edit.forum.diskusi');
         Route::delete('/forum-diskusi/{id}', [ForumDiscussionController::class, 'destroy'])->name('hapus.forum.diskusi');
+    });
+    
+    // Unggah Pengetahuan - memerlukan permission unggah-pengetahuan
+    Route::middleware(['permission:unggah-pengetahuan'])->group(function () {
+        Route::get('/unggah-pengetahuan', [KnowledgeController::class, 'create'])->name('unggah.pengetahuan');
+        Route::post('/unggah-pengetahuan', [KnowledgeController::class, 'store'])->name('unggah.pengetahuan.store');
+        Route::get('/unggah-pengetahuan/{knowledge}/download', [KnowledgeController::class, 'download'])->name('unggah.pengetahuan.download');
     });
     
     // Logout

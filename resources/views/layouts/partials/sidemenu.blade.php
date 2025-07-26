@@ -137,8 +137,8 @@
 
         <!-- Menu untuk Mahasiswa KKN dan Dosen Pembimbing -->
         @permission('unggah-pengetahuan')
-        <li class="{{ request()->is('unggah*') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('unggah-pengetahuan*') ? 'active' : '' }}">
+            <a href="{{ route('unggah.pengetahuan') }}">
                 Unggah Pengetahuan
             </a>
         </li>

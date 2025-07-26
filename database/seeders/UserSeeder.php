@@ -49,5 +49,39 @@ class UserSeeder extends Seeder
                 'status' => 'aktif',
             ]
         );
+
+        // Rocky (role_id: 4)
+        User::updateOrCreate(
+            ['email' => 'rocky@kms.kkn'],
+            [
+                'name' => 'Rocky',
+                'password' => Hash::make('12345678'),
+                'role_id' => 4,
+                'account_type' => 'eksternal',
+                'status' => 'aktif',
+                'faculty' => 'FISIP',
+                'study_program' => 'pgmi',
+                'batch_year' => 2022,
+                'kkn_type' => 'reguler',
+                'kkn_group_number' => 15,
+                'kkn_location' => 'Subang Raya',
+                'kkn_year' => 2025,
+            ]
+        );
+
+        // Rocky Dosen (role_id: 5)
+        User::updateOrCreate(
+            ['email' => 'rockydosen@kms.kkn'],
+            [
+                'name' => 'Rocky Dosen',
+                'password' => Hash::make('12345678'),
+                'role_id' => 5,
+                'account_type' => 'eksternal',
+                'status' => 'aktif',
+                'employee_id' => '122332344',
+                'faculty' => 'FST',
+                'study_program' => 'pkim',
+            ]
+        );
     }
 }

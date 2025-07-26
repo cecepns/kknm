@@ -70,9 +70,11 @@
                             class="form-control @error('jenis_kkn') error @enderror"
                             required>
                         <option value="">Pilih Jenis KKN</option>
-                        <option value="reguler" {{ old('jenis_kkn') == 'reguler' ? 'selected' : '' }}>KKN Reguler</option>
-                        <option value="tematik" {{ old('jenis_kkn') == 'tematik' ? 'selected' : '' }}>KKN Tematik</option>
-                        <option value="internasional" {{ old('jenis_kkn') == 'internasional' ? 'selected' : '' }}>KKN Internasional</option>
+                        @foreach($jenis_kkn as $jenis)
+                            <option value="{{ $jenis['value'] }}" {{ old('jenis_kkn') == $jenis['value'] ? 'selected' : '' }}>
+                                {{ $jenis['label'] }}
+                            </option>
+                        @endforeach
                     </select>
                     @error('jenis_kkn')
                         <div class="error-message">{{ $message }}</div>
@@ -92,9 +94,9 @@
                             class="form-control @error('tahun_kkn') error @enderror"
                             required>
                         <option value="">Pilih Tahun KKN</option>
-                        @for($year = date('Y'); $year >= date('Y') - 5; $year--)
-                            <option value="{{ $year }}" {{ old('tahun_kkn') == $year ? 'selected' : '' }}>{{ $year }}</option>
-                        @endfor
+                        @foreach($tahun_kkn as $tahun)
+                            <option value="{{ $tahun }}" {{ old('tahun_kkn') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
+                        @endforeach
                     </select>
                     @error('tahun_kkn')
                         <div class="error-message">{{ $message }}</div>
@@ -108,11 +110,11 @@
                             class="form-control @error('jenis_file') error @enderror"
                             required>
                         <option value="">Pilih Jenis File</option>
-                        <option value="dokumen" {{ old('jenis_file') == 'dokumen' ? 'selected' : '' }}>Dokumen</option>
-                        <option value="presentasi" {{ old('jenis_file') == 'presentasi' ? 'selected' : '' }}>Presentasi</option>
-                        <option value="video" {{ old('jenis_file') == 'video' ? 'selected' : '' }}>Video</option>
-                        <option value="gambar" {{ old('jenis_file') == 'gambar' ? 'selected' : '' }}>Gambar</option>
-                        <option value="lainnya" {{ old('jenis_file') == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        @foreach($jenis_file as $jenis)
+                            <option value="{{ $jenis['value'] }}" {{ old('jenis_file') == $jenis['value'] ? 'selected' : '' }}>
+                                {{ $jenis['label'] }}
+                            </option>
+                        @endforeach
                     </select>
                     @error('jenis_file')
                         <div class="error-message">{{ $message }}</div>
@@ -126,12 +128,11 @@
                             class="form-control @error('kategori_bidang') error @enderror"
                             required>
                         <option value="">Pilih kategori</option>
-                        <option value="pendidikan" {{ old('kategori_bidang') == 'pendidikan' ? 'selected' : '' }}>Pendidikan</option>
-                        <option value="kesehatan" {{ old('kategori_bidang') == 'kesehatan' ? 'selected' : '' }}>Kesehatan</option>
-                        <option value="ekonomi" {{ old('kategori_bidang') == 'ekonomi' ? 'selected' : '' }}>Ekonomi</option>
-                        <option value="lingkungan" {{ old('kategori_bidang') == 'lingkungan' ? 'selected' : '' }}>Lingkungan</option>
-                        <option value="teknologi" {{ old('kategori_bidang') == 'teknologi' ? 'selected' : '' }}>Teknologi</option>
-                        <option value="sosial" {{ old('kategori_bidang') == 'sosial' ? 'selected' : '' }}>Sosial</option>
+                        @foreach($kategori_bidang as $kategori)
+                            <option value="{{ $kategori['value'] }}" {{ old('kategori_bidang') == $kategori['value'] ? 'selected' : '' }}>
+                                {{ $kategori['label'] }}
+                            </option>
+                        @endforeach
                     </select>
                     @error('kategori_bidang')
                         <div class="error-message">{{ $message }}</div>
@@ -159,9 +160,9 @@
                             class="form-control @error('nomor_kelompok') error @enderror"
                             required>
                         <option value="">Pilih nomor kelompok KKN</option>
-                        @for($i = 1; $i <= 50; $i++)
-                            <option value="{{ $i }}" {{ old('nomor_kelompok') == $i ? 'selected' : '' }}>Kelompok {{ $i }}</option>
-                        @endfor
+                        @foreach($nomor_kelompok_kkn as $nomor)
+                            <option value="{{ $nomor }}" {{ old('nomor_kelompok') == $nomor ? 'selected' : '' }}>Kelompok {{ $nomor }}</option>
+                        @endforeach
                     </select>
                     @error('nomor_kelompok')
                         <div class="error-message">{{ $message }}</div>

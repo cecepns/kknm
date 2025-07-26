@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Knowledge;
+use App\Helpers\UniversityDataHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,12 @@ class KnowledgeController extends Controller
     // ANCHOR: Show Upload Form
     public function create()
     {
-        return view('unggah-pengetahuan.form');
+        return view('unggah-pengetahuan.form')
+            ->with('jenis_kkn', UniversityDataHelper::getJenisKKN())
+            ->with('tahun_kkn', UniversityDataHelper::getTahunKKN())
+            ->with('nomor_kelompok_kkn', UniversityDataHelper::getNoKelompokKKN())
+            ->with('jenis_file', UniversityDataHelper::getJenisFile())
+            ->with('kategori_bidang', UniversityDataHelper::getKategoriBidang());
     }
 
     // ANCHOR: Store Knowledge

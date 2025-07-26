@@ -7,6 +7,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Role;
+use App\Helpers\UniversityDataHelper;
 
 class UserController extends Controller
 {
@@ -35,7 +36,10 @@ class UserController extends Controller
         }
 
         $roles = Role::all();
-        return view('kelola-pengguna-internal.form', compact('roles'));
+        $fakultas = UniversityDataHelper::getFakultas();
+        $program_studi = UniversityDataHelper::getProgramStudi();
+        
+        return view('kelola-pengguna-internal.form', compact('roles', 'fakultas', 'program_studi'));
     }
 
     /**
@@ -82,7 +86,10 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('kelola-pengguna-internal.form', compact('user', 'roles'));
+        $fakultas = UniversityDataHelper::getFakultas();
+        $program_studi = UniversityDataHelper::getProgramStudi();
+        
+        return view('kelola-pengguna-internal.form', compact('user', 'roles', 'fakultas', 'program_studi'));
     }
 
     /**

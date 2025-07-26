@@ -22,6 +22,8 @@ use App\Http\Controllers\KnowledgeController;
 */
 Route::redirect('/', '/dashboard');
 
+
+
 // Rute untuk pengguna yang belum terotentikasi (tamu)
 Route::middleware(['guest'])->group(function () {
     // Rute Pendaftaran

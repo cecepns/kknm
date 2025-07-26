@@ -7,82 +7,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Rules\Password; 
+use Illuminate\Validation\Rules\Password;
+use App\Helpers\UniversityDataHelper; 
 
 
 class AuthController extends Controller
 {
-    private $fakultas = [
-        ['value' => 'FITK', 'label' => 'Ilmu Tarbiyah dan Keguruan (FITK)'],
-        ['value' => 'FAH', 'label' => 'Adab dan Humaniora (FAH)'],
-        ['value' => 'USHULUDDIN', 'label' => 'Ushuluddin'],
-        ['value' => 'FSH', 'label' => 'Syariah dan Hukum (FSH)'],
-        ['value' => 'FDIK', 'label' => 'Ilmu Dakwah dan Ilmu Komunikasi (FDIK)'],
-        ['value' => 'FDI', 'label' => 'Dirasat Islamiyah (FDI)'],
-        ['value' => 'PSIKOLOGI', 'label' => 'Psikologi'],
-        ['value' => 'FEB', 'label' => 'Ekonomi dan Bisnis (FEB)'],
-        ['value' => 'FST', 'label' => 'Sains dan Teknologi (FST)'],
-        ['value' => 'FIKES', 'label' => 'Ilmu Kesehatan (FIKES)'],
-        ['value' => 'FISIP', 'label' => 'Ilmu Sosial dan Ilmu Politik (FISIP)'],
-        ['value' => 'FK', 'label' => 'Kedokteran (FK)'],
-    ];
-
-    private $program_studi = [
-        ['value' => 'pai', 'label' => 'Pendidikan Agama Islam'],
-        ['value' => 'pba', 'label' => 'Pendidikan Bahasa Arab'],
-        ['value' => 'pbi', 'label' => 'Pendidikan Bahasa Inggris'],
-        ['value' => 'pmtk', 'label' => 'Pendidikan Matematika'],
-        ['value' => 'pbio', 'label' => 'Pendidikan Biologi'],
-        ['value' => 'pfis', 'label' => 'Pendidikan Fisika'],
-        ['value' => 'pkim', 'label' => 'Pendidikan Kimia'],
-        ['value' => 'mp', 'label' => 'Manajemen Pendidikan'],
-        ['value' => 'pgmi', 'label' => 'Pendidikan Guru Madrasah Ibtidaiyah'],
-        ['value' => 'pbsi', 'label' => 'Pendidikan Bahasa dan Sastra Indonesia'],
-        ['value' => 'pips', 'label' => 'Pendidikan Ilmu Pengetahuan Sosial'],
-        ['value' => 'piaud', 'label' => 'Pendidikan Islam Anak Usia Dini'],
-        ['value' => 'bsa', 'label' => 'Bahasa dan Sastra Arab'],
-        ['value' => 'si', 'label' => 'Sastra Inggris'],
-        ['value' => 'ski', 'label' => 'Sejarah dan Kebudayaan Islam'],
-        ['value' => 'tarjamah', 'label' => 'Tarjamah (Bahasa Arab)'],
-        ['value' => 'perpus', 'label' => 'Ilmu Perpustakaan'],
-        ['value' => 'saa', 'label' => 'Studi Agama Agama'],
-        ['value' => 'iat', 'label' => 'Ilmu Al-Quran dan Tafsir'],
-        ['value' => 'ih', 'label' => 'Ilmu Hadis'],
-        ['value' => 'afi', 'label' => 'Aqidah dan Filsafat Islam'],
-        ['value' => 'tasawuf', 'label' => 'Ilmu Tasawuf'],
-        ['value' => 'pm', 'label' => 'Perbandingan Mazhab'],
-        ['value' => 'hki', 'label' => 'Hukum Keluarga Islam (Akhwal Syakhsiyyah)'],
-        ['value' => 'htn', 'label' => 'Hukum Tata Negara (Siyasah)'],
-        ['value' => 'hpi', 'label' => 'Hukum Pidana Islam (Jinayah)'],
-        ['value' => 'hes', 'label' => 'Hukum Ekonomi Syariah (Muamalat)'],
-        ['value' => 'ihk', 'label' => 'Ilmu Hukum'],
-        ['value' => 'kpi', 'label' => 'Komunikasi dan Penyiaran Islam'],
-        ['value' => 'bpi', 'label' => 'Bimbingan Penyuluhan Islam'],
-        ['value' => 'md', 'label' => 'Manajemen Dakwah'],
-        ['value' => 'pmi', 'label' => 'Pengembangan Masyarakat Islam'],
-        ['value' => 'kesos', 'label' => 'Kesejahteraan Sosial'],
-        ['value' => 'jurnal', 'label' => 'Jurnalistik'],
-        ['value' => 'manajemen', 'label' => 'Manajemen'],
-        ['value' => 'akuntansi', 'label' => 'Akuntansi'],
-        ['value' => 'ep', 'label' => 'Ekonomi Pembangunan'],
-        ['value' => 'ps', 'label' => 'Perbankan Syariah'],
-        ['value' => 'es', 'label' => 'Ekonomi Syariah'],
-        ['value' => 'ti', 'label' => 'Teknik Informatika'],
-        ['value' => 'agb', 'label' => 'Agribisnis'],
-        ['value' => 'si_fst', 'label' => 'Sistem Informasi'],
-        ['value' => 'mtk_fst', 'label' => 'Matematika'],
-        ['value' => 'bio_fst', 'label' => 'Biologi'],
-        ['value' => 'kim_fst', 'label' => 'Kimia'],
-        ['value' => 'fis_fst', 'label' => 'Fisika'],
-        ['value' => 'tambang', 'label' => 'Teknik Pertambangan'],
-        ['value' => 'kesmas', 'label' => 'Kesehatan Masyarakat'],
-        ['value' => 'farmasi', 'label' => 'Farmasi'],
-        ['value' => 'keperawatan', 'label' => 'Ilmu Keperawatan'],
-        ['value' => 'sosiologi', 'label' => 'Sosiologi'],
-        ['value' => 'ip', 'label' => 'Ilmu Politik'],
-        ['value' => 'hi', 'label' => 'Ilmu Hubungan Internasional'],
-    ];
-
     public function showRegisterForm()
     {
         return view('auth.register');
@@ -114,32 +44,20 @@ class AuthController extends Controller
 
     public function showRegisterMahasiswaForm()
     {
-        $jenis_kkn = [
-            ['value' => 'reguler', 'label' => 'KKN Reguler'],
-            ['value' => 'in_campus', 'label' => 'KKN In Campus'],
-            ['value' => 'tematik', 'label' => 'KKN Tematik'],
-            ['value' => 'kebangsaan', 'label' => 'KKN Kebangsaan'],
-            ['value' => 'internasional', 'label' => 'KKN Internasional'],
-        ];
-
-        $angkatan = range(2025, 2050);
-        $no_kelompok_kkn = range(1, 300);
-        $tahun_kkn = range(2022, 2050);
-
-        return view('auth.register-mahasiswa', compact(
-            'angkatan', 'jenis_kkn', 
-            'no_kelompok_kkn', 'tahun_kkn'
-        ))
-        ->with('fakultas', $this->fakultas)
-        ->with('program_studi', $this->program_studi);
+        return view('auth.register-mahasiswa')
+            ->with('fakultas', UniversityDataHelper::getFakultas())
+            ->with('program_studi', UniversityDataHelper::getProgramStudi())
+            ->with('jenis_kkn', UniversityDataHelper::getJenisKKN())
+            ->with('angkatan', UniversityDataHelper::getAngkatan())
+            ->with('no_kelompok_kkn', UniversityDataHelper::getNoKelompokKKN())
+            ->with('tahun_kkn', UniversityDataHelper::getTahunKKN());
     }
 
     public function showRegisterDosenForm()
     {
-
         return view('auth.register-dosen')
-            ->with('fakultas', $this->fakultas)
-            ->with('program_studi', $this->program_studi);;
+            ->with('fakultas', UniversityDataHelper::getFakultas())
+            ->with('program_studi', UniversityDataHelper::getProgramStudi());
     }
 
     public function registerMahasiswa(Request $request)

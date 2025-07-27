@@ -8,6 +8,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumDiscussionController;
 use App\Http\Controllers\KnowledgeController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -40,7 +41,7 @@ Route::middleware(['guest'])->group(function () {
 // Rute untuk pengguna yang sudah terotentikasi
 Route::middleware(['auth'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Akses FAQ (memerlukan permission akses-faq)
     Route::middleware(['permission:akses-faq'])->group(function () {

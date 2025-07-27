@@ -55,4 +55,22 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+    
+    /**
+     * ANCHOR: Get knowledge uploaded by this user
+     */
+    public function knowledge()
+    {
+        return $this->hasMany(Knowledge::class);
+    }
+    
+    /**
+     * ANCHOR: Get forum discussions created by this user
+     */
+    public function forumDiscussions()
+    {
+        return $this->hasMany(ForumDiscussion::class);
+    }
+    
+
 }

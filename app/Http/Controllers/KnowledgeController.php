@@ -29,8 +29,8 @@ class KnowledgeController extends Controller
         $validator = Validator::make($request->all(), [
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string|max:5000',
-            'jenis_kkn' => 'required|in:reguler,tematik,internasional',
-            'tahun_kkn' => 'required|integer|min:2020|max:' . (date('Y') + 1),
+            'jenis_kkn' => 'required|string|max:255',
+            'tahun_kkn' => 'required|integer|min:2020|max:' . (date('Y') + 50),
             'jenis_file' => 'required|in:dokumen,presentasi,video,gambar,lainnya',
             'kategori_bidang' => 'required|in:pendidikan,kesehatan,ekonomi,lingkungan,teknologi,sosial',
             'lokasi_kkn' => 'required|string|max:255',
@@ -43,11 +43,12 @@ class KnowledgeController extends Controller
             'deskripsi.required' => 'Deskripsi harus diisi.',
             'deskripsi.max' => 'Deskripsi maksimal 5000 karakter.',
             'jenis_kkn.required' => 'Jenis KKN harus dipilih.',
-            'jenis_kkn.in' => 'Jenis KKN tidak valid.',
+            'jenis_kkn.string' => 'Jenis KKN harus berupa teks.',
+            'jenis_kkn.max' => 'Jenis KKN maksimal 255 karakter.',
             'tahun_kkn.required' => 'Tahun KKN harus dipilih.',
             'tahun_kkn.integer' => 'Tahun KKN harus berupa angka.',
             'tahun_kkn.min' => 'Tahun KKN minimal 2020.',
-            'tahun_kkn.max' => 'Tahun KKN tidak boleh lebih dari tahun depan.',
+            'tahun_kkn.max' => 'Tahun KKN tidak boleh lebih dari 50 tahun depan.',
             'jenis_file.required' => 'Jenis file harus dipilih.',
             'jenis_file.in' => 'Jenis file tidak valid.',
             'kategori_bidang.required' => 'Kategori bidang harus dipilih.',
@@ -94,7 +95,7 @@ class KnowledgeController extends Controller
                 'tipe_file' => $file->getClientMimeType(),
                 'ukuran_file' => $file->getSize(),
                 'user_id' => auth()->id(),
-                'status' => 'pending',
+                'status' => 'pedding',
             ]);
 
             return redirect()->route('unggah.pengetahuan')
@@ -106,8 +107,15 @@ class KnowledgeController extends Controller
                 Storage::disk('public')->delete($filePath);
             }
 
+            // Log the error for debugging
+            \Log::error('Knowledge upload error: ' . $e->getMessage(), [
+                'user_id' => auth()->id(),
+                'file' => $request->file('file') ? $request->file('file')->getClientOriginalName() : 'no file',
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat mengunggah pengetahuan. Silakan coba lagi.')
+                ->with('error', 'Terjadi kesalahan saat mengunggah pengetahuan: ' . $e->getMessage())
                 ->withInput();
         }
     }
@@ -115,8 +123,8 @@ class KnowledgeController extends Controller
     // ANCHOR: Download File
     public function download(Knowledge $knowledge)
     {
-        // Check if user owns this knowledge or has admin permission
-        if ($knowledge->user_id !== auth()->id() && !auth()->user()->hasPermission('validasi-pengetahuan')) {
+        // Check if user owns this knowledge or has verification permission
+        if ($knowledge->user_id !== auth()->id() && !auth()->user()->hasPermission('verifikasi-pengetahuan')) {
             abort(403);
         }
 
@@ -125,5 +133,55 @@ class KnowledgeController extends Controller
         }
 
         return Storage::disk('public')->download($knowledge->path_file, $knowledge->nama_file);
+    }
+
+    // ANCHOR: Show Verification Index
+    public function verificationIndex()
+    {
+        $pendingKnowledge = Knowledge::with('user')
+            ->where('status', 'pedding')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('kelola-pengetahuan.verifikasi', compact('pendingKnowledge'));
+    }
+
+    // ANCHOR: Show Verification Detail
+    public function verificationShow(Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'pedding') {
+            return redirect()->route('verifikasi.pengetahuan')
+                ->with('error', 'Pengetahuan ini sudah diverifikasi.');
+        }
+
+        return view('kelola-pengetahuan.verifikasi-detail', compact('knowledge'));
+    }
+
+    // ANCHOR: Approve Knowledge
+    public function approve(Request $request, Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'pedding') {
+            return redirect()->back()
+                ->with('error', 'Pengetahuan ini sudah diverifikasi.');
+        }
+
+        $knowledge->approve(auth()->id(), null);
+
+        return redirect()->route('verifikasi.pengetahuan')
+            ->with('success', 'Pengetahuan berhasil disetujui!');
+    }
+
+    // ANCHOR: Reject Knowledge
+    public function reject(Request $request, Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'pedding') {
+            return redirect()->back()
+                ->with('error', 'Pengetahuan ini sudah diverifikasi.');
+        }
+
+        $knowledge->reject(auth()->id(), null);
+
+        return redirect()->route('verifikasi.pengetahuan')
+            ->with('success', 'Pengetahuan berhasil ditolak.');
     }
 }

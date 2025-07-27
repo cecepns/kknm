@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('informasi_tambahan')->nullable();
             
             // ANCHOR: KKN Information
-            $table->enum('jenis_kkn', ['reguler', 'tematik', 'internasional']);
+            $table->string('jenis_kkn');
             $table->year('tahun_kkn');
             $table->enum('jenis_file', ['dokumen', 'presentasi', 'video', 'gambar', 'lainnya']);
             $table->enum('kategori_bidang', ['pendidikan', 'kesehatan', 'ekonomi', 'lingkungan', 'teknologi', 'sosial']);
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->bigInteger('ukuran_file'); // in bytes
             
             // ANCHOR: Status and Approval
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pedding', 'verified', 'validated', 'classified', 'rejected'])->default('pedding');
             $table->text('catatan_review')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->unsignedBigInteger('approved_by')->nullable();

@@ -73,8 +73,10 @@ class Knowledge extends Model
     public function getStatusLabelAttribute(): string
     {
         return match($this->status) {
-            'pending' => 'Menunggu Review',
-            'approved' => 'Disetujui',
+            'pedding' => 'Menunggu Review',
+            'verified' => 'Terverifikasi',
+            'validated' => 'Tervalidasi',
+            'classified' => 'Terklasifikasi',
             'rejected' => 'Ditolak',
             default => 'Unknown'
         };
@@ -83,22 +85,34 @@ class Knowledge extends Model
     public function getStatusBadgeClassAttribute(): string
     {
         return match($this->status) {
-            'pending' => 'badge-warning',
-            'approved' => 'badge-success',
+            'pedding' => 'badge-warning',
+            'verified' => 'badge-info',
+            'validated' => 'badge-primary',
+            'classified' => 'badge-success',
             'rejected' => 'badge-danger',
             default => 'badge-secondary'
         };
     }
 
     // ANCHOR: Scopes
-    public function scopePending($query)
+    public function scopePedding($query)
     {
-        return $query->where('status', 'pending');
+        return $query->where('status', 'pedding');
     }
 
-    public function scopeApproved($query)
+    public function scopeVerified($query)
     {
-        return $query->where('status', 'approved');
+        return $query->where('status', 'verified');
+    }
+
+    public function scopeValidated($query)
+    {
+        return $query->where('status', 'validated');
+    }
+
+    public function scopeClassified($query)
+    {
+        return $query->where('status', 'classified');
     }
 
     public function scopeRejected($query)
@@ -115,7 +129,7 @@ class Knowledge extends Model
     public function approve($approvedBy, $notes = null): void
     {
         $this->update([
-            'status' => 'approved',
+            'status' => 'verified',
             'approved_at' => now(),
             'approved_by' => $approvedBy,
             'catatan_review' => $notes,

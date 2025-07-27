@@ -128,8 +128,8 @@
 
         <!-- Menu untuk Koordinator KKN -->
         @permission('verifikasi-pengetahuan')
-        <li class="{{ request()->is('verifikasi*') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('verifikasi-pengetahuan*') ? 'active' : '' }}">
+            <a href="{{ route('verifikasi.pengetahuan') }}">
                 Verifikasi Pengetahuan
             </a>
         </li>

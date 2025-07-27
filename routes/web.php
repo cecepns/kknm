@@ -129,6 +129,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/unggah-pengetahuan/{knowledge}/download', [KnowledgeController::class, 'download'])->name('unggah.pengetahuan.download');
     });
     
+    // Verifikasi Pengetahuan - memerlukan permission verifikasi-pengetahuan
+    Route::middleware(['permission:verifikasi-pengetahuan'])->group(function () {
+        Route::get('/verifikasi-pengetahuan', [KnowledgeController::class, 'verificationIndex'])->name('verifikasi.pengetahuan');
+        Route::get('/verifikasi-pengetahuan/{knowledge}', [KnowledgeController::class, 'verificationShow'])->name('verifikasi.pengetahuan.detail');
+        Route::post('/verifikasi-pengetahuan/{knowledge}/approve', [KnowledgeController::class, 'approve'])->name('verifikasi.pengetahuan.approve');
+        Route::post('/verifikasi-pengetahuan/{knowledge}/reject', [KnowledgeController::class, 'reject'])->name('verifikasi.pengetahuan.reject');
+    });
+    
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

@@ -201,12 +201,13 @@
                                 Pilih File
                             </button>
                         </div>
-                        <input type="file" 
-                               id="file" 
-                               name="file" 
-                               class="file-input @error('file') error @enderror"
-                               accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4,.avi,.mov"
-                               required>
+                        <input 
+                            type="file" 
+                            id="file" 
+                            name="file" 
+                            class="file-input @error('file') error @enderror"
+                            accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4,.avi,.mov"
+                            required>
                     </div>
                     <div id="filePreview" class="file-preview" style="display: none;">
                         <div class="file-preview-content">

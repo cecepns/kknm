@@ -71,7 +71,15 @@ class DashboardController extends Controller
      */
     private function getStats($user, $roleId)
     {
-        if ($roleId == 3) {
+        if ($roleId == 1) {
+            // For Mahasiswa KKN (role 1)
+            return [
+                'totalKnowledge' => $this->getTotalKnowledge(),
+                'totalUnvalidated' => $this->getTotalUnvalidatedKnowledge(),
+                'totalValidated' => $this->getTotalValidatedKnowledge(),
+                'totalRepositoryFiles' => $this->getTotalApprovedKnowledge()
+            ];
+        } elseif ($roleId == 3) {
             // For Admin (role 3) - System-wide statistics
             return [
                 'totalUsers' => $this->getTotalUsers(),
@@ -170,13 +178,65 @@ class DashboardController extends Controller
     }
     
     /**
+     * ANCHOR: Get total unvalidated knowledge (pending or verified)
+     */
+    private function getTotalUnvalidatedKnowledge()
+    {
+        return Knowledge::whereIn('status', ['pedding', 'verified'])->count();
+    }
+    
+    /**
+     * ANCHOR: Get total validated knowledge
+     */
+    private function getTotalValidatedKnowledge()
+    {
+        return Knowledge::where('status', 'validated')->count();
+    }
+    
+    /**
+     * ANCHOR: Get total approved knowledge (for repository)
+     */
+    private function getTotalApprovedKnowledge()
+    {
+        return Knowledge::where('status', 'approved')->count();
+    }
+    
+        /**
      * ANCHOR: Get quick access links based on role
      */
     private function getQuickAccessLinks($roleId)
     {
         $baseLinks = [];
 
-                 if ($roleId == 3) {
+        if ($roleId == 1) {
+            // For Mahasiswa KKN (role 1)
+            $baseLinks = [
+                [
+                    'title' => 'Akses Pengumuman',
+                    'url' => route('akses.pengumuman')
+                ],
+                [
+                    'title' => 'Akses FAQ',
+                    'url' => route('akses.faq')
+                ],
+                [
+                    'title' => 'Validasi Pengetahuan',
+                    'url' => route('validasi.pengetahuan')
+                ],
+                [
+                    'title' => 'Repositori Publik',
+                    'url' => '#'
+                ],
+                [
+                    'title' => 'Forum Diskusi',
+                    'url' => route('forum.diskusi')
+                ],
+                [
+                    'title' => 'Monitoring Aktivitas',
+                    'url' => '#'
+                ]
+            ];
+        } elseif ($roleId == 3) {
              $baseLinks = [
                  [
                      'title' => 'Kelola Pengguna',

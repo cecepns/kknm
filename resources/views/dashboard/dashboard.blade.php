@@ -38,6 +38,35 @@
                 <div class="stat-number">{{ $stats['totalRepositoryFiles'] ?? 0 }}</div>
             </div>
         </div>
+    @elseif(isset($stats['totalUnvalidated']))
+        <!-- Mahasiswa KKN Statistics -->
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Pengetahuan Masuk</div>
+                <div class="stat-number">{{ $stats['totalKnowledge'] ?? 0 }}</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Pengetahuan Belum Divalidasi</div>
+                <div class="stat-number">{{ $stats['totalUnvalidated'] ?? 0 }}</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Pengetahuan Tervalidasi</div>
+                <div class="stat-number">{{ $stats['totalValidated'] ?? 0 }}</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total File Repositori Publik</div>
+                <div class="stat-number">{{ $stats['totalRepositoryFiles'] ?? 0 }}</div>
+            </div>
+        </div>
     @else
         <!-- User Statistics -->
         <div class="stat-card">

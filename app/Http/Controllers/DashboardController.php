@@ -72,15 +72,23 @@ class DashboardController extends Controller
     private function getStats($user, $roleId)
     {
         if ($roleId == 1) {
-            // For Mahasiswa KKN (role 1)
+            // For Kepala PPM (role 1)
             return [
                 'totalKnowledge' => $this->getTotalKnowledge(),
                 'totalUnvalidated' => $this->getTotalUnvalidatedKnowledge(),
                 'totalValidated' => $this->getTotalValidatedKnowledge(),
                 'totalRepositoryFiles' => $this->getTotalApprovedKnowledge()
             ];
+        } elseif ($roleId == 2) {
+            // For Koordinator KKN (role 2)
+            return [
+                'totalUnverified' => $this->getTotalUnverifiedKnowledge(),
+                'totalVerified' => $this->getTotalVerifiedKnowledge(),
+                'totalClassified' => $this->getTotalClassifiedKnowledge(),
+                'totalRepositoryFiles' => $this->getTotalValidatedKnowledge()
+            ];
         } elseif ($roleId == 3) {
-            // For Admin (role 3) - System-wide statistics
+            // For Admin (role 3)
             return [
                 'totalUsers' => $this->getTotalUsers(),
                 'totalKnowledge' => $this->getTotalKnowledge(),
@@ -88,7 +96,7 @@ class DashboardController extends Controller
                 'totalRepositoryFiles' => $this->getTotalRepositoryFiles()
             ];
         } elseif (in_array($roleId, [4, 5])) {
-            // For Dosen Pembimbing Lapangan KKN (roles 4 & 5)
+            // For Dosen Pembimbing Lapangan KKN (roles 5) & Mahasiswa KKN (role 4)
             return [
                 'totalUploaded' => $this->getTotalKnowledgeUploaded($user),
                 'totalValidated' => $this->getTotalKnowledgeValidated($user),
@@ -201,115 +209,142 @@ class DashboardController extends Controller
         return Knowledge::where('status', 'approved')->count();
     }
     
+    /**
+     * ANCHOR: Get total unverified knowledge (pending)
+     */
+    private function getTotalUnverifiedKnowledge()
+    {
+        return Knowledge::where('status', 'pedding')->count();
+    }
+    
+    /**
+     * ANCHOR: Get total verified knowledge
+     */
+    private function getTotalVerifiedKnowledge()
+    {
+        return Knowledge::where('status', 'verified')->count();
+    }
+    
+    /**
+     * ANCHOR: Get total classified knowledge
+     */
+    private function getTotalClassifiedKnowledge()
+    {
+        return Knowledge::where('status', 'validated')->count();
+    }
+    
         /**
      * ANCHOR: Get quick access links based on role
      */
     private function getQuickAccessLinks($roleId)
     {
-        $baseLinks = [];
-
-        if ($roleId == 1) {
-            // For Mahasiswa KKN (role 1)
-            $baseLinks = [
-                [
-                    'title' => 'Akses Pengumuman',
-                    'url' => route('akses.pengumuman')
-                ],
-                [
-                    'title' => 'Akses FAQ',
-                    'url' => route('akses.faq')
-                ],
-                [
+        // Define common links that are shared across roles
+        $commonLinks = [
+            'akses_pengumuman' => [
+                'title' => 'Akses Pengumuman',
+                'url' => route('akses.pengumuman')
+            ],
+            'akses_faq' => [
+                'title' => 'Akses FAQ',
+                'url' => route('akses.faq')
+            ],
+            'forum_diskusi' => [
+                'title' => 'Forum Diskusi',
+                'url' => route('forum.diskusi')
+            ],
+            'repositori_publik' => [
+                'title' => 'Repositori Publik',
+                'url' => '#'
+            ]
+        ];
+        
+        // Define role-specific links
+        $roleSpecificLinks = [
+            1 => [ // Kepala PPM
+                'validasi_pengetahuan' => [
                     'title' => 'Validasi Pengetahuan',
                     'url' => route('validasi.pengetahuan')
                 ],
-                [
-                    'title' => 'Repositori Publik',
-                    'url' => '#'
-                ],
-                [
-                    'title' => 'Forum Diskusi',
-                    'url' => route('forum.diskusi')
-                ],
-                [
+                'monitoring_aktivitas' => [
                     'title' => 'Monitoring Aktivitas',
                     'url' => '#'
                 ]
-            ];
-        } elseif ($roleId == 3) {
-             $baseLinks = [
-                 [
-                     'title' => 'Kelola Pengguna',
-                     'url' => route('daftar.pengguna.internal')
-                 ],
-                 [
-                     'title' => 'Kelola Role',
-                     'url' => '#'
-                 ],
-                 [
-                     'title' => 'Kelola Pengumuman',
-                     'url' => route('daftar.kelola.pengumuman')
-                 ],
-                 [
-                     'title' => 'Akses Pengumuman',
-                     'url' => route('akses.pengumuman')
-                 ],
-                 [
-                     'title' => 'Kelola FAQ',
-                     'url' => route('daftar.kelola.faq')
-                 ],
-                 [
-                     'title' => 'Akses FAQ',
-                     'url' => route('akses.faq')
-                 ],
-                 [
-                     'title' => 'Klasifikasi Pengetahuan',
-                     'url' => route('verifikasi.pengetahuan')
-                 ],
-                 [
-                     'title' => 'Kelola Repositori',
-                     'url' => route('validasi.pengetahuan')
-                 ],
-                 [
-                     'title' => 'Repositori Publik',
-                     'url' => '#'
-                 ],
-                 [
-                     'title' => 'Kelola Kategori Forum',
-                     'url' => route('daftar.kelola.kategori.forum')
-                 ],
-                 [
-                     'title' => 'Forum Diskusi',
-                     'url' => route('forum.diskusi')
-                 ],
-                 [
-                     'title' => 'Kelola Forum Diskusi',
-                     'url' => route('forum.diskusi')
-                 ]
-             ];
-                 } elseif (in_array($roleId, [4, 5])) {
-             $baseLinks = [
-                 [
-                     'title' => 'Akses Pengumuman',
-                     'url' => route('akses.pengumuman')
-                 ],
-                 [
-                     'title' => 'Akses FAQ',
-                     'url' => route('akses.faq')
-                 ],
-                 [
+            ],
+            2 => [ // Verifikator
+                'verifikasi_pengetahuan' => [
+                    'title' => 'Verifikasi Pengetahuan',
+                    'url' => route('verifikasi.pengetahuan')
+                ],
+                'klasifikasi_pengetahuan' => [
+                    'title' => 'Klasifikasi Pengetahuan',
+                    'url' => route('validasi.pengetahuan')
+                ],
+                'kelola_repositori' => [
+                    'title' => 'Kelola Repositori',
+                    'url' => route('validasi.pengetahuan')
+                ],
+                'monitoring_aktivitas' => [
+                    'title' => 'Monitoring Aktivitas',
+                    'url' => '#'
+                ]
+            ],
+            3 => [ // Admin
+                'kelola_pengguna' => [
+                    'title' => 'Kelola Pengguna',
+                    'url' => route('daftar.pengguna.internal')
+                ],
+                'kelola_role' => [
+                    'title' => 'Kelola Role',
+                    'url' => '#'
+                ],
+                'kelola_pengumuman' => [
+                    'title' => 'Kelola Pengumuman',
+                    'url' => route('daftar.kelola.pengumuman')
+                ],
+                'kelola_faq' => [
+                    'title' => 'Kelola FAQ',
+                    'url' => route('daftar.kelola.faq')
+                ],
+                'klasifikasi_pengetahuan' => [
+                    'title' => 'Klasifikasi Pengetahuan',
+                    'url' => route('verifikasi.pengetahuan')
+                ],
+                'kelola_repositori' => [
+                    'title' => 'Kelola Repositori',
+                    'url' => route('validasi.pengetahuan')
+                ],
+                'kelola_kategori_forum' => [
+                    'title' => 'Kelola Kategori Forum',
+                    'url' => route('daftar.kelola.kategori.forum')
+                ],
+                'kelola_forum_diskusi' => [
+                    'title' => 'Kelola Forum Diskusi',
+                    'url' => route('forum.diskusi')
+                ]
+                         ],
+             4 => [ // Dosen Pembimbing
+                 'unggah_pengetahuan' => [
                      'title' => 'Unggah Pengetahuan',
                      'url' => route('unggah.pengetahuan')
-                 ],
-                 [
-                     'title' => 'Repositori Publik',
-                     'url' => '#'
-                 ],
-                 [
-                     'title' => 'Forum Diskusi',
-                     'url' => route('forum.diskusi')
                  ]
-             ];
+             ],
+             5 => [ // Dosen Pembimbing
+                 'unggah_pengetahuan' => [
+                     'title' => 'Unggah Pengetahuan',
+                     'url' => route('unggah.pengetahuan')
+                 ]
+             ]
+        ];
+        
+        // Build links based on role
+        $baseLinks = [];
+        
+        // Add common links for all roles
+        $baseLinks = array_merge($baseLinks, array_values($commonLinks));
+        
+        // Add role-specific links
+        if (isset($roleSpecificLinks[$roleId])) {
+            $baseLinks = array_merge($baseLinks, array_values($roleSpecificLinks[$roleId]));
         }
         
         return $baseLinks;

@@ -9,33 +9,65 @@
 
 <!-- Statistics Cards -->
 <div class="stats-grid">
-    <div class="stat-card">
-        <div class="stat-content">
-            <div class="stat-label">Total Pengetahuan Diunggah</div>
-            <div class="stat-number">{{ $stats['totalUploaded'] ?? 0 }}</div>
+    @if(isset($stats['totalUsers']))
+        <!-- Admin Statistics -->
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Pengguna</div>
+                <div class="stat-number">{{ $stats['totalUsers'] ?? 0 }}</div>
+            </div>
         </div>
-    </div>
-    
-    <div class="stat-card">
-        <div class="stat-content">
-            <div class="stat-label">Total Pengetahuan Tervalidasi</div>
-            <div class="stat-number">{{ $stats['totalValidated'] ?? 0 }}</div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Pengetahuan Masuk</div>
+                <div class="stat-number">{{ $stats['totalKnowledge'] ?? 0 }}</div>
+            </div>
         </div>
-    </div>
-    
-    <div class="stat-card">
-        <div class="stat-content">
-            <div class="stat-label">Total Pengetahuan Ditolak</div>
-            <div class="stat-number">{{ $stats['totalRejected'] ?? 0 }}</div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Forum Aktif</div>
+                <div class="stat-number">{{ $stats['totalActiveForums'] ?? 0 }}</div>
+            </div>
         </div>
-    </div>
-    
-    <div class="stat-card">
-        <div class="stat-content">
-            <div class="stat-label">Total Forum Diikuti</div>
-            <div class="stat-number">{{ $stats['totalForums'] ?? 0 }}</div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total File Repositori</div>
+                <div class="stat-number">{{ $stats['totalRepositoryFiles'] ?? 0 }}</div>
+            </div>
         </div>
-    </div>
+    @else
+        <!-- User Statistics -->
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Pengetahuan Diunggah</div>
+                <div class="stat-number">{{ $stats['totalUploaded'] ?? 0 }}</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Pengetahuan Tervalidasi</div>
+                <div class="stat-number">{{ $stats['totalValidated'] ?? 0 }}</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Pengetahuan Ditolak</div>
+                <div class="stat-number">{{ $stats['totalRejected'] ?? 0 }}</div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-content">
+                <div class="stat-label">Total Forum Diikuti</div>
+                <div class="stat-number">{{ $stats['totalForums'] ?? 0 }}</div>
+            </div>
+        </div>
+    @endif
 </div>
 
 <!-- Quick Access Section -->

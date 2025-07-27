@@ -119,8 +119,8 @@
 
         <!-- Menu untuk Kepala PPM -->
         @permission('validasi-pengetahuan')
-        <li class="{{ request()->is('validasi*') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('validasi-pengetahuan*') ? 'active' : '' }}">
+            <a href="{{ route('validasi.pengetahuan') }}">
                 Validasi Pengetahuan
             </a>
         </li>

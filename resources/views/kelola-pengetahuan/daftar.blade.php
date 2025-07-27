@@ -1,10 +1,10 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Verifikasi Pengetahuan - KMS KKN')
+@section('title', $pageType === 'validation' ? 'Validasi Pengetahuan - KMS KKN' : 'Verifikasi Pengetahuan - KMS KKN')
 
 @section('content')
 <div class="page-header">
-    <h1 class="page-title">Verifikasi Pengetahuan</h1>
+    <h1 class="page-title">{{ $pageType === 'validation' ? 'Validasi Pengetahuan' : 'Verifikasi Pengetahuan' }}</h1>
 </div>
 
 <!-- ANCHOR: Flash Messages -->
@@ -21,7 +21,7 @@
 @endif
 
 <div class="verification-container">
-    @if($pendingKnowledge->count() > 0)
+    @if(($pageType === 'validation' ? $verifiedKnowledge : $pendingKnowledge)->count() > 0)
         <div class="table-container">
             <table class="verification-table">
                 <thead>
@@ -30,12 +30,12 @@
                         <th>Jenis File</th>
                         <th>Kategori</th>
                         <th>Pengunggah</th>
-                        <th>Tanggal Unggah</th>
+                        <th>{{ $pageType === 'validation' ? 'Tanggal Verifikasi' : 'Tanggal Unggah' }}</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pendingKnowledge as $knowledge)
+                    @foreach($pageType === 'validation' ? $verifiedKnowledge : $pendingKnowledge as $knowledge)
                         <tr>
                             <td class="knowledge-title">{{ $knowledge->title }}</td>
                             <td class="file-type">
@@ -53,9 +53,15 @@
                                     {{ $knowledge->user->name }}
                                 </a>
                             </td>
-                            <td class="upload-date">{{ $knowledge->created_at->format('Y-m-d') }}</td>
+                            <td class="upload-date">
+                                @if($pageType === 'validation')
+                                    {{ $knowledge->approved_at ? $knowledge->approved_at->format('Y-m-d') : '-' }}
+                                @else
+                                    {{ $knowledge->created_at->format('Y-m-d') }}
+                                @endif
+                            </td>
                             <td class="action">
-                                <a href="{{ route('verifikasi.pengetahuan.detail', $knowledge) }}" 
+                                <a href="{{ $pageType === 'validation' ? route('validasi.pengetahuan.detail', $knowledge) : route('verifikasi.pengetahuan.detail', $knowledge) }}" 
                                    class="btn btn-primary btn-sm">
                                     Lihat Detail
                                 </a>
@@ -68,9 +74,9 @@
     @else
         <div class="empty-state">
             <div class="empty-state-icon">📋</div>
-            <h3 class="empty-state-title">Tidak Ada Data Verifikasi</h3>
+            <h3 class="empty-state-title">Tidak Ada Data {{ $pageType === 'validation' ? 'Validasi' : 'Verifikasi' }}</h3>
             <p class="empty-state-description">
-                Saat ini tidak ada pengetahuan yang menunggu verifikasi.
+                Saat ini tidak ada pengetahuan yang menunggu {{ $pageType === 'validation' ? 'validasi' : 'verifikasi' }}.
             </p>
         </div>
     @endif

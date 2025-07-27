@@ -137,6 +137,14 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/verifikasi-pengetahuan/{knowledge}/reject', [KnowledgeController::class, 'reject'])->name('verifikasi.pengetahuan.reject');
     });
     
+    // Validasi Pengetahuan - memerlukan permission validasi-pengetahuan
+    Route::middleware(['permission:validasi-pengetahuan'])->group(function () {
+        Route::get('/validasi-pengetahuan', [KnowledgeController::class, 'validationIndex'])->name('validasi.pengetahuan');
+        Route::get('/validasi-pengetahuan/{knowledge}', [KnowledgeController::class, 'validationShow'])->name('validasi.pengetahuan.detail');
+        Route::post('/validasi-pengetahuan/{knowledge}/validate', [KnowledgeController::class, 'validateKnowledge'])->name('validasi.pengetahuan.validate');
+        Route::post('/validasi-pengetahuan/{knowledge}/reject', [KnowledgeController::class, 'rejectValidation'])->name('validasi.pengetahuan.reject');
+    });
+    
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

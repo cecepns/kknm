@@ -145,7 +145,8 @@ class KnowledgeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('kelola-pengetahuan.daftar', compact('pendingKnowledge'));
+        return view('kelola-pengetahuan.daftar', compact('pendingKnowledge'))
+            ->with('pageType', 'verification');
     }
 
     // ANCHOR: Show Verification Detail
@@ -156,7 +157,8 @@ class KnowledgeController extends Controller
                 ->with('error', 'Pengetahuan ini sudah diverifikasi.');
         }
 
-        return view('kelola-pengetahuan.detail', compact('knowledge'));
+        return view('kelola-pengetahuan.detail', compact('knowledge'))
+            ->with('pageType', 'verification');
     }
 
     // ANCHOR: Approve Knowledge
@@ -184,6 +186,58 @@ class KnowledgeController extends Controller
         $knowledge->reject(auth()->id(), null);
 
         return redirect()->route('verifikasi.pengetahuan')
+            ->with('success', 'Pengetahuan berhasil ditolak.');
+    }
+
+    // ANCHOR: Show Validation Index
+    public function validationIndex()
+    {
+        $verifiedKnowledge = Knowledge::with('user')
+            ->where('status', 'verified')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('kelola-pengetahuan.daftar', compact('verifiedKnowledge'))
+            ->with('pageType', 'validation');
+    }
+
+    // ANCHOR: Show Validation Detail
+    public function validationShow(Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'verified') {
+            return redirect()->route('validasi.pengetahuan')
+                ->with('error', 'Pengetahuan ini tidak dapat divalidasi.');
+        }
+
+        return view('kelola-pengetahuan.detail', compact('knowledge'))
+            ->with('pageType', 'validation');
+    }
+
+    // ANCHOR: Validate Knowledge
+    public function validateKnowledge(Request $request, Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'verified') {
+            return redirect()->back()
+                ->with('error', 'Pengetahuan ini tidak dapat divalidasi.');
+        }
+
+        $knowledge->validate(auth()->id(), null);
+
+        return redirect()->route('validasi.pengetahuan')
+            ->with('success', 'Pengetahuan berhasil divalidasi!');
+    }
+
+    // ANCHOR: Reject Validation
+    public function rejectValidation(Request $request, Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'verified') {
+            return redirect()->back()
+                ->with('error', 'Pengetahuan ini tidak dapat divalidasi.');
+        }
+
+        $knowledge->reject(auth()->id(), null);
+
+        return redirect()->route('validasi.pengetahuan')
             ->with('success', 'Pengetahuan berhasil ditolak.');
     }
 }

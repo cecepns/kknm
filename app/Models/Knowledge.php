@@ -136,6 +136,16 @@ class Knowledge extends Model
         ]);
     }
 
+    public function validate($validatedBy, $notes = null): void
+    {
+        $this->update([
+            'status' => 'validated',
+            'approved_at' => now(),
+            'approved_by' => $validatedBy,
+            'review_notes' => $notes,
+        ]);
+    }
+
     public function reject($rejectedBy, $notes = null): void
     {
         $this->update([

@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Detail Verifikasi Pengetahuan - KMS KKN')
+@section('title', $pageType === 'validation' ? 'Detail Validasi Pengetahuan - KMS KKN' : 'Detail Verifikasi Pengetahuan - KMS KKN')
 
 @section('content')
 <div class="page-header">
     <div class="page-header-content">
-        <h1 class="page-title">Detail Verifikasi Pengetahuan</h1>
-        <a href="{{ route('verifikasi.pengetahuan') }}" class="btn btn-secondary">
+        <h1 class="page-title">{{ $pageType === 'validation' ? 'Detail Validasi Pengetahuan' : 'Detail Verifikasi Pengetahuan' }}</h1>
+        <a href="{{ $pageType === 'validation' ? route('validasi.pengetahuan') : route('verifikasi.pengetahuan') }}" class="btn btn-secondary">
             ← Kembali ke Daftar
         </a>
     </div>
@@ -29,7 +29,9 @@
     <div class="detail-card">
         <div class="detail-header">
             <h2 class="detail-title">{{ $knowledge->title }}</h2>
-            <span class="status-badge status-pending">Menunggu Review</span>
+            <span class="status-badge {{ $pageType === 'validation' ? 'status-verified' : 'status-pending' }}">
+                {{ $pageType === 'validation' ? 'Terverifikasi' : 'Menunggu Review' }}
+            </span>
         </div>
 
         <div class="detail-content">
@@ -122,24 +124,63 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ANCHOR: Verification Information (only for validation page) -->
+            @if($pageType === 'validation' && $knowledge->approved_at && $knowledge->approvedBy)
+            <div class="info-section">
+                <h3 class="section-title">Informasi Verifikasi</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label class="info-label">Diverifikasi Oleh:</label>
+                        <span class="info-value">{{ $knowledge->approvedBy->name }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Tanggal Verifikasi:</label>
+                        <span class="info-value">{{ $knowledge->approved_at->format('d F Y H:i') }}</span>
+                    </div>
+                    @if($knowledge->review_notes)
+                    <div class="info-item">
+                        <label class="info-label">Catatan Verifikasi:</label>
+                        <span class="info-value">{{ $knowledge->review_notes }}</span>
+                    </div>
+                    @endif
+                </div>
+            </div>
+            @endif
         </div>
 
-        <!-- ANCHOR: Verification Actions -->
+        <!-- ANCHOR: Verification/Validation Actions -->
         <div class="verification-actions">            
             <div class="action-buttons">
-                <form action="{{ route('verifikasi.pengetahuan.approve', $knowledge) }}" method="POST" class="inline-form">
-                    @csrf
-                    <button type="submit" class="btn btn-success">
-                        ✅ Setujui
-                    </button>
-                </form>
+                @if($pageType === 'validation')
+                    <form action="{{ route('validasi.pengetahuan.validate', $knowledge) }}" method="POST" class="inline-form">
+                        @csrf
+                        <button type="submit" class="btn btn-success">
+                            ✅ Validasi
+                        </button>
+                    </form>
 
-                <form action="{{ route('verifikasi.pengetahuan.reject', $knowledge) }}" method="POST" class="inline-form">
-                    @csrf
-                    <button type="submit" class="btn btn-danger">
-                        ❌ Tolak
-                    </button>
-                </form>
+                    <form action="{{ route('validasi.pengetahuan.reject', $knowledge) }}" method="POST" class="inline-form">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">
+                            ❌ Tolak
+                        </button>
+                    </form>
+                @else
+                    <form action="{{ route('verifikasi.pengetahuan.approve', $knowledge) }}" method="POST" class="inline-form">
+                        @csrf
+                        <button type="submit" class="btn btn-success">
+                            ✅ Setujui
+                        </button>
+                    </form>
+
+                    <form action="{{ route('verifikasi.pengetahuan.reject', $knowledge) }}" method="POST" class="inline-form">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">
+                            ❌ Tolak
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
@@ -202,6 +243,12 @@
     background-color: #fff3cd;
     color: #856404;
     border: 1px solid #ffeaa7;
+}
+
+.status-verified {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
 }
 
 .detail-content {

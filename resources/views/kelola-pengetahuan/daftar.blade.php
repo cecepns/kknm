@@ -37,15 +37,15 @@
                 <tbody>
                     @foreach($pendingKnowledge as $knowledge)
                         <tr>
-                            <td class="knowledge-title">{{ $knowledge->judul }}</td>
+                            <td class="knowledge-title">{{ $knowledge->title }}</td>
                             <td class="file-type">
                                 <a href="#" class="link-primary">
-                                    {{ \App\Helpers\UniversityDataHelper::getJenisFileLabel($knowledge->jenis_file) }}
+                                    {{ \App\Helpers\UniversityDataHelper::getJenisFileLabel($knowledge->file_type) }}
                                 </a>
                             </td>
                             <td class="category">
                                 <a href="#" class="link-primary">
-                                    {{ \App\Helpers\UniversityDataHelper::getKategoriBidangLabel($knowledge->kategori_bidang) }}
+                                    {{ \App\Helpers\UniversityDataHelper::getKategoriBidangLabel($knowledge->field_category) }}
                                 </a>
                             </td>
                             <td class="uploader">

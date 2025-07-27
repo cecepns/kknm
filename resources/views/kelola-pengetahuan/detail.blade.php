@@ -28,7 +28,7 @@
 <div class="detail-container">
     <div class="detail-card">
         <div class="detail-header">
-            <h2 class="detail-title">{{ $knowledge->judul }}</h2>
+            <h2 class="detail-title">{{ $knowledge->title }}</h2>
             <span class="status-badge status-pending">Menunggu Review</span>
         </div>
 
@@ -39,13 +39,13 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <label class="info-label">Deskripsi:</label>
-                        <p class="info-value">{{ $knowledge->deskripsi }}</p>
+                        <p class="info-value">{{ $knowledge->description }}</p>
                     </div>
                     
-                    @if($knowledge->informasi_tambahan)
+                    @if($knowledge->additional_info)
                     <div class="info-item">
                         <label class="info-label">Informasi Tambahan:</label>
-                        <p class="info-value">{{ $knowledge->informasi_tambahan }}</p>
+                        <p class="info-value">{{ $knowledge->additional_info }}</p>
                     </div>
                     @endif
                 </div>
@@ -57,19 +57,19 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <label class="info-label">Jenis KKN:</label>
-                        <span class="info-value">{{ \App\Helpers\UniversityDataHelper::getJenisKKNLabel($knowledge->jenis_kkn) }}</span>
+                        <span class="info-value">{{ \App\Helpers\UniversityDataHelper::getJenisKKNLabel($knowledge->kkn_type) }}</span>
                     </div>
                     <div class="info-item">
                         <label class="info-label">Tahun KKN:</label>
-                        <span class="info-value">{{ $knowledge->tahun_kkn }}</span>
+                        <span class="info-value">{{ $knowledge->kkn_year }}</span>
                     </div>
                     <div class="info-item">
                         <label class="info-label">Lokasi KKN:</label>
-                        <span class="info-value">{{ $knowledge->lokasi_kkn }}</span>
+                        <span class="info-value">{{ $knowledge->kkn_location }}</span>
                     </div>
                     <div class="info-item">
                         <label class="info-label">Nomor Kelompok:</label>
-                        <span class="info-value">{{ $knowledge->nomor_kelompok }}</span>
+                        <span class="info-value">{{ $knowledge->group_number }}</span>
                     </div>
                 </div>
             </div>
@@ -80,15 +80,15 @@
                 <div class="info-grid">
                     <div class="info-item">
                         <label class="info-label">Jenis File:</label>
-                        <span class="info-value">{{ \App\Helpers\UniversityDataHelper::getJenisFileLabel($knowledge->jenis_file) }}</span>
+                        <span class="info-value">{{ \App\Helpers\UniversityDataHelper::getJenisFileLabel($knowledge->file_type) }}</span>
                     </div>
                     <div class="info-item">
                         <label class="info-label">Kategori Bidang:</label>
-                        <span class="info-value">{{ \App\Helpers\UniversityDataHelper::getKategoriBidangLabel($knowledge->kategori_bidang) }}</span>
+                        <span class="info-value">{{ \App\Helpers\UniversityDataHelper::getKategoriBidangLabel($knowledge->field_category) }}</span>
                     </div>
                     <div class="info-item">
                         <label class="info-label">Nama File:</label>
-                        <span class="info-value">{{ $knowledge->nama_file }}</span>
+                        <span class="info-value">{{ $knowledge->file_name }}</span>
                     </div>
                     <div class="info-item">
                         <label class="info-label">Ukuran File:</label>

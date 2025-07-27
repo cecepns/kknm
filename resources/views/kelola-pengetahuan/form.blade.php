@@ -27,28 +27,28 @@
         <!-- ANCHOR: Form Fields -->
         <div class="form-section">
             <div class="form-group">
-                <label for="judul" class="form-label">Judul/Nama Pengetahuan</label>
+                <label for="title" class="form-label">Judul/Nama Pengetahuan</label>
                 <input type="text" 
-                       id="judul" 
-                       name="judul" 
-                       class="form-control @error('judul') error @enderror" 
+                       id="title" 
+                       name="title" 
+                       class="form-control @error('title') error @enderror" 
                        placeholder="Masukkan judul pengetahuan"
-                       value="{{ old('judul') }}"
+                       value="{{ old('title') }}"
                        required>
-                @error('judul')
+                @error('title')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>
 
             <div class="form-group">
-                <label for="deskripsi" class="form-label">Deskripsi</label>
-                <textarea id="deskripsi" 
-                          name="deskripsi" 
-                          class="form-control @error('deskripsi') error @enderror" 
+                <label for="description" class="form-label">Deskripsi</label>
+                <textarea id="description" 
+                          name="description" 
+                          class="form-control @error('description') error @enderror" 
                           rows="4"
                           placeholder="Masukkan deskripsi pengetahuan"
-                          required>{{ old('deskripsi') }}</textarea>
-                @error('deskripsi')
+                          required>{{ old('description') }}</textarea>
+                @error('description')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>
@@ -58,113 +58,113 @@
         <div class="form-section">
             <div class="dropdown-grid">
                 <div class="form-group">
-                    <label for="jenis_kkn" class="form-label">
+                    <label for="kkn_type" class="form-label">
                         @if(auth()->user()->role_id == 4)
                             Jenis KKN
                         @else
                             Jenis KKN Pembimbing
                         @endif
                     </label>
-                    <select id="jenis_kkn" 
-                            name="jenis_kkn" 
-                            class="form-control @error('jenis_kkn') error @enderror"
+                    <select id="kkn_type" 
+                            name="kkn_type" 
+                            class="form-control @error('kkn_type') error @enderror"
                             required>
                         <option value="">Pilih Jenis KKN</option>
                         @foreach($jenis_kkn as $jenis)
-                            <option value="{{ $jenis['value'] }}" {{ old('jenis_kkn') == $jenis['value'] ? 'selected' : '' }}>
+                            <option value="{{ $jenis['value'] }}" {{ old('kkn_type') == $jenis['value'] ? 'selected' : '' }}>
                                 {{ $jenis['label'] }}
                             </option>
                         @endforeach
                     </select>
-                    @error('jenis_kkn')
+                    @error('kkn_type')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="tahun_kkn" class="form-label">
+                    <label for="kkn_year" class="form-label">
                         @if(auth()->user()->role_id == 4)
                             Tahun KKN
                         @else
                             Tahun KKN Pembimbing
                         @endif
                     </label>
-                    <select id="tahun_kkn" 
-                            name="tahun_kkn" 
-                            class="form-control @error('tahun_kkn') error @enderror"
+                    <select id="kkn_year" 
+                            name="kkn_year" 
+                            class="form-control @error('kkn_year') error @enderror"
                             required>
                         <option value="">Pilih Tahun KKN</option>
                         @foreach($tahun_kkn as $tahun)
-                            <option value="{{ $tahun }}" {{ old('tahun_kkn') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
+                            <option value="{{ $tahun }}" {{ old('kkn_year') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
                         @endforeach
                     </select>
-                    @error('tahun_kkn')
+                    @error('kkn_year')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="jenis_file" class="form-label">Jenis File</label>
-                    <select id="jenis_file" 
-                            name="jenis_file" 
-                            class="form-control @error('jenis_file') error @enderror"
+                    <label for="file_type" class="form-label">Jenis File</label>
+                    <select id="file_type" 
+                            name="file_type" 
+                            class="form-control @error('file_type') error @enderror"
                             required>
                         <option value="">Pilih Jenis File</option>
                         @foreach($jenis_file as $jenis)
-                            <option value="{{ $jenis['value'] }}" {{ old('jenis_file') == $jenis['value'] ? 'selected' : '' }}>
+                            <option value="{{ $jenis['value'] }}" {{ old('file_type') == $jenis['value'] ? 'selected' : '' }}>
                                 {{ $jenis['label'] }}
                             </option>
                         @endforeach
                     </select>
-                    @error('jenis_file')
+                    @error('file_type')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="kategori_bidang" class="form-label">Kategori Bidang KKN</label>
-                    <select id="kategori_bidang" 
-                            name="kategori_bidang" 
-                            class="form-control @error('kategori_bidang') error @enderror"
+                    <label for="field_category" class="form-label">Kategori Bidang KKN</label>
+                    <select id="field_category" 
+                            name="field_category" 
+                            class="form-control @error('field_category') error @enderror"
                             required>
                         <option value="">Pilih kategori</option>
                         @foreach($kategori_bidang as $kategori)
-                            <option value="{{ $kategori['value'] }}" {{ old('kategori_bidang') == $kategori['value'] ? 'selected' : '' }}>
+                            <option value="{{ $kategori['value'] }}" {{ old('field_category') == $kategori['value'] ? 'selected' : '' }}>
                                 {{ $kategori['label'] }}
                             </option>
                         @endforeach
                     </select>
-                    @error('kategori_bidang')
+                    @error('field_category')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="lokasi_kkn" class="form-label">Lokasi KKN</label>
+                    <label for="kkn_location" class="form-label">Lokasi KKN</label>
                     <input type="text" 
-                           id="lokasi_kkn" 
-                           name="lokasi_kkn" 
-                           class="form-control @error('lokasi_kkn') error @enderror" 
+                           id="kkn_location" 
+                           name="kkn_location" 
+                           class="form-control @error('kkn_location') error @enderror" 
                            placeholder="Masukkan lokasi KKN"
-                           value="{{ old('lokasi_kkn') }}"
+                           value="{{ old('kkn_location') }}"
                            required>
-                    @error('lokasi_kkn')
+                    @error('kkn_location')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="nomor_kelompok" class="form-label">Nomor Kelompok KKN</label>
-                    <select id="nomor_kelompok" 
-                            name="nomor_kelompok" 
-                            class="form-control @error('nomor_kelompok') error @enderror"
+                    <label for="group_number" class="form-label">Nomor Kelompok KKN</label>
+                    <select id="group_number" 
+                            name="group_number" 
+                            class="form-control @error('group_number') error @enderror"
                             required>
                         <option value="">Pilih nomor kelompok KKN</option>
                         @foreach($nomor_kelompok_kkn as $nomor)
-                            <option value="{{ $nomor }}" {{ old('nomor_kelompok') == $nomor ? 'selected' : '' }}>Kelompok {{ $nomor }}</option>
+                            <option value="{{ $nomor }}" {{ old('group_number') == $nomor ? 'selected' : '' }}>Kelompok {{ $nomor }}</option>
                         @endforeach
                     </select>
-                    @error('nomor_kelompok')
+                    @error('group_number')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
@@ -175,13 +175,13 @@
         <!-- ANCHOR: Additional Information Section -->
         <div class="form-section">
             <div class="form-group">
-                <label for="informasi_tambahan" class="form-label">Informasi Tambahan (Opsional)</label>
-                <textarea id="informasi_tambahan" 
-                          name="informasi_tambahan" 
-                          class="form-control @error('informasi_tambahan') error @enderror" 
+                <label for="additional_info" class="form-label">Informasi Tambahan (Opsional)</label>
+                <textarea id="additional_info" 
+                          name="additional_info" 
+                          class="form-control @error('additional_info') error @enderror" 
                           rows="4"
-                          placeholder="Masukkan informasi tambahan jika diperlukan">{{ old('informasi_tambahan') }}</textarea>
-                @error('informasi_tambahan')
+                          placeholder="Masukkan informasi tambahan jika diperlukan">{{ old('additional_info') }}</textarea>
+                @error('additional_info')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>

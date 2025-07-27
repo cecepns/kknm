@@ -68,6 +68,8 @@ class KnowledgeController extends Controller
         ]);
 
         if ($validator->fails()) {
+            print_r($validator->errors());
+            die();
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
@@ -143,7 +145,7 @@ class KnowledgeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('kelola-pengetahuan.verifikasi', compact('pendingKnowledge'));
+        return view('kelola-pengetahuan.daftar', compact('pendingKnowledge'));
     }
 
     // ANCHOR: Show Verification Detail
@@ -154,7 +156,7 @@ class KnowledgeController extends Controller
                 ->with('error', 'Pengetahuan ini sudah diverifikasi.');
         }
 
-        return view('kelola-pengetahuan.verifikasi-detail', compact('knowledge'));
+        return view('kelola-pengetahuan.detail', compact('knowledge'));
     }
 
     // ANCHOR: Approve Knowledge

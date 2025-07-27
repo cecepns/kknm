@@ -27,39 +27,39 @@ class KnowledgeController extends Controller
     {
         // Validate request
         $validator = Validator::make($request->all(), [
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string|max:5000',
-            'jenis_kkn' => 'required|string|max:255',
-            'tahun_kkn' => 'required|integer|min:2020|max:' . (date('Y') + 50),
-            'jenis_file' => 'required|in:dokumen,presentasi,video,gambar,lainnya',
-            'kategori_bidang' => 'required|in:pendidikan,kesehatan,ekonomi,lingkungan,teknologi,sosial',
-            'lokasi_kkn' => 'required|string|max:255',
-            'nomor_kelompok' => 'required|integer|min:1|max:100',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
+            'kkn_type' => 'required|string|max:255',
+            'kkn_year' => 'required|integer|min:2020|max:' . (date('Y') + 50),
+            'file_type' => 'required|in:dokumen,presentasi,video,gambar,lainnya',
+            'field_category' => 'required|in:pendidikan,kesehatan,ekonomi,lingkungan,teknologi,sosial',
+            'kkn_location' => 'required|string|max:255',
+            'group_number' => 'required|integer|min:1|max:100',
             'file' => 'required|file|max:102400', // 100MB max
             'declaration' => 'required|accepted',
         ], [
-            'judul.required' => 'Judul pengetahuan harus diisi.',
-            'judul.max' => 'Judul pengetahuan maksimal 255 karakter.',
-            'deskripsi.required' => 'Deskripsi harus diisi.',
-            'deskripsi.max' => 'Deskripsi maksimal 5000 karakter.',
-            'jenis_kkn.required' => 'Jenis KKN harus dipilih.',
-            'jenis_kkn.string' => 'Jenis KKN harus berupa teks.',
-            'jenis_kkn.max' => 'Jenis KKN maksimal 255 karakter.',
-            'tahun_kkn.required' => 'Tahun KKN harus dipilih.',
-            'tahun_kkn.integer' => 'Tahun KKN harus berupa angka.',
-            'tahun_kkn.min' => 'Tahun KKN minimal 2020.',
-            'tahun_kkn.max' => 'Tahun KKN tidak boleh lebih dari 50 tahun depan.',
-            'jenis_file.required' => 'Jenis file harus dipilih.',
-            'jenis_file.in' => 'Jenis file tidak valid.',
-            'kategori_bidang.required' => 'Kategori bidang harus dipilih.',
-            'kategori_bidang.in' => 'Kategori bidang tidak valid.',
-            'lokasi_kkn.required' => 'Lokasi KKN harus diisi.',
-            'lokasi_kkn.string' => 'Lokasi KKN harus berupa teks.',
-            'lokasi_kkn.max' => 'Lokasi KKN maksimal 255 karakter.',
-            'nomor_kelompok.required' => 'Nomor kelompok harus dipilih.',
-            'nomor_kelompok.integer' => 'Nomor kelompok harus berupa angka.',
-            'nomor_kelompok.min' => 'Nomor kelompok minimal 1.',
-            'nomor_kelompok.max' => 'Nomor kelompok maksimal 100.',
+            'title.required' => 'Judul pengetahuan harus diisi.',
+            'title.max' => 'Judul pengetahuan maksimal 255 karakter.',
+            'description.required' => 'Deskripsi harus diisi.',
+            'description.max' => 'Deskripsi maksimal 5000 karakter.',
+            'kkn_type.required' => 'Jenis KKN harus dipilih.',
+            'kkn_type.string' => 'Jenis KKN harus berupa teks.',
+            'kkn_type.max' => 'Jenis KKN maksimal 255 karakter.',
+            'kkn_year.required' => 'Tahun KKN harus dipilih.',
+            'kkn_year.integer' => 'Tahun KKN harus berupa angka.',
+            'kkn_year.min' => 'Tahun KKN minimal 2020.',
+            'kkn_year.max' => 'Tahun KKN tidak boleh lebih dari 50 tahun depan.',
+            'file_type.required' => 'Jenis file harus dipilih.',
+            'file_type.in' => 'Jenis file tidak valid.',
+            'field_category.required' => 'Kategori bidang harus dipilih.',
+            'field_category.in' => 'Kategori bidang tidak valid.',
+            'kkn_location.required' => 'Lokasi KKN harus diisi.',
+            'kkn_location.string' => 'Lokasi KKN harus berupa teks.',
+            'kkn_location.max' => 'Lokasi KKN maksimal 255 karakter.',
+            'group_number.required' => 'Nomor kelompok harus dipilih.',
+            'group_number.integer' => 'Nomor kelompok harus berupa angka.',
+            'group_number.min' => 'Nomor kelompok minimal 1.',
+            'group_number.max' => 'Nomor kelompok maksimal 100.',
             'file.required' => 'File harus diunggah.',
             'file.file' => 'File yang diunggah tidak valid.',
             'file.max' => 'Ukuran file maksimal 100MB.',
@@ -81,19 +81,19 @@ class KnowledgeController extends Controller
 
             // ANCHOR: Create Knowledge Record
             $knowledge = Knowledge::create([
-                'judul' => $request->judul,
-                'deskripsi' => $request->deskripsi,
-                'informasi_tambahan' => $request->informasi_tambahan,
-                'jenis_kkn' => $request->jenis_kkn,
-                'tahun_kkn' => $request->tahun_kkn,
-                'jenis_file' => $request->jenis_file,
-                'kategori_bidang' => $request->kategori_bidang,
-                'lokasi_kkn' => $request->lokasi_kkn,
-                'nomor_kelompok' => $request->nomor_kelompok,
-                'nama_file' => $file->getClientOriginalName(),
-                'path_file' => $filePath,
-                'tipe_file' => $file->getClientMimeType(),
-                'ukuran_file' => $file->getSize(),
+                'title' => $request->title,
+                'description' => $request->description,
+                'additional_info' => $request->additional_info,
+                'kkn_type' => $request->kkn_type,
+                'kkn_year' => $request->kkn_year,
+                'file_type' => $request->file_type,
+                'field_category' => $request->field_category,
+                'kkn_location' => $request->kkn_location,
+                'group_number' => $request->group_number,
+                'file_name' => $file->getClientOriginalName(),
+                'file_path' => $filePath,
+                'file_mime_type' => $file->getClientMimeType(),
+                'file_size' => $file->getSize(),
                 'user_id' => auth()->id(),
                 'status' => 'pedding',
             ]);
@@ -128,11 +128,11 @@ class KnowledgeController extends Controller
             abort(403);
         }
 
-        if (!Storage::disk('public')->exists($knowledge->path_file)) {
+        if (!Storage::disk('public')->exists($knowledge->file_path)) {
             abort(404, 'File tidak ditemukan.');
         }
 
-        return Storage::disk('public')->download($knowledge->path_file, $knowledge->nama_file);
+        return Storage::disk('public')->download($knowledge->file_path, $knowledge->file_name);
     }
 
     // ANCHOR: Show Verification Index

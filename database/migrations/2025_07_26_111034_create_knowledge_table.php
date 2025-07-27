@@ -15,27 +15,27 @@ return new class extends Migration
             $table->id();
             
             // ANCHOR: Basic Information
-            $table->string('judul');
-            $table->text('deskripsi');
-            $table->text('informasi_tambahan')->nullable();
+            $table->string('title');
+            $table->text('description');
+            $table->text('additional_info')->nullable();
             
             // ANCHOR: KKN Information
-            $table->string('jenis_kkn');
-            $table->year('tahun_kkn');
-            $table->enum('jenis_file', ['dokumen', 'presentasi', 'video', 'gambar', 'lainnya']);
-            $table->enum('kategori_bidang', ['pendidikan', 'kesehatan', 'ekonomi', 'lingkungan', 'teknologi', 'sosial']);
-            $table->string('lokasi_kkn');
-            $table->integer('nomor_kelompok');
+            $table->string('kkn_type');
+            $table->year('kkn_year');
+            $table->enum('file_type', ['dokumen', 'presentasi', 'video', 'gambar', 'lainnya']);
+            $table->enum('field_category', ['pendidikan', 'kesehatan', 'ekonomi', 'lingkungan', 'teknologi', 'sosial']);
+            $table->string('kkn_location');
+            $table->integer('group_number');
             
             // ANCHOR: File Information
-            $table->string('nama_file');
-            $table->string('path_file');
-            $table->string('tipe_file');
-            $table->bigInteger('ukuran_file'); // in bytes
+            $table->string('file_name');
+            $table->string('file_path');
+            $table->string('file_mime_type');
+            $table->bigInteger('file_size'); // in bytes
             
             // ANCHOR: Status and Approval
             $table->enum('status', ['pedding', 'verified', 'validated', 'classified', 'rejected'])->default('pedding');
-            $table->text('catatan_review')->nullable();
+            $table->text('review_notes')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->unsignedBigInteger('approved_by')->nullable();
             
@@ -48,8 +48,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null');
             $table->index(['status', 'created_at']);
-            $table->index(['jenis_kkn', 'tahun_kkn']);
-            $table->index(['kategori_bidang', 'lokasi_kkn']);
+            $table->index(['kkn_type', 'kkn_year']);
+            $table->index(['field_category', 'kkn_location']);
         });
     }
 

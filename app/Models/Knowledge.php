@@ -13,21 +13,21 @@ class Knowledge extends Model
 
     // ANCHOR: Fillable Fields
     protected $fillable = [
-        'judul',
-        'deskripsi',
-        'informasi_tambahan',
-        'jenis_kkn',
-        'tahun_kkn',
-        'jenis_file',
-        'kategori_bidang',
-        'lokasi_kkn',
-        'nomor_kelompok',
-        'nama_file',
-        'path_file',
-        'tipe_file',
-        'ukuran_file',
+        'title',
+        'description',
+        'additional_info',
+        'kkn_type',
+        'kkn_year',
+        'file_type',
+        'field_category',
+        'kkn_location',
+        'group_number',
+        'file_name',
+        'file_path',
+        'file_mime_type',
+        'file_size',
         'status',
-        'catatan_review',
+        'review_notes',
         'approved_at',
         'approved_by',
         'user_id',
@@ -55,12 +55,12 @@ class Knowledge extends Model
     // ANCHOR: Accessors
     public function getFileUrlAttribute(): string
     {
-        return Storage::url($this->path_file);
+        return Storage::url($this->file_path);
     }
 
     public function getFileSizeFormattedAttribute(): string
     {
-        $bytes = $this->ukuran_file;
+        $bytes = $this->file_size;
         $units = ['B', 'KB', 'MB', 'GB'];
         
         for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
@@ -132,7 +132,7 @@ class Knowledge extends Model
             'status' => 'verified',
             'approved_at' => now(),
             'approved_by' => $approvedBy,
-            'catatan_review' => $notes,
+            'review_notes' => $notes,
         ]);
     }
 
@@ -141,14 +141,14 @@ class Knowledge extends Model
         $this->update([
             'status' => 'rejected',
             'approved_by' => $rejectedBy,
-            'catatan_review' => $notes,
+            'review_notes' => $notes,
         ]);
     }
 
     public function deleteFile(): bool
     {
-        if (Storage::exists($this->path_file)) {
-            return Storage::delete($this->path_file);
+        if (Storage::exists($this->file_path)) {
+            return Storage::delete($this->file_path);
         }
         return false;
     }

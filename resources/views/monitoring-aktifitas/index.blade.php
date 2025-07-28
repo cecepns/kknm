@@ -62,17 +62,14 @@
     <div class="filter-section">
         <h2 class="section-title">Jenis Aktivitas</h2>
         <form method="GET" action="{{ route('monitoring.aktifitas') }}" class="filter-form">
-            <div class="filter-group">
-                <label for="activity_type" class="filter-label">Jenis Aktivitas</label>
-                <select name="activity_type" id="activity_type" class="filter-select" onchange="this.form.submit()">
-                    <option value="all" {{ $activityType === 'all' ? 'selected' : '' }}>Semua Aktivitas</option>
-                    @foreach($activityTypes as $type)
-                        <option value="{{ $type }}" {{ $activityType === $type ? 'selected' : '' }}>
-                            {{ ucfirst(str_replace('_', ' ', $type)) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            <select name="activity_type" id="activity_type" class="filter-select" onchange="this.form.submit()">
+                <option value="all" {{ $activityType === 'all' ? 'selected' : '' }}>Semua Aktivitas</option>
+                @foreach($activityTypes as $type)
+                    <option value="{{ $type }}" {{ $activityType === $type ? 'selected' : '' }}>
+                        {{ ucfirst(str_replace('_', ' ', $type)) }}
+                    </option>
+                @endforeach
+            </select>
         </form>
     </div>
     
@@ -138,10 +135,9 @@
 }
 
 .filter-form {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .filter-group {

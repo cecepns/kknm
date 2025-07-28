@@ -19,14 +19,6 @@
         </li>
         @endpermission
 
-        @permission('kelola-roles')
-        <li class="{{ request()->is('roles*') ? 'active' : '' }}">
-            <a href="#">
-                Kelola Role
-            </a>
-        </li>
-        @endpermission
-
         <!-- Menu untuk Admin dan Koordinator KKN -->
         @permission('kelola-pengumuman')
         <li class="{{ request()->is('kelola-pengumuman*') ? 'active' : '' }}">
@@ -59,15 +51,6 @@
         <li class="{{ request()->is('akses-faq') ? 'active' : '' }}">
             <a href="{{ route('akses.faq') }}">
                 Akses FAQ
-            </a>
-        </li>
-        @endpermission
-
-        <!-- Menu untuk Koordinator KKN -->
-        @permission('klasifikasi-pengetahuan')
-        <li class="{{ request()->is('knowledge*') ? 'active' : '' }}">
-            <a href="#">
-                Klasifikasi Pengetahuan
             </a>
         </li>
         @endpermission

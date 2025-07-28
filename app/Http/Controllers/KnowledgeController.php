@@ -63,7 +63,6 @@ class KnowledgeController extends Controller
             'kkn_year' => 'required|integer|min:2020|max:' . (date('Y') + 50),
             'file_type' => 'required|in:dokumen,presentasi,video,gambar,lainnya',
             'field_category' => 'required|in:pendidikan,kesehatan,ekonomi,lingkungan,teknologi,sosial',
-            'file' => 'required|file|max:102400', // 100MB max
             'declaration' => 'required|accepted',
         ], [
             'title.required' => 'Judul pengetahuan harus diisi.',
@@ -81,9 +80,6 @@ class KnowledgeController extends Controller
             'file_type.in' => 'Jenis file tidak valid.',
             'field_category.required' => 'Kategori bidang harus dipilih.',
             'field_category.in' => 'Kategori bidang tidak valid.',
-            'file.required' => 'File harus diunggah.',
-            'file.file' => 'File yang diunggah tidak valid.',
-            'file.max' => 'Ukuran file maksimal 100MB.',
             'declaration.required' => 'Anda harus menyetujui deklarasi.',
             'declaration.accepted' => 'Anda harus menyetujui deklarasi.',
         ]);
@@ -121,6 +117,8 @@ class KnowledgeController extends Controller
                 'status' => 'pending',
             ]);
 
+            // ANCHOR: Log Knowledge Upload Activity
+            $this->logKnowledgeUpload($request->title);
 
             return redirect()->route('unggah.pengetahuan')
                 ->with('success', 'Pengetahuan berhasil diunggah! Tim kami akan melakukan review dalam waktu 1-3 hari kerja.');
@@ -156,6 +154,7 @@ class KnowledgeController extends Controller
             abort(404, 'File tidak ditemukan.');
         }
 
+        // ANCHOR: Log Knowledge Download Activity
         $this->logKnowledgeDownload($knowledge->title);
 
         return Storage::disk('public')->download($knowledge->file_path, $knowledge->file_name);
@@ -195,6 +194,9 @@ class KnowledgeController extends Controller
 
         $knowledge->approve(auth()->id(), null);
 
+        // ANCHOR: Log Knowledge Approval Activity
+        $this->logKnowledgeApproval($knowledge->title);
+
         return redirect()->route('verifikasi.pengetahuan')
             ->with('success', 'Pengetahuan berhasil disetujui!');
     }
@@ -208,6 +210,9 @@ class KnowledgeController extends Controller
         }
 
         $knowledge->reject(auth()->id(), null);
+
+        // ANCHOR: Log Knowledge Rejection Activity
+        $this->logKnowledgeRejection($knowledge->title);
 
         return redirect()->route('verifikasi.pengetahuan')
             ->with('success', 'Pengetahuan berhasil ditolak.');
@@ -247,6 +252,9 @@ class KnowledgeController extends Controller
 
         $knowledge->validate(auth()->id(), null);
 
+        // ANCHOR: Log Knowledge Validation Activity
+        $this->logKnowledgeValidation($knowledge->title);
+
         return redirect()->route('validasi.pengetahuan')
             ->with('success', 'Pengetahuan berhasil divalidasi!');
     }
@@ -260,6 +268,9 @@ class KnowledgeController extends Controller
         }
 
         $knowledge->reject(auth()->id(), null);
+
+        // ANCHOR: Log Knowledge Validation Rejection Activity
+        $this->logKnowledgeValidationRejection($knowledge->title);
 
         return redirect()->route('validasi.pengetahuan')
             ->with('success', 'Pengetahuan berhasil ditolak.');
@@ -376,8 +387,8 @@ class KnowledgeController extends Controller
                 Storage::disk('public')->delete($knowledge->file_path);
             }
 
-            // ANCHOR: Log Activity before deletion
-            $this->logActivity('delete', 'knowledge', $knowledge->id, 'Deleted knowledge: ' . $knowledge->title);
+            // ANCHOR: Log Knowledge Deletion Activity
+            $this->logKnowledgeDeletion($knowledge->title);
 
             // ANCHOR: Delete knowledge record
             $knowledge->delete();

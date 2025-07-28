@@ -158,23 +158,23 @@
         @endif
     </div>
     <div class="preview-file-content">
-        @if($pageType === 'public')
-            @if(in_array(strtolower(pathinfo($knowledge->file_path, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+            @php
+                $ext = strtolower(pathinfo($knowledge->file_name ?? $knowledge->file_path, PATHINFO_EXTENSION));
+            @endphp
+            @if(in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']))
                 <img src="{{ asset('storage/'.$knowledge->file_path) }}" alt="Preview File">
-            @elseif(in_array(strtolower(pathinfo($knowledge->file_path, PATHINFO_EXTENSION)), ['pdf']))
-                <iframe src="{{ asset('storage/'.$knowledge->file_path) }}" width="100%" height="600px"></iframe>
+            @elseif(in_array($ext, ['mp4', 'webm', 'ogg']))
+                <video width="100%" height="auto" controls>
+                    <source src="{{ asset('storage/'.$knowledge->file_path) }}" type="video/{{ $ext }}">
+                    Browser Anda tidak mendukung tag video.
+                </video>
             @else
                 <div class="file-preview-placeholder">
                     <i class="fas fa-file-alt"></i>
-                    <p>Preview tidak tersedia untuk jenis file ini</p>
-                    <a href="{{ route('repositori.publik.download', $knowledge) }}" class="btn btn-primary">
-                        Unduh File
-                    </a>
+                    <p>Preview tidak tersedia untuk jenis file ini {{ $ext }}</p>
+                    <p class="file-name">{{ $knowledge->file_name ?? basename($knowledge->file_path) }}</p>
                 </div>
             @endif
-        @else
-            <img src="{{ asset('storage/'.$knowledge->file_path) }}" alt="Preview File">
-        @endif
     </div>
 </div>
 

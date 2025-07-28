@@ -97,4 +97,60 @@ trait ActivityLogger
     {
         $this->logActivity('menghapus_komentar_forum', "Menghapus komentar pada diskusi: {$discussionTitle}");
     }
+
+    /**
+     * ANCHOR: Log knowledge upload
+     */
+    protected function logKnowledgeUpload($knowledgeTitle)
+    {
+        $this->logActivity('mengunggah_pengetahuan', "Mengunggah pengetahuan: {$knowledgeTitle}");
+    }
+
+    /**
+     * ANCHOR: Log knowledge download
+     */
+    protected function logKnowledgeDownload($knowledgeTitle)
+    {
+        $this->logActivity('mengunduh_pengetahuan', "Mengunduh pengetahuan: {$knowledgeTitle}");
+    }
+
+    /**
+     * ANCHOR: Log knowledge approval
+     */
+    protected function logKnowledgeApproval($knowledgeTitle)
+    {
+        $this->logActivity('menyetujui_pengetahuan', "Menyetujui pengetahuan: {$knowledgeTitle}");
+    }
+
+    /**
+     * ANCHOR: Log knowledge rejection
+     */
+    protected function logKnowledgeRejection($knowledgeTitle)
+    {
+        $this->logActivity('menolak_pengetahuan', "Menolak pengetahuan: {$knowledgeTitle}");
+    }
+
+    /**
+     * ANCHOR: Log knowledge validation
+     */
+    protected function logKnowledgeValidation($knowledgeTitle)
+    {
+        $this->logActivity('memvalidasi_pengetahuan', "Memvalidasi pengetahuan: {$knowledgeTitle}");
+    }
+
+    /**
+     * ANCHOR: Log knowledge validation rejection
+     */
+    protected function logKnowledgeValidationRejection($knowledgeTitle)
+    {
+        $this->logActivity('menolak_validasi_pengetahuan', "Menolak pengetahuan: {$knowledgeTitle}");
+    }
+
+    /**
+     * ANCHOR: Log knowledge deletion
+     */
+    protected function logKnowledgeDeletion($knowledgeTitle)
+    {
+        $this->logActivity('menghapus_pengetahuan', "Menghapus pengetahuan: {$knowledgeTitle}");
+    }
 } 

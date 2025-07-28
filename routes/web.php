@@ -157,6 +157,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/validasi-pengetahuan/{knowledge}/reject', [KnowledgeController::class, 'rejectValidation'])->name('validasi.pengetahuan.reject');
     });
     
+    // Repositori Publik - accessible to all authenticated users
+    Route::get('/repositori-publik', [KnowledgeController::class, 'publicIndex'])->name('repositori.publik');
+    Route::get('/repositori-publik/{knowledge}', [KnowledgeController::class, 'publicShow'])->name('repositori.publik.detail');
+    Route::get('/repositori-publik/{knowledge}/download', [KnowledgeController::class, 'publicDownload'])->name('repositori.publik.download');
+    
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

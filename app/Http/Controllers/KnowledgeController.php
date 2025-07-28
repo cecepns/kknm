@@ -264,4 +264,75 @@ class KnowledgeController extends Controller
         return redirect()->route('validasi.pengetahuan')
             ->with('success', 'Pengetahuan berhasil ditolak.');
     }
+
+    // ANCHOR: Show Public Repository Index
+    public function publicIndex(Request $request)
+    {
+        $query = Knowledge::with('user')
+            ->where('status', 'validated')
+            ->orderBy('created_at', 'desc');
+
+        // ANCHOR: Apply search filter
+        if ($request->filled('search')) {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // ANCHOR: Apply category filter
+        if ($request->filled('category')) {
+            $query->where('field_category', $request->get('category'));
+        }
+
+        // ANCHOR: Apply file type filter
+        if ($request->filled('file_type')) {
+            $query->where('file_type', $request->get('file_type'));
+        }
+
+        // ANCHOR: Apply location filter
+        if ($request->filled('location')) {
+            $query->where('kkn_type', $request->get('location'));
+        }
+
+        // ANCHOR: Apply KKN type filter
+        if ($request->filled('kkn_type')) {
+            $query->where('kkn_type', $request->get('kkn_type'));
+        }
+
+        // ANCHOR: Apply year filter
+        if ($request->filled('year')) {
+            $query->where('kkn_year', $request->get('year'));
+        }
+
+        $knowledgeItems = $query->paginate(10);
+
+        return view('kelola-pengetahuan.daftar-publik', compact('knowledgeItems'));
+    }
+
+    // ANCHOR: Show Public Repository Detail
+    public function publicShow(Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'validated') {
+            abort(404, 'Pengetahuan tidak ditemukan.');
+        }
+
+        return view('kelola-pengetahuan.detail', compact('knowledge'))
+            ->with('pageType', 'public');
+    }
+
+    // ANCHOR: Download Public Repository File
+    public function publicDownload(Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'validated') {
+            abort(404, 'File tidak ditemukan.');
+        }
+
+        if (!Storage::disk('public')->exists($knowledge->file_path)) {
+            abort(404, 'File tidak ditemukan.');
+        }
+
+        return Storage::disk('public')->download($knowledge->file_path);
+    }
 }

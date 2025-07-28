@@ -83,8 +83,8 @@
 
         <!-- Menu untuk semua role -->
         @permission('repositori-publik')
-        <li class="{{ request()->is('public-repository*') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('repositori-publik*') ? 'active' : '' }}">
+            <a href="{{ route('repositori.publik') }}">
                 Repositori Publik
             </a>
         </li>

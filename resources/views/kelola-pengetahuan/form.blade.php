@@ -1,11 +1,11 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Unggah Pengetahuan - KMS KKN')
+@section('title', isset($knowledge) ? 'Edit Pengetahuan - KMS KKN' : 'Unggah Pengetahuan - KMS KKN')
 
 @section('content')
 <div class="page-header">
     <div>
-        <h1 class="page-title">Unggah Pengetahuan</h1>
+        <h1 class="page-title">{{ isset($knowledge) ? 'Edit Pengetahuan' : 'Unggah Pengetahuan' }}</h1>
     </div>
 </div>
 
@@ -22,8 +22,11 @@
     </div>
 @endif
 
-<form action="{{ route('unggah.pengetahuan.store') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+<form action="{{ isset($knowledge) ? route('kelola.repositori.update', $knowledge) : route('unggah.pengetahuan.store') }}" method="POST" enctype="multipart/form-data" class="upload-form">
     @csrf
+    @if(isset($knowledge))
+        @method('PUT')
+    @endif
     
     <!-- ANCHOR: Form Fields -->
     <div class="form-section">
@@ -34,7 +37,7 @@
                 name="title" 
                 class="form-control @error('title') error @enderror" 
                 placeholder="Masukkan judul pengetahuan"
-                value="{{ old('title') }}"
+                value="{{ old('title', isset($knowledge) ? $knowledge->title : '') }}"
                 required>
             @error('title')
                 <div class="error-message">{{ $message }}</div>
@@ -48,7 +51,7 @@
                     class="form-control @error('description') error @enderror" 
                     rows="4"
                     placeholder="Masukkan deskripsi pengetahuan"
-                    required>{{ old('description') }}</textarea>
+                    required>{{ old('description', isset($knowledge) ? $knowledge->description : '') }}</textarea>
             @error('description')
                 <div class="error-message">{{ $message }}</div>
             @enderror
@@ -72,7 +75,7 @@
                         required>
                     <option value="">Pilih Jenis KKN</option>
                     @foreach($jenis_kkn as $jenis)
-                        <option value="{{ $jenis['value'] }}" {{ old('kkn_type') == $jenis['value'] ? 'selected' : '' }}>
+                        <option value="{{ $jenis['value'] }}" {{ old('kkn_type', isset($knowledge) ? $knowledge->kkn_type : '') == $jenis['value'] ? 'selected' : '' }}>
                             {{ $jenis['label'] }}
                         </option>
                     @endforeach
@@ -96,7 +99,7 @@
                         required>
                     <option value="">Pilih Tahun KKN</option>
                     @foreach($tahun_kkn as $tahun)
-                        <option value="{{ $tahun }}" {{ old('kkn_year') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
+                        <option value="{{ $tahun }}" {{ old('kkn_year', isset($knowledge) ? $knowledge->kkn_year : '') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
                     @endforeach
                 </select>
                 @error('kkn_year')
@@ -112,7 +115,7 @@
                         required>
                     <option value="">Pilih Jenis File</option>
                     @foreach($jenis_file as $jenis)
-                        <option value="{{ $jenis['value'] }}" {{ old('file_type') == $jenis['value'] ? 'selected' : '' }}>
+                        <option value="{{ $jenis['value'] }}" {{ old('file_type', isset($knowledge) ? $knowledge->file_type : '') == $jenis['value'] ? 'selected' : '' }}>
                             {{ $jenis['label'] }}
                         </option>
                     @endforeach
@@ -130,7 +133,7 @@
                         required>
                     <option value="">Pilih kategori</option>
                     @foreach($kategori_bidang as $kategori)
-                        <option value="{{ $kategori['value'] }}" {{ old('field_category') == $kategori['value'] ? 'selected' : '' }}>
+                        <option value="{{ $kategori['value'] }}" {{ old('field_category', isset($knowledge) ? $knowledge->field_category : '') == $kategori['value'] ? 'selected' : '' }}>
                             {{ $kategori['label'] }}
                         </option>
                     @endforeach
@@ -148,7 +151,7 @@
                     name="kkn_location" 
                     class="form-control @error('kkn_location') error @enderror" 
                     placeholder="Masukkan lokasi KKN"
-                    value="{{ old('kkn_location') }}"
+                    value="{{ old('kkn_location', isset($knowledge) ? $knowledge->kkn_location : '') }}"
                     required>
                 @error('kkn_location')
                     <div class="error-message">{{ $message }}</div>
@@ -163,7 +166,7 @@
                         required>
                     <option value="">Pilih nomor kelompok KKN</option>
                     @foreach($nomor_kelompok_kkn as $nomor)
-                        <option value="{{ $nomor }}" {{ old('group_number') == $nomor ? 'selected' : '' }}>Kelompok {{ $nomor }}</option>
+                        <option value="{{ $nomor }}" {{ old('group_number', isset($knowledge) ? $knowledge->group_number : '') == $nomor ? 'selected' : '' }}>Kelompok {{ $nomor }}</option>
                     @endforeach
                 </select>
                 @error('group_number')
@@ -183,7 +186,7 @@
                     name="additional_info" 
                     class="form-control @error('additional_info') error @enderror" 
                     rows="4"
-                    placeholder="Masukkan informasi tambahan jika diperlukan">{{ old('additional_info') }}</textarea>
+                    placeholder="Masukkan informasi tambahan jika diperlukan">{{ old('additional_info', isset($knowledge) ? $knowledge->additional_info : '') }}</textarea>
             @error('additional_info')
                 <div class="error-message">{{ $message }}</div>
             @enderror
@@ -204,13 +207,13 @@
                             Pilih File
                         </button>
                     </div>
-                    <input 
-                        type="file" 
-                        id="file" 
-                        name="file" 
-                        class="file-input @error('file') error @enderror"
-                        accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4,.avi,.mov"
-                        required>
+                                            <input 
+                            type="file" 
+                            id="file" 
+                            name="file" 
+                            class="file-input @error('file') error @enderror"
+                            accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4,.avi,.mov"
+                            {{ !isset($knowledge) ? 'required' : '' }}>
                 </div>
                 <div id="filePreview" class="file-preview" style="display: none;">
                     <div class="file-preview-content">
@@ -225,6 +228,7 @@
         </div>
     </div>
 
+    @if(!isset($knowledge))
     <!-- ANCHOR: Declaration Checkbox -->
     <div class="form-section">
         <div class="form-group">
@@ -243,14 +247,15 @@
             @enderror
         </div>
     </div>
+    @endif
 
     <!-- ANCHOR: Form Actions -->
     <div class="form-actions">
-        <a href="{{ route('unggah.pengetahuan') }}" class="btn btn-secondary">
+        <a href="{{ isset($knowledge) ? route('kelola.repositori') : route('unggah.pengetahuan') }}" class="btn btn-secondary">
             Kembali ke Daftar
         </a>
         <button type="submit" class="btn btn-primary">
-            Unggah
+            {{ isset($knowledge) ? 'Update' : 'Unggah' }}
         </button>
     </div>
 </form>

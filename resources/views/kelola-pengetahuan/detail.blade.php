@@ -19,6 +19,11 @@
         <a href="{{ route('repositori.publik') }}" class="btn btn-secondary">
             Kembali ke Repositori
         </a>
+    @elseif ($pageType === 'repository')
+        <h1 class="page-title">Detail Pengetahuan</h1>
+        <a href="{{ route('kelola.repositori') }}" class="btn btn-secondary">
+            Kembali ke Kelola Repositori
+        </a>
     @else
         <h1 class="page-title">Detail Verifikasi Pengetahuan</h1>
         <a href="{{ route('verifikasi.pengetahuan') }}" class="btn btn-secondary">
@@ -173,7 +178,17 @@
     </div>
 </div>
 
-@if(($pageType ?? null) !== 'public' && (auth()->user()->role_id == 1 || auth()->user()->role_id == 2))
+@if($pageType === 'repository')
+<div class="detail-action">
+    <form action="{{ route('kelola.repositori.destroy', $knowledge) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengetahuan ini?')">
+            Delete
+        </button>
+    </form>
+</div>
+@elseif(($pageType ?? null) !== 'public' && (auth()->user()->role_id == 1 || auth()->user()->role_id == 2))
 <div class="detail-action">
     @if(auth()->user()->role_id == 2)
     <form action="{{ route('verifikasi.pengetahuan.reject', $knowledge) }}" method="POST" style="display:inline;">

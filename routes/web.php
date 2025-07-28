@@ -162,6 +162,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/repositori-publik/{knowledge}', [KnowledgeController::class, 'publicShow'])->name('repositori.publik.detail');
     Route::get('/repositori-publik/{knowledge}/download', [KnowledgeController::class, 'publicDownload'])->name('repositori.publik.download');
     
+    // Kelola Repositori - Admin only
+    Route::middleware(['permission:kelola-repositori'])->group(function () {
+        Route::get('/kelola-repositori', [KnowledgeController::class, 'repositoryIndex'])->name('kelola.repositori');
+        Route::get('/kelola-repositori/{knowledge}', [KnowledgeController::class, 'repositoryShow'])->name('kelola.repositori.detail');
+        Route::delete('/kelola-repositori/{knowledge}', [KnowledgeController::class, 'repositoryDestroy'])->name('kelola.repositori.destroy');
+    });
+    
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

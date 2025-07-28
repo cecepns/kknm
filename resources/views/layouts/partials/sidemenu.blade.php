@@ -74,8 +74,8 @@
 
         <!-- Menu untuk Koordinator KKN -->
         @permission('kelola-repositori')
-        <li class="{{ request()->is('repository*') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('kelola-repositori*') ? 'active' : '' }}">
+            <a href="{{ route('kelola.repositori') }}">
                 Kelola Repositori
             </a>
         </li>

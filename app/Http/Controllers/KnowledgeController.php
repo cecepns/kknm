@@ -335,4 +335,59 @@ class KnowledgeController extends Controller
 
         return Storage::disk('public')->download($knowledge->file_path);
     }
+
+    // ANCHOR: Show Repository Management Index
+    public function repositoryIndex()
+    {
+        $allKnowledge = Knowledge::with('user')
+            ->where('status', 'validated')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('kelola-pengetahuan.daftar', compact('allKnowledge'))
+            ->with('pageType', 'repository');
+    }
+
+
+
+    // ANCHOR: Show Repository Detail
+    public function repositoryShow(Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'validated') {
+            return redirect()->route('kelola.repositori')
+                ->with('error', 'Hanya pengetahuan yang sudah divalidasi yang dapat dilihat.');
+        }
+
+        return view('kelola-pengetahuan.detail', compact('knowledge'))
+            ->with('pageType', 'repository');
+    }
+
+    // ANCHOR: Delete Repository Knowledge
+    public function repositoryDestroy(Knowledge $knowledge)
+    {
+        if ($knowledge->status !== 'validated') {
+            return redirect()->route('kelola.repositori')
+                ->with('error', 'Hanya pengetahuan yang sudah divalidasi yang dapat dihapus.');
+        }
+
+        try {
+            // ANCHOR: Delete file from storage
+            if (Storage::disk('public')->exists($knowledge->file_path)) {
+                Storage::disk('public')->delete($knowledge->file_path);
+            }
+
+            // ANCHOR: Log Activity before deletion
+            $this->logActivity('delete', 'knowledge', $knowledge->id, 'Deleted knowledge: ' . $knowledge->title);
+
+            // ANCHOR: Delete knowledge record
+            $knowledge->delete();
+
+            return redirect()->route('kelola.repositori')
+                ->with('success', 'Pengetahuan berhasil dihapus!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat menghapus pengetahuan: ' . $e->getMessage());
+        }
+    }
 }

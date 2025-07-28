@@ -1,10 +1,26 @@
 @extends('layouts.dashboard')
 
-@section('title', $pageType === 'validation' ? 'Validasi Pengetahuan - KMS KKN' : 'Verifikasi Pengetahuan - KMS KKN')
+@section('title', $pageType === 'validation' ? 'Validasi Pengetahuan - KMS KKN' : ($pageType === 'user' ? 'Daftar Pengetahuan Saya - KMS KKN' : 'Verifikasi Pengetahuan - KMS KKN'))
 
 @section('content')
+
 <div class="page-header">
-    <h1 class="page-title">{{ $pageType === 'validation' ? 'Validasi Pengetahuan' : 'Verifikasi Pengetahuan' }}</h1>
+    <div>
+        <h1 class="page-title">
+            @if($pageType === 'validation')
+                Validasi Pengetahuan
+            @elseif($pageType === 'user')
+                Daftar Pengetahuan Saya
+            @else
+                Verifikasi Pengetahuan
+            @endif
+        </h1>
+    </div>
+    @if($pageType === 'user')
+        <a href="{{ route('unggah.pengetahuan.create') }}" class="btn btn-primary">
+            Unggah Pengetahuan Baru
+        </a>
+    @endif
 </div>
 
 <!-- ANCHOR: Flash Messages -->
@@ -20,39 +36,42 @@
     </div>
 @endif
 
-<div class="verification-container">
-    @if(($pageType === 'validation' ? $verifiedKnowledge : $pendingKnowledge)->count() > 0)
+    @if($pageType === 'user' ? $userKnowledge->count() > 0 : ($pageType === 'validation' ? $verifiedKnowledge->count() > 0 : $pendingKnowledge->count() > 0))
         <div class="table-container">
-            <table class="verification-table">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Judul Pengetahuan</th>
                         <th>Jenis File</th>
                         <th>Kategori</th>
-                        <th>Pengunggah</th>
+                        @if($pageType !== 'user')
+                            <th>Pengunggah</th>
+                        @endif
+                    
                         <th>{{ $pageType === 'validation' ? 'Tanggal Verifikasi' : 'Tanggal Unggah' }}</th>
+                        
+                        @if($pageType === 'user')
+                            <th>Status</th>
+                        @endif
+                        
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pageType === 'validation' ? $verifiedKnowledge : $pendingKnowledge as $knowledge)
+                    @foreach($pageType === 'user' ? $userKnowledge : ($pageType === 'validation' ? $verifiedKnowledge : $pendingKnowledge) as $knowledge)
                         <tr>
                             <td class="knowledge-title">{{ $knowledge->title }}</td>
                             <td class="file-type">
-                                <a href="#" class="link-primary">
-                                    {{ \App\Helpers\UniversityDataHelper::getJenisFileLabel($knowledge->file_type) }}
-                                </a>
+                                {{ \App\Helpers\UniversityDataHelper::getJenisFileLabel($knowledge->file_type) }}
                             </td>
                             <td class="category">
-                                <a href="#" class="link-primary">
                                     {{ \App\Helpers\UniversityDataHelper::getKategoriBidangLabel($knowledge->field_category) }}
-                                </a>
                             </td>
-                            <td class="uploader">
-                                <a href="#" class="link-primary">
+                            @if($pageType !== 'user')
+                                <td class="uploader">
                                     {{ $knowledge->user->name }}
-                                </a>
-                            </td>
+                                </td>
+                            @endif
                             <td class="upload-date">
                                 @if($pageType === 'validation')
                                     {{ $knowledge->approved_at ? $knowledge->approved_at->format('Y-m-d') : '-' }}
@@ -60,9 +79,30 @@
                                     {{ $knowledge->created_at->format('Y-m-d') }}
                                 @endif
                             </td>
+                            @if($pageType === 'user')
+                                <td class="status">
+                                    @switch($knowledge->status)
+                                        @case('pending')
+                                            <span >Menunggu Review</span>
+                                            @break
+                                        @case('verified')
+                                            <span>Terverifikasi</span>
+                                            @break
+                                        @case('validated')
+                                            <span>Tervalidasi</span>
+                                            @break
+                                        @case('rejected')
+                                            <span>Ditolak</span>
+                                            @break
+                                        @default
+                                            <span class="status-badge">{{ ucfirst($knowledge->status) }}</span>
+                                    @endswitch
+                                </td>
+                            @endif
                             <td class="action">
-                                <a href="{{ $pageType === 'validation' ? route('validasi.pengetahuan.detail', $knowledge) : route('verifikasi.pengetahuan.detail', $knowledge) }}" 
-                                   class="btn btn-primary btn-sm">
+                                <a 
+                                    href="{{ $pageType === 'validation' ? route('validasi.pengetahuan.detail', $knowledge) : ($pageType === 'user' ? route('unggah.pengetahuan.detail', $knowledge) : route('verifikasi.pengetahuan.detail', $knowledge)) }}" 
+                                    class="btn btn-primary btn-sm">
                                     Lihat Detail
                                 </a>
                             </td>
@@ -73,111 +113,25 @@
         </div>
     @else
         <div class="empty-state">
-            <div class="empty-state-icon">📋</div>
-            <h3 class="empty-state-title">Tidak Ada Data {{ $pageType === 'validation' ? 'Validasi' : 'Verifikasi' }}</h3>
+            <h3 class="empty-state-title">
+                @if($pageType === 'user')
+                    Belum Ada Pengetahuan
+                @else
+                    Tidak Ada Data {{ $pageType === 'validation' ? 'Validasi' : 'Verifikasi' }}
+                @endif
+            </h3>
             <p class="empty-state-description">
-                Saat ini tidak ada pengetahuan yang menunggu {{ $pageType === 'validation' ? 'validasi' : 'verifikasi' }}.
+                @if($pageType === 'user')
+                    Anda belum mengunggah pengetahuan apapun. Mulai unggah pengetahuan pertama Anda!
+                @else
+                    Saat ini tidak ada pengetahuan yang menunggu {{ $pageType === 'validation' ? 'validasi' : 'verifikasi' }}.
+                @endif
             </p>
+            @if($pageType === 'user')
+                <a href="{{ route('unggah.pengetahuan.create') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Unggah Pengetahuan Pertama
+                </a>
+            @endif
         </div>
     @endif
-</div>
-
-<style>
-.verification-container {
-    background: white;
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.table-container {
-    overflow-x: auto;
-}
-
-.verification-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 16px;
-}
-
-.verification-table th {
-    background-color: #f8f9fa;
-    padding: 12px 16px;
-    text-align: left;
-    font-weight: 600;
-    color: #495057;
-    border-bottom: 2px solid #dee2e6;
-}
-
-.verification-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #e9ecef;
-    vertical-align: middle;
-}
-
-.verification-table tbody tr:hover {
-    background-color: #f8f9fa;
-}
-
-.knowledge-title {
-    font-weight: 500;
-    color: #212529;
-}
-
-.link-primary {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.link-primary:hover {
-    text-decoration: underline;
-}
-
-.upload-date {
-    color: #6c757d;
-    font-size: 0.9em;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.875em;
-    display: inline-block;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-    text-decoration: none;
-    color: white;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #6c757d;
-}
-
-.empty-state-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-}
-
-.empty-state-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #495057;
-}
-
-.empty-state-description {
-    font-size: 0.9rem;
-    margin: 0;
-}
-</style>
 @endsection 

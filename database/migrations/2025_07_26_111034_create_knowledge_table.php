@@ -24,8 +24,8 @@ return new class extends Migration
             $table->year('kkn_year');
             $table->enum('file_type', ['dokumen', 'presentasi', 'video', 'gambar', 'lainnya']);
             $table->enum('field_category', ['pendidikan', 'kesehatan', 'ekonomi', 'lingkungan', 'teknologi', 'sosial']);
-            $table->string('kkn_location');
-            $table->integer('group_number');
+            $table->string('kkn_location')->nullable();
+            $table->integer('group_number')->nullable();
             
             // ANCHOR: File Information
             $table->string('file_name');
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->bigInteger('file_size'); // in bytes
             
             // ANCHOR: Status and Approval
-            $table->enum('status', ['pedding', 'verified', 'validated', 'classified', 'rejected'])->default('pedding');
+            $table->enum('status', ['pending', 'verified', 'validated', 'rejected'])->default('pending');
             $table->text('review_notes')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->unsignedBigInteger('approved_by')->nullable();

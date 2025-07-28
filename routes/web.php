@@ -43,6 +43,9 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Utility Demo (for development)
+    Route::get('/utility-demo', [DashboardController::class, 'utilityDemo'])->name('utility.demo');
 
     // Monitoring Aktivitas - Admin only
     Route::middleware(['permission:monitoring-aktifitas'])->group(function () {
@@ -131,8 +134,10 @@ Route::middleware(['auth'])->group(function () {
     
     // Unggah Pengetahuan - memerlukan permission unggah-pengetahuan
     Route::middleware(['permission:unggah-pengetahuan'])->group(function () {
-        Route::get('/unggah-pengetahuan', [KnowledgeController::class, 'create'])->name('unggah.pengetahuan');
+        Route::get('/unggah-pengetahuan', [KnowledgeController::class, 'userIndex'])->name('unggah.pengetahuan');
+        Route::get('/unggah-pengetahuan/tambah', [KnowledgeController::class, 'create'])->name('unggah.pengetahuan.create');
         Route::post('/unggah-pengetahuan', [KnowledgeController::class, 'store'])->name('unggah.pengetahuan.store');
+        Route::get('/unggah-pengetahuan/{id}', [KnowledgeController::class, 'show'])->name('unggah.pengetahuan.detail');
         Route::get('/unggah-pengetahuan/{knowledge}/download', [KnowledgeController::class, 'download'])->name('unggah.pengetahuan.download');
     });
     

@@ -10,7 +10,7 @@
     </div>
     @permission('kelola-pengguna-internal')
     <a href="{{ route('form.tambah.pengguna.internal') }}" class="btn btn-primary">
-        👤 Tambah Pengguna
+        Tambah Pengguna
     </a>
     @endpermission
 </div>

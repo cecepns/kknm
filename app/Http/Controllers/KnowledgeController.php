@@ -14,6 +14,18 @@ class KnowledgeController extends Controller
 {
     use ActivityLogger;
 
+    // ANCHOR: Show User's Knowledge List
+    public function userIndex()
+    {
+        $userKnowledge = Knowledge::where('user_id', auth()->id())
+            ->where('status', '!=', 'approved')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('kelola-pengetahuan.daftar', compact('userKnowledge'))
+            ->with('pageType', 'user');
+    }
+
     // ANCHOR: Show Upload Form
     public function create()
     {
@@ -22,7 +34,22 @@ class KnowledgeController extends Controller
             ->with('tahun_kkn', UniversityDataHelper::getTahunKKN())
             ->with('nomor_kelompok_kkn', UniversityDataHelper::getNoKelompokKKN())
             ->with('jenis_file', UniversityDataHelper::getJenisFile())
-            ->with('kategori_bidang', UniversityDataHelper::getKategoriBidang());
+            ->with('kategori_bidang', UniversityDataHelper::getKategoriBidang())
+            ->with('user_role', auth()->user()->role_id);
+    }
+
+    // ANCHOR: Show Knowledge Detail
+    public function show($id)
+    {
+        $knowledge = Knowledge::with('user')->findOrFail($id);
+        
+        // Check if user has permission to view this knowledge
+        if (auth()->user()->id !== $knowledge->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+        
+        return view('kelola-pengetahuan.detail', compact('knowledge'))
+            ->with('pageType', 'user');
     }
 
     // ANCHOR: Store Knowledge
@@ -36,8 +63,6 @@ class KnowledgeController extends Controller
             'kkn_year' => 'required|integer|min:2020|max:' . (date('Y') + 50),
             'file_type' => 'required|in:dokumen,presentasi,video,gambar,lainnya',
             'field_category' => 'required|in:pendidikan,kesehatan,ekonomi,lingkungan,teknologi,sosial',
-            'kkn_location' => 'required|string|max:255',
-            'group_number' => 'required|integer|min:1|max:100',
             'file' => 'required|file|max:102400', // 100MB max
             'declaration' => 'required|accepted',
         ], [
@@ -56,13 +81,6 @@ class KnowledgeController extends Controller
             'file_type.in' => 'Jenis file tidak valid.',
             'field_category.required' => 'Kategori bidang harus dipilih.',
             'field_category.in' => 'Kategori bidang tidak valid.',
-            'kkn_location.required' => 'Lokasi KKN harus diisi.',
-            'kkn_location.string' => 'Lokasi KKN harus berupa teks.',
-            'kkn_location.max' => 'Lokasi KKN maksimal 255 karakter.',
-            'group_number.required' => 'Nomor kelompok harus dipilih.',
-            'group_number.integer' => 'Nomor kelompok harus berupa angka.',
-            'group_number.min' => 'Nomor kelompok minimal 1.',
-            'group_number.max' => 'Nomor kelompok maksimal 100.',
             'file.required' => 'File harus diunggah.',
             'file.file' => 'File yang diunggah tidak valid.',
             'file.max' => 'Ukuran file maksimal 100MB.',
@@ -100,10 +118,9 @@ class KnowledgeController extends Controller
                 'file_mime_type' => $file->getClientMimeType(),
                 'file_size' => $file->getSize(),
                 'user_id' => auth()->id(),
-                'status' => 'pedding',
+                'status' => 'pending',
             ]);
 
-            $this->logKnowledgeUpload($knowledge->title);
 
             return redirect()->route('unggah.pengetahuan')
                 ->with('success', 'Pengetahuan berhasil diunggah! Tim kami akan melakukan review dalam waktu 1-3 hari kerja.');
@@ -148,7 +165,7 @@ class KnowledgeController extends Controller
     public function verificationIndex()
     {
         $pendingKnowledge = Knowledge::with('user')
-            ->where('status', 'pedding')
+            ->where('status', 'pending')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -159,7 +176,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Show Verification Detail
     public function verificationShow(Knowledge $knowledge)
     {
-        if ($knowledge->status !== 'pedding') {
+        if ($knowledge->status !== 'pending') {
             return redirect()->route('verifikasi.pengetahuan')
                 ->with('error', 'Pengetahuan ini sudah diverifikasi.');
         }
@@ -171,7 +188,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Approve Knowledge
     public function approve(Request $request, Knowledge $knowledge)
     {
-        if ($knowledge->status !== 'pedding') {
+        if ($knowledge->status !== 'pending') {
             return redirect()->back()
                 ->with('error', 'Pengetahuan ini sudah diverifikasi.');
         }
@@ -185,7 +202,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Reject Knowledge
     public function reject(Request $request, Knowledge $knowledge)
     {
-        if ($knowledge->status !== 'pedding') {
+        if ($knowledge->status !== 'pending') {
             return redirect()->back()
                 ->with('error', 'Pengetahuan ini sudah diverifikasi.');
         }

@@ -12,6 +12,7 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/utilities.css') }}">
 </head>
 <body>
     <div class="dashboard-container">

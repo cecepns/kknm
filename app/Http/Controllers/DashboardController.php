@@ -42,6 +42,14 @@ class DashboardController extends Controller
     }
     
     /**
+     * ANCHOR: Display utility classes demo page
+     */
+    public function utilityDemo()
+    {
+        return view('examples.utility-demo');
+    }
+    
+    /**
      * ANCHOR: Get dashboard data based on user role
      */
     private function getDashboardData($user, $roleId)

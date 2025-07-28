@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Traits\ActivityLogger;
 
 class KnowledgeController extends Controller
 {
+    use ActivityLogger;
+
     // ANCHOR: Show Upload Form
     public function create()
     {
@@ -100,6 +103,8 @@ class KnowledgeController extends Controller
                 'status' => 'pedding',
             ]);
 
+            $this->logKnowledgeUpload($knowledge->title);
+
             return redirect()->route('unggah.pengetahuan')
                 ->with('success', 'Pengetahuan berhasil diunggah! Tim kami akan melakukan review dalam waktu 1-3 hari kerja.');
 
@@ -133,6 +138,8 @@ class KnowledgeController extends Controller
         if (!Storage::disk('public')->exists($knowledge->file_path)) {
             abort(404, 'File tidak ditemukan.');
         }
+
+        $this->logKnowledgeDownload($knowledge->title);
 
         return Storage::disk('public')->download($knowledge->file_path, $knowledge->file_name);
     }

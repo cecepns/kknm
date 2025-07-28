@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules\Password;
 use App\Helpers\UniversityDataHelper; 
+use App\Traits\ActivityLogger;
 
 
 class AuthController extends Controller
 {
+    use ActivityLogger;
+
     public function showRegisterForm()
     {
         return view('auth.register');
@@ -93,6 +96,7 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+        $this->logRegistration($user->name);
 
         return redirect()->route('dashboard');
     }
@@ -120,6 +124,7 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+        $this->logRegistration($user->name);
 
         return redirect()->route('dashboard');
     }
@@ -148,6 +153,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $this->logLogin();
             return redirect()->intended('dashboard');
         }
 
@@ -166,6 +172,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $this->logLogout();
         Auth::logout();
 
         $request->session()->invalidate();

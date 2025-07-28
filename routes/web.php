@@ -9,6 +9,7 @@ use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumDiscussionController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActivityController;
 
 
 /*
@@ -42,6 +43,11 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Monitoring Aktivitas - Admin only
+    Route::middleware(['permission:monitoring-aktifitas'])->group(function () {
+        Route::get('/monitoring-aktifitas', [ActivityController::class, 'index'])->name('monitoring.aktifitas');
+    });
 
     // Akses FAQ (memerlukan permission akses-faq)
     Route::middleware(['permission:akses-faq'])->group(function () {

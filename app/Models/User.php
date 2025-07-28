@@ -72,5 +72,13 @@ class User extends Authenticatable
         return $this->hasMany(ForumDiscussion::class);
     }
     
+    /**
+     * ANCHOR: Get activities performed by this user
+     */
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+    
 
 }

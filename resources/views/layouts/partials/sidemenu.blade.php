@@ -110,8 +110,8 @@
 
         <!-- Menu untuk Kepala PPM dan Koordinator KKN -->
         @permission('monitoring-aktifitas')
-        <li class="{{ request()->is('monitoring*') ? 'active' : '' }}">
-            <a href="#">
+        <li class="{{ request()->is('monitoring-aktifitas*') ? 'active' : '' }}">
+            <a href="{{ route('monitoring.aktifitas') }}">
                 Monitoring Aktifitas
             </a>
         </li>

@@ -7,9 +7,12 @@ use App\Models\ForumComment;
 use App\Models\ForumCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\ActivityLogger;
 
 class ForumDiscussionController extends Controller
 {
+    use ActivityLogger;
+
     public function index(Request $request)
     {
         $query = ForumDiscussion::with(['user', 'category', 'comments']);
@@ -62,6 +65,8 @@ class ForumDiscussionController extends Controller
             'comments_count' => 0
         ]);
 
+        $this->logForumDiscussion($request->title);
+
         return redirect()->route('forum.diskusi')->with('success', 'Diskusi berhasil dibuat!');
     }
 
@@ -81,6 +86,8 @@ class ForumDiscussionController extends Controller
         // Update comments count
         $discussion = ForumDiscussion::find($discussionId);
         $discussion->increment('comments_count');
+
+        $this->logForumComment($discussion->title);
 
         return redirect()->back()->with('success', 'Komentar berhasil ditambahkan!');
     }
@@ -107,13 +114,18 @@ class ForumDiscussionController extends Controller
             'forum_category_id' => $request->forum_category_id
         ]);
 
+        $this->logForumDiscussionUpdate($request->title);
+
         return redirect()->route('forum.diskusi')->with('success', 'Diskusi berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
         $discussion = ForumDiscussion::findOrFail($id);
+        $discussionTitle = $discussion->title;
         $discussion->delete();
+
+        $this->logForumDiscussionDelete($discussionTitle);
 
         return redirect()->route('forum.diskusi')->with('success', 'Diskusi berhasil dihapus!');
     }

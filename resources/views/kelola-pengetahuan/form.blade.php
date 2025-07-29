@@ -126,19 +126,19 @@
             </div>
 
             <div class="form-group">
-                <label for="field_category" class="form-label">Kategori Bidang KKN</label>
-                <select id="field_category" 
-                        name="field_category" 
-                        class="form-control @error('field_category') error @enderror"
+                <label for="category_id" class="form-label">Kategori Bidang KKN</label>
+                <select id="category_id" 
+                        name="category_id" 
+                        class="form-control @error('category_id') error @enderror"
                         required>
                     <option value="">Pilih kategori</option>
                     @foreach($kategori_bidang as $kategori)
-                        <option value="{{ $kategori['value'] }}" {{ old('field_category', isset($knowledge) ? $knowledge->field_category : '') == $kategori['value'] ? 'selected' : '' }}>
+                        <option value="{{ $kategori['value'] }}" {{ old('category_id', isset($knowledge) ? $knowledge->category_id : '') == $kategori['value'] ? 'selected' : '' }}>
                             {{ $kategori['label'] }}
                         </option>
                     @endforeach
                 </select>
-                @error('field_category')
+                @error('category_id')
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>

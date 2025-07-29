@@ -9,7 +9,7 @@
         <p class="text-gray-600">Halaman ini menampilkan daftar semua pengumuman yang telah dibuat.</p>
     </div>
     <a href="{{ route('form.tambah.kelola.pengumuman') }}" class="btn btn-primary">
-        ✨ Tambah Pengumuman
+            Tambah Pengumuman
     </a>
 </div>
 

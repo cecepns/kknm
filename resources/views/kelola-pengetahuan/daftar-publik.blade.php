@@ -29,7 +29,7 @@
         <div class="filter-group">
             <select id="categoryFilter" class="form-control">
                 <option value="">Kategori</option>
-                @foreach(\App\Helpers\UniversityDataHelper::getKategoriBidang() as $category)
+                @foreach(\App\Helpers\UniversityDataHelper::getKnowledgeCategories() as $category)
                     <option value="{{ $category['value'] }}" {{ request('category') == $category['value'] ? 'selected' : '' }}>
                         {{ $category['label'] }}
                     </option>
@@ -92,7 +92,7 @@
                     <h3 class="knowledge-title">{{ $knowledge->title }}</h3>
                     <div class="knowledge-metadata">
                         {{ \App\Helpers\UniversityDataHelper::getJenisFileLabel($knowledge->file_type) }} | 
-                        {{ \App\Helpers\UniversityDataHelper::getKategoriBidangLabel($knowledge->field_category) }} | 
+                        {{ $knowledge->category ? $knowledge->category->name : \App\Helpers\UniversityDataHelper::getKnowledgeCategoryLabel($knowledge->category_id) }} | 
                         Diunggah oleh: {{ $knowledge->user->name }} | 
                         {{ $knowledge->created_at->format('Y-m-d') }}
                     </div>

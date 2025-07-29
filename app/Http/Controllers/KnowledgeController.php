@@ -17,7 +17,8 @@ class KnowledgeController extends Controller
     // ANCHOR: Show User's Knowledge List
     public function userIndex()
     {
-        $userKnowledge = Knowledge::where('user_id', auth()->id())
+        $userKnowledge = Knowledge::with('category')
+            ->where('user_id', auth()->id())
             ->where('status', '!=', 'approved')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -41,7 +42,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Show Knowledge Detail
     public function show($id)
     {
-        $knowledge = Knowledge::with('user')->findOrFail($id);
+        $knowledge = Knowledge::with(['user', 'category'])->findOrFail($id);
         
         // Check if user has permission to view this knowledge
         if (auth()->user()->id !== $knowledge->user_id) {
@@ -62,7 +63,7 @@ class KnowledgeController extends Controller
             'kkn_type' => 'required|string|max:255',
             'kkn_year' => 'required|integer|min:2020|max:' . (date('Y') + 50),
             'file_type' => 'required|in:dokumen,presentasi,video,gambar,lainnya',
-            'field_category' => 'required|in:pendidikan,kesehatan,ekonomi,lingkungan,teknologi,sosial',
+            'category_id' => 'required|exists:knowledge_categories,id',
             'declaration' => 'required|accepted',
         ], [
             'title.required' => 'Judul pengetahuan harus diisi.',
@@ -78,8 +79,8 @@ class KnowledgeController extends Controller
             'kkn_year.max' => 'Tahun KKN tidak boleh lebih dari 50 tahun depan.',
             'file_type.required' => 'Jenis file harus dipilih.',
             'file_type.in' => 'Jenis file tidak valid.',
-            'field_category.required' => 'Kategori bidang harus dipilih.',
-            'field_category.in' => 'Kategori bidang tidak valid.',
+            'category_id.required' => 'Kategori bidang harus dipilih.',
+            'category_id.exists' => 'Kategori bidang tidak valid.',
             'declaration.required' => 'Anda harus menyetujui deklarasi.',
             'declaration.accepted' => 'Anda harus menyetujui deklarasi.',
         ]);
@@ -106,7 +107,7 @@ class KnowledgeController extends Controller
                 'kkn_type' => $request->kkn_type,
                 'kkn_year' => $request->kkn_year,
                 'file_type' => $request->file_type,
-                'field_category' => $request->field_category,
+                'category_id' => $request->category_id,
                 'kkn_location' => $request->kkn_location,
                 'group_number' => $request->group_number,
                 'file_name' => $file->getClientOriginalName(),
@@ -163,7 +164,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Show Verification Index
     public function verificationIndex()
     {
-        $pendingKnowledge = Knowledge::with('user')
+        $pendingKnowledge = Knowledge::with(['user', 'category'])
             ->where('status', 'pending')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -179,6 +180,8 @@ class KnowledgeController extends Controller
             return redirect()->route('verifikasi.pengetahuan')
                 ->with('error', 'Pengetahuan ini sudah diverifikasi.');
         }
+
+        $knowledge->load(['user', 'category']);
 
         return view('kelola-pengetahuan.detail', compact('knowledge'))
             ->with('pageType', 'verification');
@@ -221,7 +224,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Show Validation Index
     public function validationIndex()
     {
-        $verifiedKnowledge = Knowledge::with('user')
+        $verifiedKnowledge = Knowledge::with(['user', 'category'])
             ->where('status', 'verified')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -237,6 +240,8 @@ class KnowledgeController extends Controller
             return redirect()->route('validasi.pengetahuan')
                 ->with('error', 'Pengetahuan ini tidak dapat divalidasi.');
         }
+
+        $knowledge->load(['user', 'category']);
 
         return view('kelola-pengetahuan.detail', compact('knowledge'))
             ->with('pageType', 'validation');
@@ -279,7 +284,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Show Public Repository Index
     public function publicIndex(Request $request)
     {
-        $query = Knowledge::with('user')
+        $query = Knowledge::with(['user', 'category'])
             ->where('status', 'validated')
             ->orderBy('created_at', 'desc');
 
@@ -294,7 +299,7 @@ class KnowledgeController extends Controller
 
         // ANCHOR: Apply category filter
         if ($request->filled('category')) {
-            $query->where('field_category', $request->get('category'));
+            $query->where('category_id', $request->get('category'));
         }
 
         // ANCHOR: Apply file type filter
@@ -329,6 +334,8 @@ class KnowledgeController extends Controller
             abort(404, 'Pengetahuan tidak ditemukan.');
         }
 
+        $knowledge->load(['user', 'category']);
+
         return view('kelola-pengetahuan.detail', compact('knowledge'))
             ->with('pageType', 'public');
     }
@@ -350,7 +357,7 @@ class KnowledgeController extends Controller
     // ANCHOR: Show Repository Management Index
     public function repositoryIndex()
     {
-        $allKnowledge = Knowledge::with('user')
+        $allKnowledge = Knowledge::with(['user', 'category'])
             ->where('status', 'validated')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -368,6 +375,8 @@ class KnowledgeController extends Controller
             return redirect()->route('kelola.repositori')
                 ->with('error', 'Hanya pengetahuan yang sudah divalidasi yang dapat dilihat.');
         }
+
+        $knowledge->load(['user', 'category']);
 
         return view('kelola-pengetahuan.detail', compact('knowledge'))
             ->with('pageType', 'repository');

@@ -9,7 +9,7 @@
         <p class="text-gray-600">Halaman ini menampilkan daftar semua kategori forum diskusi yang telah dibuat.</p>
     </div>
     <a href="{{ route('form.tambah.kelola.kategori.forum') }}" class="btn btn-primary">
-        ✨ Tambah Kategori Forum Diskusi
+        Tambah Kategori Forum Diskusi
     </a>
 </div>
 

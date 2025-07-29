@@ -164,7 +164,7 @@ class UniversityDataHelper
      */
     public static function getTahunKKN(): array
     {
-        return range(2022, 2050);
+        return range(2025, 2050);
     }
 
     /**
@@ -200,19 +200,12 @@ class UniversityDataHelper
     }
 
     /**
-     * ANCHOR: Get all KKN field categories
+     * ANCHOR: Get all KKN field categories (alias for getKnowledgeCategories)
      * Returns array of KKN field categories with value and label
      */
     public static function getKategoriBidang(): array
     {
-        return [
-            ['value' => 'pendidikan', 'label' => 'Pendidikan'],
-            ['value' => 'kesehatan', 'label' => 'Kesehatan'],
-            ['value' => 'ekonomi', 'label' => 'Ekonomi'],
-            ['value' => 'lingkungan', 'label' => 'Lingkungan'],
-            ['value' => 'teknologi', 'label' => 'Teknologi'],
-            ['value' => 'sosial', 'label' => 'Sosial'],
-        ];
+        return self::getKnowledgeCategories();
     }
 
     /**
@@ -233,19 +226,62 @@ class UniversityDataHelper
     }
 
     /**
-     * ANCHOR: Get field category label by value
-     * Returns field category label for given value
+     * ANCHOR: Get all knowledge categories from database
+     * Returns array of knowledge categories with value and label
      */
-    public static function getKategoriBidangLabel(string $value): ?string
+    public static function getKnowledgeCategories(): array
     {
-        $kategoriBidang = self::getKategoriBidang();
-        
-        foreach ($kategoriBidang as $kategoriItem) {
-            if ($kategoriItem['value'] === $value) {
-                return $kategoriItem['label'];
-            }
+        try {
+            $categories = \App\Models\KnowledgeCategory::all();
+            
+            return $categories->map(function ($category) {
+                return [
+                    'value' => $category->id,
+                    'label' => $category->name,
+                ];
+            })->toArray();
+        } catch (\Exception $e) {
+            // Fallback to hardcoded categories if database is not available
+            return [
+                ['value' => 1, 'label' => 'Pendidikan'],
+                ['value' => 2, 'label' => 'Kesehatan'],
+                ['value' => 3, 'label' => 'Ekonomi'],
+                ['value' => 4, 'label' => 'Lingkungan'],
+                ['value' => 5, 'label' => 'Teknologi'],
+                ['value' => 6, 'label' => 'Sosial'],
+            ];
         }
-        
-        return null;
+    }
+
+    /**
+     * ANCHOR: Get knowledge category by ID
+     * Returns knowledge category for given ID
+     */
+    public static function getKnowledgeCategoryById(int $id): ?array
+    {
+        try {
+            $category = \App\Models\KnowledgeCategory::find($id);
+            
+            if ($category) {
+                return [
+                    'value' => $category->id,
+                    'label' => $category->name,
+                ];
+            }
+            
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * ANCHOR: Get knowledge category label by ID
+     * Returns knowledge category label for given ID
+     */
+    public static function getKnowledgeCategoryLabel(int $id): ?string
+    {
+        $category = self::getKnowledgeCategoryById($id);
+        return $category ? $category['label'] : null;
     }
 } 

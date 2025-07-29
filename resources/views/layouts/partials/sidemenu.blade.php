@@ -82,6 +82,15 @@
         </li>
         @endpermission
 
+        <!-- Menu untuk Admin -->
+        @permission('kelola-kategori-pengetahuan')
+        <li class="{{ request()->is('kelola-kategori-pengetahuan*') ? 'active' : '' }}">
+            <a href="{{ route('kelola.kategori.pengetahuan.index') }}">
+                Kelola Kategori Pengetahuan
+            </a>
+        </li>
+        @endpermission
+
         <!-- Menu untuk semua role -->
         @permission('forum-diskusi')
         <li class="{{ request()->is('forum-diskusi*') ? 'active' : '' }}">

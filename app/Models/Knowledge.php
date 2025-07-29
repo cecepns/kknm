@@ -19,7 +19,7 @@ class Knowledge extends Model
         'kkn_type',
         'kkn_year',
         'file_type',
-        'field_category',
+        'category_id',
         'kkn_location',
         'group_number',
         'file_name',
@@ -50,6 +50,11 @@ class Knowledge extends Model
     public function approvedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(KnowledgeCategory::class, 'category_id');
     }
 
     // ANCHOR: Accessors

@@ -38,6 +38,7 @@ class RoleSeeder extends Seeder
             'verifikasi-pengetahuan',
             'unggah-pengetahuan',
             'monitoring-aktifitas',
+            'kelola-kategori-pengetahuan',
         ];
 
         // Helper function to create access string from permission array
@@ -78,6 +79,7 @@ class RoleSeeder extends Seeder
                 'kelola-kategori-forum',
                 'forum-diskusi',
                 'kelola-forum-diskusi',
+                'kelola-kategori-pengetahuan',
             ],
             'Mahasiswa KKN' => [
                 'akses-pengumuman',

@@ -67,7 +67,7 @@
                                 {{ \App\Helpers\UniversityDataHelper::getJenisFileLabel($knowledge->file_type) }}
                             </td>
                             <td class="category">
-                                    {{ \App\Helpers\UniversityDataHelper::getKategoriBidangLabel($knowledge->field_category) }}
+                                    {{ $knowledge->category ? $knowledge->category->name : \App\Helpers\UniversityDataHelper::getKnowledgeCategoryLabel($knowledge->category_id) }}
                             </td>
                             @if($pageType !== 'user')
                                 <td class="uploader">

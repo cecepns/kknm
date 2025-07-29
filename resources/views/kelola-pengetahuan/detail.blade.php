@@ -78,7 +78,7 @@
         </div>
         <div class="detail-metadata-item">
             <h5 class="label">Kategori</h5>
-            <p class="value">{{ \App\Helpers\UniversityDataHelper::getKategoriBidangLabel($knowledge->field_category) }}</p>
+            <p class="value">{{ $knowledge->category ? $knowledge->category->name : \App\Helpers\UniversityDataHelper::getKnowledgeCategoryLabel($knowledge->category_id) }}</p>
         </div>
         <div class="detail-metadata-item">
             <h5 class="label">Tanggal Unggah</h5>

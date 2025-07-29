@@ -8,6 +8,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ForumCategoryController;
 use App\Http\Controllers\ForumDiscussionController;
 use App\Http\Controllers\KnowledgeController;
+use App\Http\Controllers\KnowledgeCategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityController;
 
@@ -167,6 +168,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kelola-repositori', [KnowledgeController::class, 'repositoryIndex'])->name('kelola.repositori');
         Route::get('/kelola-repositori/{knowledge}', [KnowledgeController::class, 'repositoryShow'])->name('kelola.repositori.detail');
         Route::delete('/kelola-repositori/{knowledge}', [KnowledgeController::class, 'repositoryDestroy'])->name('kelola.repositori.destroy');
+    });
+    
+    // Kelola Kategori Pengetahuan (CRUD) - Admin only
+    Route::middleware(['permission:kelola-kategori-pengetahuan'])->group(function () {
+        Route::resource('kelola-kategori-pengetahuan', KnowledgeCategoryController::class)->names([
+            'index' => 'kelola.kategori.pengetahuan.index',
+            'create' => 'kelola.kategori.pengetahuan.create',
+            'store' => 'kelola.kategori.pengetahuan.store',
+            'show' => 'kelola.kategori.pengetahuan.show',
+            'edit' => 'kelola.kategori.pengetahuan.edit',
+            'update' => 'kelola.kategori.pengetahuan.update',
+            'destroy' => 'kelola.kategori.pengetahuan.destroy',
+        ]);
     });
     
     // Logout

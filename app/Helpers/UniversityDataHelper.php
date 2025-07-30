@@ -237,19 +237,37 @@ class UniversityDataHelper
             return $categories->map(function ($category) {
                 return [
                     'value' => $category->id,
-                    'label' => $category->name,
+                    'label' => $category->name
                 ];
             })->toArray();
         } catch (\Exception $e) {
-            // Fallback to hardcoded categories if database is not available
-            return [
-                ['value' => 1, 'label' => 'Pendidikan'],
-                ['value' => 2, 'label' => 'Kesehatan'],
-                ['value' => 3, 'label' => 'Ekonomi'],
-                ['value' => 4, 'label' => 'Lingkungan'],
-                ['value' => 5, 'label' => 'Teknologi'],
-                ['value' => 6, 'label' => 'Sosial'],
-            ];
+            return [];
+        }
+    }
+
+    /**
+     * ANCHOR: Get all unique KKN locations from database
+     * Returns array of unique KKN locations with value and label
+     */
+    public static function getKKNLocations(): array
+    {
+        try {
+            $locations = \App\Models\Knowledge::where('status', 'validated')
+                ->whereNotNull('kkn_location')
+                ->where('kkn_location', '!=', '')
+                ->distinct()
+                ->pluck('kkn_location')
+                ->sort()
+                ->values();
+            
+            return $locations->map(function ($location) {
+                return [
+                    'value' => $location,
+                    'label' => $location
+                ];
+            })->toArray();
+        } catch (\Exception $e) {
+            return [];
         }
     }
 

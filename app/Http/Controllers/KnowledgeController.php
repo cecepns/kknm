@@ -309,7 +309,7 @@ class KnowledgeController extends Controller
 
         // ANCHOR: Apply location filter
         if ($request->filled('location')) {
-            $query->where('kkn_type', $request->get('location'));
+            $query->where('kkn_location', $request->get('location'));
         }
 
         // ANCHOR: Apply KKN type filter
@@ -324,7 +324,10 @@ class KnowledgeController extends Controller
 
         $knowledgeItems = $query->paginate(10);
 
-        return view('kelola-pengetahuan.daftar-publik', compact('knowledgeItems'));
+        // ANCHOR: Get unique KKN locations for filter
+        $kknLocations = UniversityDataHelper::getKKNLocations();
+
+        return view('kelola-pengetahuan.daftar-publik', compact('knowledgeItems', 'kknLocations'));
     }
 
     // ANCHOR: Show Public Repository Detail

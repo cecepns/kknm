@@ -51,7 +51,7 @@
         <div class="filter-group">
             <select id="locationFilter" class="form-control">
                 <option value="">Lokasi KKN</option>
-                @foreach(\App\Helpers\UniversityDataHelper::getJenisKKN() as $location)
+                @foreach($kknLocations as $location)
                     <option value="{{ $location['value'] }}" {{ request('location') == $location['value'] ? 'selected' : '' }}>
                         {{ $location['label'] }}
                     </option>

@@ -172,12 +172,28 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $this->logLogout();
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/login');
+        try {
+            // ANCHOR: Log logout activity before destroying session
+            $this->logLogout();
+            
+            // ANCHOR: Clear all session data first
+            $request->session()->flush();
+            
+            // ANCHOR: Logout user from all guards
+            Auth::logout();
+            
+            // ANCHOR: Invalidate and regenerate session token
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            
+            return redirect('/login')->with('success', 'Anda berhasil logout.');
+            
+        } catch (\Exception $e) {
+            // ANCHOR: Handle expired session gracefully
+            Auth::logout();
+            $request->session()->flush();
+            
+            return redirect('/login')->with('info', 'Session telah berakhir. Silakan login kembali.');
+        }
     }
 }

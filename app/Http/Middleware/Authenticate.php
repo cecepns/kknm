@@ -12,6 +12,24 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
+        // ANCHOR: Check if session is expired and redirect with message
+        if ($request->session()->has('errors')) {
+            return route('login');
+        }
+        
         return $request->expectsJson() ? null : route('login');
+    }
+    
+    /**
+     * Handle an unauthenticated user.
+     */
+    protected function unauthenticated($request, array $guards)
+    {
+        // ANCHOR: Clear any expired session data
+        if ($request->session()->isStarted()) {
+            $request->session()->flush();
+        }
+        
+        abort(401, 'Unauthenticated.');
     }
 }

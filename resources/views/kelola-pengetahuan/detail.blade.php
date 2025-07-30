@@ -171,7 +171,7 @@
             @else
                 <div class="file-preview-placeholder">
                     <i class="fas fa-file-alt"></i>
-                    <p>Preview tidak tersedia untuk jenis file ini {{ $ext }}</p>
+                    <p>Preview tidak tersedia untuk jenis file ini</p>
                     <p class="file-name">{{ $knowledge->file_name ?? basename($knowledge->file_path) }}</p>
                 </div>
             @endif

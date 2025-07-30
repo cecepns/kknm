@@ -138,12 +138,45 @@
 
         <!-- Logout - Semua role bisa akses -->
         <li>
-            <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+            <form method="POST" action="{{ route('logout') }}" style="margin: 0;" id="logout-form">
                 @csrf
-                <button type="submit" class="btn-logout-link">
+                <button type="submit" class="btn-logout-link" onclick="return confirmLogout()">
                     Logout
                 </button>
             </form>
         </li>
     </ul>
 </aside>
+
+<script>
+// ANCHOR: Handle logout confirmation and expired session
+function confirmLogout() {
+    if (confirm('Apakah Anda yakin ingin logout?')) {
+        // ANCHOR: Add loading state
+        const button = event.target;
+        const originalText = button.textContent;
+        button.textContent = 'Logging out...';
+        button.disabled = true;
+        
+        // ANCHOR: Submit form with timeout to handle expired session
+        setTimeout(() => {
+            document.getElementById('logout-form').submit();
+        }, 100);
+        
+        return true;
+    }
+    return false;
+}
+
+// ANCHOR: Handle page unload to detect session expiry
+window.addEventListener('beforeunload', function() {
+    // ANCHOR: Check if session is still valid
+    fetch('{{ route("dashboard") }}', {
+        method: 'HEAD',
+        credentials: 'same-origin'
+    }).catch(() => {
+        // ANCHOR: Session might be expired
+        console.log('Session might be expired');
+    });
+});
+</script>

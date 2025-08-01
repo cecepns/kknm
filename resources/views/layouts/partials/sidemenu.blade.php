@@ -140,7 +140,7 @@
         <li>
             <form method="POST" action="{{ route('logout') }}" style="margin: 0;" id="logout-form">
                 @csrf
-                <button type="submit" class="btn-logout-link" onclick="return confirmLogout()">
+                <button type="button" class="btn-logout-link" onclick="showLogoutModal()">
                     Logout
                 </button>
             </form>
@@ -148,25 +148,62 @@
     </ul>
 </aside>
 
+<!-- ANCHOR: Logout Confirmation Modal -->
+<div id="logout-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Konfirmasi Logout</h3>
+            <button type="button" class="modal-close" onclick="hideLogoutModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <p class="modal-subtitle">Apakah Anda yakin ingin keluar dari sistem?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-cancel" onclick="hideLogoutModal()">Batal</button>
+            <button type="button" class="btn-confirm" onclick="confirmLogout()">Ya</button>
+        </div>
+    </div>
+</div>
+
 <script>
-// ANCHOR: Handle logout confirmation and expired session
-function confirmLogout() {
-    if (confirm('Apakah Anda yakin ingin logout?')) {
-        // ANCHOR: Add loading state
-        const button = event.target;
-        const originalText = button.textContent;
-        button.textContent = 'Logging out...';
-        button.disabled = true;
-        
-        // ANCHOR: Submit form with timeout to handle expired session
-        setTimeout(() => {
-            document.getElementById('logout-form').submit();
-        }, 100);
-        
-        return true;
-    }
-    return false;
+// ANCHOR: Handle logout confirmation modal
+function showLogoutModal() {
+    document.getElementById('logout-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
 }
+
+function hideLogoutModal() {
+    document.getElementById('logout-modal').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore scrolling
+}
+
+function confirmLogout() {
+    // ANCHOR: Add loading state
+    const confirmBtn = document.querySelector('.btn-confirm');
+    const originalText = confirmBtn.textContent;
+    confirmBtn.textContent = 'Logging out...';
+    confirmBtn.disabled = true;
+    
+    // ANCHOR: Submit form with timeout to handle expired session
+    setTimeout(() => {
+        document.getElementById('logout-form').submit();
+    }, 100);
+}
+
+// ANCHOR: Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('logout-modal');
+    if (event.target === modal) {
+        hideLogoutModal();
+    }
+});
+
+// ANCHOR: Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        hideLogoutModal();
+    }
+});
 
 // ANCHOR: Handle page unload to detect session expiry
 window.addEventListener('beforeunload', function() {

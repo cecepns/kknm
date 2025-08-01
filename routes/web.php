@@ -23,8 +23,11 @@ use App\Http\Controllers\ActivityController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::redirect('/', '/dashboard');
 
+// ANCHOR: Redirect root to login for unauthenticated users, dashboard for authenticated users
+Route::get('/', function () {
+    return auth()->check() ? redirect('/dashboard') : redirect('/login');
+})->name('home');
 
 
 // Rute untuk pengguna yang belum terotentikasi (tamu)

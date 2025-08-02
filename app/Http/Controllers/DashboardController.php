@@ -283,10 +283,6 @@ class DashboardController extends Controller
                     'title' => 'Verifikasi Pengetahuan',
                     'url' => route('verifikasi.pengetahuan')
                 ],
-                'klasifikasi_pengetahuan' => [
-                    'title' => 'Klasifikasi Pengetahuan',
-                    'url' => route('validasi.pengetahuan')
-                ],
                 'kelola_repositori' => [
                     'title' => 'Kelola Repositori',
                     'url' => route('validasi.pengetahuan')
@@ -301,10 +297,6 @@ class DashboardController extends Controller
                     'title' => 'Kelola Pengguna',
                     'url' => route('daftar.pengguna.internal')
                 ],
-                'kelola_role' => [
-                    'title' => 'Kelola Role',
-                    'url' => '#'
-                ],
                 'kelola_pengumuman' => [
                     'title' => 'Kelola Pengumuman',
                     'url' => route('daftar.kelola.pengumuman')
@@ -312,10 +304,6 @@ class DashboardController extends Controller
                 'kelola_faq' => [
                     'title' => 'Kelola FAQ',
                     'url' => route('daftar.kelola.faq')
-                ],
-                'klasifikasi_pengetahuan' => [
-                    'title' => 'Klasifikasi Pengetahuan',
-                    'url' => route('verifikasi.pengetahuan')
                 ],
                 'kelola_repositori' => [
                     'title' => 'Kelola Repositori',
@@ -329,8 +317,8 @@ class DashboardController extends Controller
                     'title' => 'Kelola Forum Diskusi',
                     'url' => route('forum.diskusi')
                 ]
-                         ],
-             4 => [ // Dosen Pembimbing
+            ],
+            4 => [ // Dosen Pembimbing
                  'unggah_pengetahuan' => [
                      'title' => 'Unggah Pengetahuan',
                      'url' => route('unggah.pengetahuan')

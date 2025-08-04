@@ -194,11 +194,11 @@ class DashboardController extends Controller
     }
     
     /**
-     * ANCHOR: Get total unvalidated knowledge (pending or verified)
+     * ANCHOR: Get total unvalidated knowledge (verified)
      */
     private function getTotalUnvalidatedKnowledge()
     {
-        return Knowledge::whereIn('status', ['pedding', 'verified'])->count();
+        return Knowledge::whereIn('status', ['verified'])->count();
     }
     
     /**
@@ -222,7 +222,7 @@ class DashboardController extends Controller
      */
     private function getTotalUnverifiedKnowledge()
     {
-        return Knowledge::where('status', 'pedding')->count();
+        return Knowledge::where('status', 'pending')->count();
     }
     
     /**
@@ -246,8 +246,8 @@ class DashboardController extends Controller
      */
     private function getQuickAccessLinks($roleId)
     {
-        // Define common links that are shared across roles
-        $commonLinks = [
+        // ANCHOR: Define all available quick access links
+        $allQuickAccessLinks = [
             'akses_pengumuman' => [
                 'title' => 'Akses Pengumuman',
                 'url' => route('akses.pengumuman')
@@ -262,87 +262,108 @@ class DashboardController extends Controller
             ],
             'repositori_publik' => [
                 'title' => 'Repositori Publik',
-                'url' => '#'
+                'url' => route('repositori.publik')
+            ],
+            'validasi_pengetahuan' => [
+                'title' => 'Validasi Pengetahuan',
+                'url' => route('validasi.pengetahuan')
+            ],
+            'verifikasi_pengetahuan' => [
+                'title' => 'Verifikasi Pengetahuan',
+                'url' => route('verifikasi.pengetahuan')
+            ],
+            'kelola_repositori' => [
+                'title' => 'Kelola Repositori',
+                'url' => route('kelola.repositori')
+            ],
+            'monitoring_aktivitas' => [
+                'title' => 'Monitoring Aktivitas',
+                'url' => route('monitoring.aktifitas')
+            ],
+            'kelola_pengguna' => [
+                'title' => 'Kelola Pengguna',
+                'url' => route('daftar.pengguna.internal')
+            ],
+            'kelola_pengumuman' => [
+                'title' => 'Kelola Pengumuman',
+                'url' => route('daftar.kelola.pengumuman')
+            ],
+            'kelola_faq' => [
+                'title' => 'Kelola FAQ',
+                'url' => route('daftar.kelola.faq')
+            ],
+            'kelola_kategori_forum' => [
+                'title' => 'Kelola Kategori Forum',
+                'url' => route('daftar.kelola.kategori.forum')
+            ],
+            'kelola_forum_diskusi' => [
+                'title' => 'Kelola Forum Diskusi',
+                'url' => route('forum.diskusi')
+            ],
+            'unggah_pengetahuan' => [
+                'title' => 'Unggah Pengetahuan',
+                'url' => route('unggah.pengetahuan')
             ]
         ];
         
-        // Define role-specific links
-        $roleSpecificLinks = [
+        // ANCHOR: Define role-specific link order and selection
+        $roleLinkConfig = [
             1 => [ // Kepala PPM
-                'validasi_pengetahuan' => [
-                    'title' => 'Validasi Pengetahuan',
-                    'url' => route('validasi.pengetahuan')
-                ],
-                'monitoring_aktivitas' => [
-                    'title' => 'Monitoring Aktivitas',
-                    'url' => '#'
-                ]
+                'akses_pengumuman',
+                'akses_faq',
+                'repositori_publik',
+                'forum_diskusi',
+                'monitoring_aktivitas',
+                'validasi_pengetahuan'
             ],
-            2 => [ // Verifikator
-                'verifikasi_pengetahuan' => [
-                    'title' => 'Verifikasi Pengetahuan',
-                    'url' => route('verifikasi.pengetahuan')
-                ],
-                'kelola_repositori' => [
-                    'title' => 'Kelola Repositori',
-                    'url' => route('validasi.pengetahuan')
-                ],
-                'monitoring_aktivitas' => [
-                    'title' => 'Monitoring Aktivitas',
-                    'url' => '#'
-                ]
+            2 => [ // Koordinator KKN
+                'akses_pengumuman',
+                'akses_faq',
+                'kelola_repositori',
+                'repositori_publik',
+                'forum_diskusi',
+                'monitoring_aktivitas',
+                'verifikasi_pengetahuan'
             ],
             3 => [ // Admin
-                'kelola_pengguna' => [
-                    'title' => 'Kelola Pengguna',
-                    'url' => route('daftar.pengguna.internal')
-                ],
-                'kelola_pengumuman' => [
-                    'title' => 'Kelola Pengumuman',
-                    'url' => route('daftar.kelola.pengumuman')
-                ],
-                'kelola_faq' => [
-                    'title' => 'Kelola FAQ',
-                    'url' => route('daftar.kelola.faq')
-                ],
-                'kelola_repositori' => [
-                    'title' => 'Kelola Repositori',
-                    'url' => route('validasi.pengetahuan')
-                ],
-                'kelola_kategori_forum' => [
-                    'title' => 'Kelola Kategori Forum',
-                    'url' => route('daftar.kelola.kategori.forum')
-                ],
-                'kelola_forum_diskusi' => [
-                    'title' => 'Kelola Forum Diskusi',
-                    'url' => route('forum.diskusi')
-                ]
+                'kelola_pengguna',
+                'kelola_pengumuman',
+                'kelola_faq',
+                'kelola_repositori',
+                'kelola_kategori_forum',
+                'kelola_forum_diskusi',
+                'akses_pengumuman',
+                'akses_faq',
+                'forum_diskusi',
+                'repositori_publik'
             ],
-            4 => [ // Dosen Pembimbing
-                 'unggah_pengetahuan' => [
-                     'title' => 'Unggah Pengetahuan',
-                     'url' => route('unggah.pengetahuan')
-                 ]
-             ],
-             5 => [ // Dosen Pembimbing
-                 'unggah_pengetahuan' => [
-                     'title' => 'Unggah Pengetahuan',
-                     'url' => route('unggah.pengetahuan')
-                 ]
-             ]
+            4 => [ // Mahasiswa
+                'akses_pengumuman',
+                'akses_faq',
+                'repositori_publik',
+                'forum_diskusi',
+                'unggah_pengetahuan'
+            ],
+            5 => [ // Dosen Pembimbing Lapangan
+                'unggah_pengetahuan',
+                'akses_pengumuman',
+                'akses_faq',
+                'forum_diskusi',
+                'repositori_publik'
+            ]
         ];
         
-        // Build links based on role
-        $baseLinks = [];
+        // ANCHOR: Build links based on role configuration
+        $quickAccessLinks = [];
         
-        // Add common links for all roles
-        $baseLinks = array_merge($baseLinks, array_values($commonLinks));
-        
-        // Add role-specific links
-        if (isset($roleSpecificLinks[$roleId])) {
-            $baseLinks = array_merge($baseLinks, array_values($roleSpecificLinks[$roleId]));
+        if (isset($roleLinkConfig[$roleId])) {
+            foreach ($roleLinkConfig[$roleId] as $linkKey) {
+                if (isset($allQuickAccessLinks[$linkKey])) {
+                    $quickAccessLinks[] = $allQuickAccessLinks[$linkKey];
+                }
+            }
         }
         
-        return $baseLinks;
+        return $quickAccessLinks;
     }
 } 

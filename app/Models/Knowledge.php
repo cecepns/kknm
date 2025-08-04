@@ -78,7 +78,7 @@ class Knowledge extends Model
     public function getStatusLabelAttribute(): string
     {
         return match($this->status) {
-            'pedding' => 'Menunggu Review',
+            'pending' => 'Menunggu Review',
             'verified' => 'Terverifikasi',
             'validated' => 'Tervalidasi',
             'classified' => 'Terklasifikasi',
@@ -90,7 +90,7 @@ class Knowledge extends Model
     public function getStatusBadgeClassAttribute(): string
     {
         return match($this->status) {
-            'pedding' => 'badge-warning',
+            'pending' => 'badge-warning',
             'verified' => 'badge-info',
             'validated' => 'badge-primary',
             'classified' => 'badge-success',
@@ -100,9 +100,9 @@ class Knowledge extends Model
     }
 
     // ANCHOR: Scopes
-    public function scopePedding($query)
+    public function scopePending($query)
     {
-        return $query->where('status', 'pedding');
+        return $query->where('status', 'pending');
     }
 
     public function scopeVerified($query)

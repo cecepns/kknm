@@ -307,9 +307,9 @@ class KnowledgeController extends Controller
             $query->where('file_type', $request->get('file_type'));
         }
 
-        // ANCHOR: Apply location filter
-        if ($request->filled('location')) {
-            $query->where('kkn_location', $request->get('location'));
+        // ANCHOR: Apply group filter
+        if ($request->filled('group')) {
+            $query->where('group_number', $request->get('group'));
         }
 
         // ANCHOR: Apply KKN type filter
@@ -324,10 +324,10 @@ class KnowledgeController extends Controller
 
         $knowledgeItems = $query->paginate(10);
 
-        // ANCHOR: Get unique KKN locations for filter
-        $kknLocations = UniversityDataHelper::getKKNLocations();
+        // ANCHOR: Get unique KKN groups for filter
+        $kknGroups = UniversityDataHelper::getKKNGroups();
 
-        return view('kelola-pengetahuan.daftar-publik', compact('knowledgeItems', 'kknLocations'));
+        return view('kelola-pengetahuan.daftar-publik', compact('knowledgeItems', 'kknGroups'));
     }
 
     // ANCHOR: Show Public Repository Detail

@@ -22,7 +22,7 @@ class ActivityController extends Controller
         // Get summary statistics
         $totalUsers = User::count();
         $todayLogins = Activity::where('activity_type', 'login')
-            ->whereDate('created_at', Carbon::today())
+            ->whereDate('created_at', Carbon::now()->toDateString())
             ->count();
         $totalRegistrations = Activity::where('activity_type', 'register')->count();
         $totalForumActivities = Activity::whereIn('activity_type', [

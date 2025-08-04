@@ -272,6 +272,32 @@ class UniversityDataHelper
     }
 
     /**
+     * ANCHOR: Get all unique KKN groups from database
+     * Returns array of unique KKN groups with value and label
+     */
+    public static function getKKNGroups(): array
+    {
+        try {
+            $groups = \App\Models\Knowledge::where('status', 'validated')
+                ->whereNotNull('group_number')
+                ->where('group_number', '!=', '')
+                ->distinct()
+                ->pluck('group_number')
+                ->sort()
+                ->values();
+            
+            return $groups->map(function ($group) {
+                return [
+                    'value' => $group,
+                    'label' => 'Kelompok ' . $group
+                ];
+            })->toArray();
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
+
+    /**
      * ANCHOR: Get knowledge category by ID
      * Returns knowledge category for given ID
      */

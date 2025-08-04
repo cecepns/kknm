@@ -49,11 +49,11 @@
         </div>
 
         <div class="filter-group">
-            <select id="locationFilter" class="form-control">
-                <option value="">Lokasi KKN</option>
-                @foreach($kknLocations as $location)
-                    <option value="{{ $location['value'] }}" {{ request('location') == $location['value'] ? 'selected' : '' }}>
-                        {{ $location['label'] }}
+            <select id="groupFilter" class="form-control">
+                <option value="">Kelompok KKN</option>
+                @foreach($kknGroups as $group)
+                    <option value="{{ $group['value'] }}" {{ request('group') == $group['value'] ? 'selected' : '' }}>
+                        {{ $group['label'] }}
                     </option>
                 @endforeach
             </select>
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const categoryFilter = document.getElementById('categoryFilter');
     const fileTypeFilter = document.getElementById('fileTypeFilter');
-    const locationFilter = document.getElementById('locationFilter');
+    const groupFilter = document.getElementById('groupFilter');
     const kknTypeFilter = document.getElementById('kknTypeFilter');
     const yearFilter = document.getElementById('yearFilter');
 
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchInput.value) params.append('search', searchInput.value);
         if (categoryFilter.value) params.append('category', categoryFilter.value);
         if (fileTypeFilter.value) params.append('file_type', fileTypeFilter.value);
-        if (locationFilter.value) params.append('location', locationFilter.value);
+        if (groupFilter.value) params.append('group', groupFilter.value);
         if (kknTypeFilter.value) params.append('kkn_type', kknTypeFilter.value);
         if (yearFilter.value) params.append('year', yearFilter.value);
 
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    [categoryFilter, fileTypeFilter, locationFilter, kknTypeFilter, yearFilter].forEach(filter => {
+    [categoryFilter, fileTypeFilter, groupFilter, kknTypeFilter, yearFilter].forEach(filter => {
         filter.addEventListener('change', updateFilters);
     });
 });

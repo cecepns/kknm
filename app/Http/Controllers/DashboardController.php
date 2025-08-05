@@ -281,7 +281,7 @@ class DashboardController extends Controller
                 'url' => route('monitoring.aktifitas')
             ],
             'kelola_pengguna' => [
-                'title' => 'Kelola Pengguna',
+                'title' => 'Kelola Pengguna Internal',
                 'url' => route('daftar.pengguna.internal')
             ],
             'kelola_pengumuman' => [
@@ -296,9 +296,9 @@ class DashboardController extends Controller
                 'title' => 'Kelola Kategori Forum',
                 'url' => route('daftar.kelola.kategori.forum')
             ],
-            'kelola_forum_diskusi' => [
-                'title' => 'Kelola Forum Diskusi',
-                'url' => route('forum.diskusi')
+            'kelola_kategori_pengetahuan' => [
+                'title' => 'Kelola Kategori Pengetahuan',
+                'url' => route('kelola.kategori.pengetahuan.index')
             ],
             'unggah_pengetahuan' => [
                 'title' => 'Unggah Pengetahuan',
@@ -328,14 +328,14 @@ class DashboardController extends Controller
             3 => [ // Admin
                 'kelola_pengguna',
                 'kelola_pengumuman',
-                'kelola_faq',
-                'kelola_repositori',
-                'kelola_kategori_forum',
-                'kelola_forum_diskusi',
                 'akses_pengumuman',
+                'kelola_faq',
                 'akses_faq',
-                'forum_diskusi',
-                'repositori_publik'
+                'kelola_repositori',
+                'repositori_publik',
+                'kelola_kategori_forum',
+                'kelola_kategori_pengetahuan',
+                'forum_diskusi'
             ],
             4 => [ // Mahasiswa
                 'akses_pengumuman',
@@ -345,11 +345,11 @@ class DashboardController extends Controller
                 'unggah_pengetahuan'
             ],
             5 => [ // Dosen Pembimbing Lapangan
-                'unggah_pengetahuan',
                 'akses_pengumuman',
                 'akses_faq',
+                'repositori_publik',
                 'forum_diskusi',
-                'repositori_publik'
+                'unggah_pengetahuan'
             ]
         ];
         

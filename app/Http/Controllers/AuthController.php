@@ -69,7 +69,7 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
-            'student_id' => ['required', 'string', 'max:255', 'unique:users,student_id'],
+            'student_id' => ['required', 'string', 'size:14', 'unique:users,student_id'],
             'faculty' => ['required', 'string'],
             'study_program' => ['required', 'string'],
             'batch_year' => ['required', 'string'],
@@ -77,6 +77,35 @@ class AuthController extends Controller
             'kkn_group_number' => ['required', 'string'],
             'kkn_location' => ['required', 'string'],
             'kkn_year' => ['required', 'string'],
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.string' => 'Email harus berupa teks.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'student_id.required' => 'NIM wajib diisi.',
+            'student_id.string' => 'NIM harus berupa teks.',
+            'student_id.size' => 'NIM harus tepat 14 karakter.',
+            'student_id.unique' => 'NIM sudah terdaftar.',
+            'faculty.required' => 'Fakultas wajib diisi.',
+            'faculty.string' => 'Fakultas harus berupa teks.',
+            'study_program.required' => 'Program studi wajib diisi.',
+            'study_program.string' => 'Program studi harus berupa teks.',
+            'batch_year.required' => 'Tahun angkatan wajib diisi.',
+            'batch_year.string' => 'Tahun angkatan harus berupa teks.',
+            'kkn_type.required' => 'Jenis KKN wajib diisi.',
+            'kkn_type.string' => 'Jenis KKN harus berupa teks.',
+            'kkn_group_number.required' => 'Nomor kelompok KKN wajib diisi.',
+            'kkn_group_number.string' => 'Nomor kelompok KKN harus berupa teks.',
+            'kkn_location.required' => 'Lokasi KKN wajib diisi.',
+            'kkn_location.string' => 'Lokasi KKN harus berupa teks.',
+            'kkn_year.required' => 'Tahun KKN wajib diisi.',
+            'kkn_year.string' => 'Tahun KKN harus berupa teks.',
         ]);
 
         $user = User::create([
@@ -110,6 +139,25 @@ class AuthController extends Controller
             'employee_id' => ['required', 'string', 'max:255', 'unique:users,employee_id'],
             'faculty' => ['required', 'string'],
             'study_program' => ['required', 'string'],
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.string' => 'Email harus berupa teks.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'employee_id.required' => 'NIDN wajib diisi.',
+            'employee_id.string' => 'NIDN harus berupa teks.',
+            'employee_id.max' => 'NIDN tidak boleh lebih dari 255 karakter.',
+            'employee_id.unique' => 'NIDN sudah terdaftar.',
+            'faculty.required' => 'Fakultas wajib diisi.',
+            'faculty.string' => 'Fakultas harus berupa teks.',
+            'study_program.required' => 'Program studi wajib diisi.',
+            'study_program.string' => 'Program studi harus berupa teks.',
         ]);
 
         $user = User::create([
@@ -134,6 +182,10 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+        ], [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password wajib diisi.',
         ]);
 
         // ANCHOR: Check if user exists and is active before attempting authentication

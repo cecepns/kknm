@@ -55,7 +55,7 @@
                 <div class="auth-form-row">
                     <div class="auth-form-group">
                         <label for="student_id">NIM</label>
-                        <input type="text" id="student_id" name="student_id" class="form-control" value="{{ old('student_id') }}" required>
+                        <input type="text" id="student_id" name="student_id" class="form-control" value="{{ old('student_id') }}" required maxlength="14">
                         @error('student_id')
                             <span class="error-message">{{ $message }}</span>
                         @enderror

@@ -37,6 +37,10 @@
                 
                 <button type="submit" class="auth-submit">Login</button>
             </form>
+            
+            <div class="auth-links">
+                <a href="{{ route('password.request') }}" class="auth-link">Lupa password?</a>
+            </div>
         </div>
         
         <div class="auth-footer">

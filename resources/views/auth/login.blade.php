@@ -11,6 +11,11 @@
         </div>
         
         <div class="auth-body">
+            @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+            @endif
             <form method="POST" action="{{ route('login') }}" class="auth-form">
                 @csrf
                 

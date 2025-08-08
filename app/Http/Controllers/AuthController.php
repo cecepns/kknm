@@ -124,10 +124,7 @@ class AuthController extends Controller
             'kkn_year' => $request->kkn_year,
         ]);
 
-        Auth::login($user);
-        $this->logRegistration($user->name);
-
-        return redirect()->route('dashboard');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil. Silakan login untuk melanjutkan.');
     }
 
     public function registerDosen(Request $request)
@@ -171,10 +168,7 @@ class AuthController extends Controller
             'study_program' => $request->study_program,
         ]);
 
-        Auth::login($user);
-        $this->logRegistration($user->name);
-
-        return redirect()->route('dashboard');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil. Silakan login untuk melanjutkan.');
     }
 
     public function login(Request $request)

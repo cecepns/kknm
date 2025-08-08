@@ -38,7 +38,13 @@ class ForumDiscussionController extends Controller
 
     public function show($id)
     {
-        $discussion = ForumDiscussion::with(['user', 'category', 'comments.user'])->findOrFail($id);
+        $discussion = ForumDiscussion::with([
+            'user',
+            'category',
+            'comments.user',
+            'likes',
+            'comments.likes',
+        ])->findOrFail($id);
         return view('forum-diskusi.detail', compact('discussion'));
     }
 
@@ -128,5 +134,49 @@ class ForumDiscussionController extends Controller
         $this->logForumDiscussionDelete($discussionTitle);
 
         return redirect()->route('forum.diskusi')->with('success', 'Diskusi berhasil dihapus!');
+    }
+
+    /**
+     * Toggle like on a discussion by the authenticated user.
+     */
+    public function toggleLikeDiscussion($id)
+    {
+        $discussion = ForumDiscussion::findOrFail($id);
+        $likeQuery = $discussion->likes()->where('user_id', Auth::id());
+        $existing = $likeQuery->first();
+
+        if ($existing) {
+            $likeQuery->delete();
+            if ($discussion->likes_count > 0) {
+                $discussion->decrement('likes_count');
+            }
+            return back()->with('success', 'Batal suka diskusi.');
+        }
+
+        $discussion->likes()->create(['user_id' => Auth::id()]);
+        $discussion->increment('likes_count');
+        return back()->with('success', 'Menyukai diskusi.');
+    }
+
+    /**
+     * Toggle like on a comment by the authenticated user.
+     */
+    public function toggleLikeComment($commentId)
+    {
+        $comment = ForumComment::findOrFail($commentId);
+        $likeQuery = $comment->likes()->where('user_id', Auth::id());
+        $existing = $likeQuery->first();
+
+        if ($existing) {
+            $likeQuery->delete();
+            if ($comment->likes_count > 0) {
+                $comment->decrement('likes_count');
+            }
+            return back()->with('success', 'Batal suka komentar.');
+        }
+
+        $comment->likes()->create(['user_id' => Auth::id()]);
+        $comment->increment('likes_count');
+        return back()->with('success', 'Menyukai komentar.');
     }
 }

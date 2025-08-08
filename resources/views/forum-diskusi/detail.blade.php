@@ -58,9 +58,14 @@
             <span class="stat-item">
                 <i class="fas fa-comment"></i> {{ $discussion->comments_count }} Komentar
             </span>
-            <span class="stat-item">
-                <i class="fas fa-thumbs-up"></i> {{ $discussion->likes_count }} Suka
-            </span>
+            <form id="like-discussion-form-{{ $discussion->id }}" action="{{ route('forum.diskusi.like', $discussion->id) }}" method="POST" style="display:none;">
+                @csrf
+            </form>
+            <a href="#" class="like-toggle {{ $discussion->likes->where('user_id', auth()->id())->count() ? 'active' : '' }}"
+               onclick="event.preventDefault(); document.getElementById('like-discussion-form-{{ $discussion->id }}').submit();">
+                <span class="emoji-thumbs-up" style="font-size:1.1em;">👍</span>
+                <span>{{ $discussion->likes_count }}</span>
+            </a>
         </div>
     </div>
 
@@ -80,6 +85,16 @@
                                 <span class="author-name">{{ $comment->user->name }}</span>
                                 <span class="comment-date">{{ $comment->created_at->format('d M Y') }}</span>
                             </div>
+                        </div>
+                        <div class="comment-actions">
+                            <form id="like-comment-form-{{ $comment->id }}" action="{{ route('forum.komentar.like', $comment->id) }}" method="POST" style="display:none;">
+                                @csrf
+                            </form>
+                            <a href="#" class="like-toggle {{ $comment->likes->where('user_id', auth()->id())->count() ? 'active' : '' }}"
+                               onclick="event.preventDefault(); document.getElementById('like-comment-form-{{ $comment->id }}').submit();">
+                                <span class="emoji-thumbs-up" style="font-size:1.1em;">👍</span>
+                                <span>{{ $comment->likes_count }}</span>
+                            </a>
                         </div>
                     </div>
                     <div class="comment-body">
@@ -322,6 +337,32 @@
 .action-btn:hover {
     background-color: #f3f4f6;
     border-color: #9ca3af;
+}
+
+/* Elegant like toggle */
+.like-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #6b7280;
+    text-decoration: none;
+    padding: 0.2rem 0.7rem;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+}
+
+.like-toggle i {
+    font-size: 0.95rem;
+}
+
+.like-toggle:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.like-toggle.active {
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.08);
 }
 
 .empty-comments {

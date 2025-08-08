@@ -131,9 +131,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/forum-diskusi', [ForumDiscussionController::class, 'store'])->name('tambah.forum.diskusi');
         Route::get('/forum-diskusi/{id}', [ForumDiscussionController::class, 'show'])->name('forum.diskusi.detail');
         Route::post('/forum-diskusi/{id}/komentar', [ForumDiscussionController::class, 'storeComment'])->name('tambah.komentar');
+        Route::post('/forum-diskusi/{id}/like', [ForumDiscussionController::class, 'toggleLikeDiscussion'])->name('forum.diskusi.like');
         Route::get('/forum-diskusi/{id}/edit', [ForumDiscussionController::class, 'edit'])->name('form.edit.forum.diskusi');
         Route::put('/forum-diskusi/{id}', [ForumDiscussionController::class, 'update'])->name('edit.forum.diskusi');
         Route::delete('/forum-diskusi/{id}', [ForumDiscussionController::class, 'destroy'])->name('hapus.forum.diskusi');
+        Route::post('/forum-komentar/{commentId}/like', [ForumDiscussionController::class, 'toggleLikeComment'])->name('forum.komentar.like');
     });
     
     // Unggah Pengetahuan - memerlukan permission unggah-pengetahuan

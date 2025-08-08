@@ -25,4 +25,12 @@ class ForumComment extends Model
     {
         return $this->belongsTo(ForumDiscussion::class, 'forum_discussion_id');
     }
+
+    /**
+     * ANCHOR: Polymorphic likes relation (users who liked this comment)
+     */
+    public function likes()
+    {
+        return $this->morphMany(\App\Models\ForumLike::class, 'likeable');
+    }
 }

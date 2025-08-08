@@ -32,4 +32,12 @@ class ForumDiscussion extends Model
     {
         return $this->hasMany(ForumComment::class);
     }
+
+    /**
+     * ANCHOR: Polymorphic likes relation (users who liked this discussion)
+     */
+    public function likes()
+    {
+        return $this->morphMany(ForumLike::class, 'likeable');
+    }
 }

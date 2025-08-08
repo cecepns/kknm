@@ -163,6 +163,13 @@
             @endphp
             @if(in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']))
                 <img src="{{ asset('storage/'.$knowledge->file_path) }}" alt="Preview File">
+            @elseif($ext === 'pdf')
+                <iframe
+                    src="{{ asset('storage/'.$knowledge->file_path) }}"
+                    width="100%"
+                    height="800px"
+                    title="Preview PDF"
+                ></iframe>
             @elseif(in_array($ext, ['mp4', 'webm', 'ogg']))
                 <video width="100%" height="auto" controls>
                     <source src="{{ asset('storage/'.$knowledge->file_path) }}" type="video/{{ $ext }}">

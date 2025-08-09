@@ -9,6 +9,13 @@
 
 <div class="card">
     <div class="card-body">
+        @if(isset($user) && $user->custom_id)
+        <div class="mb-4 p-3 bg-gray-50 rounded">
+            <p class="text-sm text-gray-600 mb-1">ID Pengguna:</p>
+            <p class="font-medium text-lg">{{ $user->custom_id }}</p>
+        </div>
+        @endif
+
         <form action="{{ isset($user) ? route('edit.pengguna.internal', $user->id) : route('tambah.pengguna.internal') }}" method="POST">
             @csrf
             @if(isset($user))

@@ -25,7 +25,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>ID Pengguna</th>
                 <th>Nama Lengkap</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -36,7 +36,9 @@
         <tbody>
             @forelse($users as $user)
             <tr>
-                <td class="font-medium">{{ $user->id }}</td>
+                <td class="font-medium">
+                    {!! $user->getFormattedCustomId() !!}
+                </td>
                 <td class="font-medium">{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>

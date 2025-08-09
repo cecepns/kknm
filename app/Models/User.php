@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\HasPermissions;
+use App\Helpers\UserHelper;
 
 class User extends Authenticatable
 {
@@ -31,6 +32,7 @@ class User extends Authenticatable
         'kkn_group_number',
         'kkn_location',
         'kkn_year',
+        'custom_id',
     ];
 
     /**
@@ -47,6 +49,57 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    /**
+     * ANCHOR: Boot method to handle custom ID generation
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($user) {
+            if (empty($user->custom_id)) {
+                $user->custom_id = UserHelper::generateCustomId($user->role_id);
+            }
+        });
+    }
+
+    /**
+     * ANCHOR: Generate custom ID for new users
+     */
+    public static function generateCustomId($roleId)
+    {
+        return UserHelper::generateCustomId($roleId);
+    }
+
+    /**
+     * ANCHOR: Get role name from custom_id prefix
+     */
+    public function getRoleNameFromCustomId()
+    {
+        if (!$this->custom_id) {
+            return 'Unknown';
+        }
+        
+        $prefix = substr($this->custom_id, 0, 3);
+        return UserHelper::getRoleNameFromPrefix($prefix);
+    }
+
+    /**
+     * ANCHOR: Get formatted custom ID for display
+     */
+    public function getFormattedCustomId()
+    {
+        return UserHelper::formatCustomId($this->custom_id);
+    }
+
+    /**
+     * ANCHOR: Get display name with custom ID
+     */
+    public function getDisplayName()
+    {
+        return UserHelper::getUserDisplayName($this);
+    }
 
     /**
      * Mendapatkan role dari user.

@@ -12,7 +12,7 @@ use App\Helpers\UniversityDataHelper;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * ANCHOR: Display a listing of internal users with custom ID
      */
     public function index()
     {
@@ -21,12 +21,16 @@ class UserController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $users = User::with('role')->where('account_type', 'internal')->latest()->get();
+        $users = User::with('role')
+            ->where('account_type', 'internal')
+            ->orderBy('custom_id')
+            ->latest()
+            ->get();
         return view('kelola-pengguna-internal.daftar', compact('users'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * ANCHOR: Show the form for creating a new internal user
      */
     public function create()
     {
@@ -43,7 +47,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * ANCHOR: Store a newly created internal user
      */
     public function store(Request $request)
     {
@@ -73,7 +77,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * ANCHOR: Display the specified resource
      */
     public function show(string $id)
     {
@@ -81,10 +85,15 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * ANCHOR: Show the form for editing the specified internal user
      */
     public function edit(User $user)
     {
+        // Check permission
+        if (!auth()->user()->hasPermission('kelola-pengguna-internal')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $roles = Role::all();
         $fakultas = UniversityDataHelper::getFakultas();
         $program_studi = UniversityDataHelper::getProgramStudi();
@@ -93,10 +102,15 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * ANCHOR: Update the specified internal user
      */
-    public function update(Request $request,  User $user)
+    public function update(Request $request, User $user)
     {
+        // Check permission
+        if (!auth()->user()->hasPermission('kelola-pengguna-internal')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -122,10 +136,15 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * ANCHOR: Remove the specified internal user
      */
     public function destroy(User $user)
     {
+        // Check permission
+        if (!auth()->user()->hasPermission('kelola-pengguna-internal')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if ($user->id === auth()->id()) {
             return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }

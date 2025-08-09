@@ -159,6 +159,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/verifikasi-pengetahuan/{knowledge}', [KnowledgeController::class, 'verificationShow'])->name('verifikasi.pengetahuan.detail');
         Route::post('/verifikasi-pengetahuan/{knowledge}/approve', [KnowledgeController::class, 'approve'])->name('verifikasi.pengetahuan.approve');
         Route::post('/verifikasi-pengetahuan/{knowledge}/reject', [KnowledgeController::class, 'reject'])->name('verifikasi.pengetahuan.reject');
+        Route::post('/verifikasi-pengetahuan/batch-approve', [KnowledgeController::class, 'batchApprove'])->name('verifikasi.pengetahuan.batch.approve');
+        Route::post('/verifikasi-pengetahuan/batch-reject', [KnowledgeController::class, 'batchReject'])->name('verifikasi.pengetahuan.batch.reject');
     });
     
     // Validasi Pengetahuan - memerlukan permission validasi-pengetahuan
@@ -167,6 +169,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/validasi-pengetahuan/{knowledge}', [KnowledgeController::class, 'validationShow'])->name('validasi.pengetahuan.detail');
         Route::post('/validasi-pengetahuan/{knowledge}/validate', [KnowledgeController::class, 'validateKnowledge'])->name('validasi.pengetahuan.validate');
         Route::post('/validasi-pengetahuan/{knowledge}/reject', [KnowledgeController::class, 'rejectValidation'])->name('validasi.pengetahuan.reject');
+        Route::post('/validasi-pengetahuan/batch-validate', [KnowledgeController::class, 'batchValidate'])->name('validasi.pengetahuan.batch.validate');
+        Route::post('/validasi-pengetahuan/batch-reject', [KnowledgeController::class, 'batchRejectValidation'])->name('validasi.pengetahuan.batch.reject');
     });
     
     // Repositori Publik - accessible to all authenticated users

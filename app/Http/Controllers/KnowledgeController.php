@@ -221,6 +221,84 @@ class KnowledgeController extends Controller
             ->with('success', 'Pengetahuan berhasil ditolak.');
     }
 
+    // ANCHOR: Batch Approve Knowledge
+    public function batchApprove(Request $request)
+    {
+        $request->validate([
+            'knowledge_ids' => 'required|array|min:1',
+            'knowledge_ids.*' => 'exists:knowledge,id'
+        ]);
+
+        $knowledgeIds = $request->knowledge_ids;
+        $approvedCount = 0;
+        $errors = [];
+
+        foreach ($knowledgeIds as $id) {
+            $knowledge = Knowledge::find($id);
+            
+            if (!$knowledge) {
+                $errors[] = "Pengetahuan dengan ID {$id} tidak ditemukan.";
+                continue;
+            }
+
+            if ($knowledge->status !== 'pending') {
+                $errors[] = "Pengetahuan '{$knowledge->title}' sudah diverifikasi.";
+                continue;
+            }
+
+            $knowledge->approve(auth()->id(), null);
+            $this->logKnowledgeApproval($knowledge->title);
+            $approvedCount++;
+        }
+
+        $message = "{$approvedCount} pengetahuan berhasil diverifikasi!";
+        if (!empty($errors)) {
+            $message .= " Beberapa item tidak dapat diproses: " . implode(', ', $errors);
+        }
+
+        return redirect()->route('verifikasi.pengetahuan')
+            ->with($approvedCount > 0 ? 'success' : 'error', $message);
+    }
+
+    // ANCHOR: Batch Reject Knowledge
+    public function batchReject(Request $request)
+    {
+        $request->validate([
+            'knowledge_ids' => 'required|array|min:1',
+            'knowledge_ids.*' => 'exists:knowledge,id'
+        ]);
+
+        $knowledgeIds = $request->knowledge_ids;
+        $rejectedCount = 0;
+        $errors = [];
+
+        foreach ($knowledgeIds as $id) {
+            $knowledge = Knowledge::find($id);
+            
+            if (!$knowledge) {
+                $errors[] = "Pengetahuan dengan ID {$id} tidak ditemukan.";
+                continue;
+            }
+
+            if ($knowledge->status !== 'pending') {
+                $errors[] = "Pengetahuan '{$knowledge->title}' sudah diverifikasi.";
+                continue;
+            }
+
+            $knowledge->reject(auth()->id(), null);
+            $this->logKnowledgeRejection($knowledge->title);
+            $rejectedCount++;
+        }
+
+        $message = "{$rejectedCount} pengetahuan berhasil ditolak!";
+        if (!empty($errors)) {
+            $message .= " Beberapa item tidak dapat diproses: " . implode(', ', $errors);
+        }
+
+        return redirect()->route('verifikasi.pengetahuan')
+            ->with($rejectedCount > 0 ? 'success' : 'error', $message);
+    }
+
     // ANCHOR: Show Validation Index
     public function validationIndex()
     {
@@ -279,6 +357,84 @@ class KnowledgeController extends Controller
 
         return redirect()->route('validasi.pengetahuan')
             ->with('success', 'Pengetahuan berhasil ditolak.');
+    }
+
+    // ANCHOR: Batch Validate Knowledge
+    public function batchValidate(Request $request)
+    {
+        $request->validate([
+            'knowledge_ids' => 'required|array|min:1',
+            'knowledge_ids.*' => 'exists:knowledge,id'
+        ]);
+
+        $knowledgeIds = $request->knowledge_ids;
+        $validatedCount = 0;
+        $errors = [];
+
+        foreach ($knowledgeIds as $id) {
+            $knowledge = Knowledge::find($id);
+            
+            if (!$knowledge) {
+                $errors[] = "Pengetahuan dengan ID {$id} tidak ditemukan.";
+                continue;
+            }
+
+            if ($knowledge->status !== 'verified') {
+                $errors[] = "Pengetahuan '{$knowledge->title}' tidak dapat divalidasi.";
+                continue;
+            }
+
+            $knowledge->validate(auth()->id(), null);
+            $this->logKnowledgeValidation($knowledge->title);
+            $validatedCount++;
+        }
+
+        $message = "{$validatedCount} pengetahuan berhasil divalidasi!";
+        if (!empty($errors)) {
+            $message .= " Beberapa item tidak dapat diproses: " . implode(', ', $errors);
+        }
+
+        return redirect()->route('validasi.pengetahuan')
+            ->with($validatedCount > 0 ? 'success' : 'error', $message);
+    }
+
+    // ANCHOR: Batch Reject Validation
+    public function batchRejectValidation(Request $request)
+    {
+        $request->validate([
+            'knowledge_ids' => 'required|array|min:1',
+            'knowledge_ids.*' => 'exists:knowledge,id'
+        ]);
+
+        $knowledgeIds = $request->knowledge_ids;
+        $rejectedCount = 0;
+        $errors = [];
+
+        foreach ($knowledgeIds as $id) {
+            $knowledge = Knowledge::find($id);
+            
+            if (!$knowledge) {
+                $errors[] = "Pengetahuan dengan ID {$id} tidak ditemukan.";
+                continue;
+            }
+
+            if ($knowledge->status !== 'verified') {
+                $errors[] = "Pengetahuan '{$knowledge->title}' tidak dapat divalidasi.";
+                continue;
+            }
+
+            $knowledge->reject(auth()->id(), null);
+            $this->logKnowledgeValidationRejection($knowledge->title);
+            $rejectedCount++;
+        }
+
+        $message = "{$rejectedCount} pengetahuan berhasil ditolak!";
+        if (!empty($errors)) {
+            $message .= " Beberapa item tidak dapat diproses: " . implode(', ', $errors);
+        }
+
+        return redirect()->route('validasi.pengetahuan')
+            ->with($rejectedCount > 0 ? 'success' : 'error', $message);
     }
 
     // ANCHOR: Show Public Repository Index

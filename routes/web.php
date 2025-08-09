@@ -150,7 +150,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/unggah-pengetahuan/tambah', [KnowledgeController::class, 'create'])->name('unggah.pengetahuan.create');
         Route::post('/unggah-pengetahuan', [KnowledgeController::class, 'store'])->name('unggah.pengetahuan.store');
         Route::get('/unggah-pengetahuan/{id}', [KnowledgeController::class, 'show'])->name('unggah.pengetahuan.detail');
+        Route::get('/unggah-pengetahuan/{knowledge}/edit', [KnowledgeController::class, 'edit'])->name('unggah.pengetahuan.edit');
+        Route::put('/unggah-pengetahuan/{knowledge}', [KnowledgeController::class, 'update'])->name('unggah.pengetahuan.update');
         Route::get('/unggah-pengetahuan/{knowledge}/download', [KnowledgeController::class, 'download'])->name('unggah.pengetahuan.download');
+        Route::delete('/unggah-pengetahuan/{knowledge}', [KnowledgeController::class, 'destroy'])->name('unggah.pengetahuan.destroy');
     });
     
     // Verifikasi Pengetahuan - memerlukan permission verifikasi-pengetahuan

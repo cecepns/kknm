@@ -22,7 +22,7 @@
     </div>
 @endif
 
-<form action="{{ isset($knowledge) ? route('kelola.repositori.update', $knowledge) : route('unggah.pengetahuan.store') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+<form action="{{ isset($knowledge) ? route('unggah.pengetahuan.update', $knowledge) : route('unggah.pengetahuan.store') }}" method="POST" enctype="multipart/form-data" class="upload-form">
     @csrf
     @if(isset($knowledge))
         @method('PUT')
@@ -199,21 +199,40 @@
         <div class="form-group">
             <label class="form-label">Lampiran File</label>
             <div class="file-upload-container">
-                <div class="file-upload-area" id="fileUploadArea">
+                @if(isset($knowledge))
+                    <!-- Show existing file in edit mode -->
+                    <div class="existing-file-info">
+                        <div class="existing-file-content">
+                            <div class="file-icon">📄</div>
+                            <div class="file-info">
+                                <span class="file-name">{{ $knowledge->file_name }}</span>
+                                <span class="file-size">{{ $knowledge->file_size_formatted }}</span>
+                            </div>
+                            <a href="{{ route('unggah.pengetahuan.download', $knowledge) }}" class="btn btn-sm btn-outline-primary" download>
+                                Download
+                            </a>
+                        </div>
+                        <div class="file-replace-info">
+                            <p class="text-muted">Pilih file baru untuk mengganti file yang ada (opsional)</p>
+                        </div>
+                    </div>
+                @endif
+                
+                <div class="file-upload-area" id="fileUploadArea" {{ isset($knowledge) ? 'style="display: none;"' : '' }}>
                     <div class="file-upload-content">
                         <div class="file-upload-icon">📁</div>
-                        <p class="file-upload-text">Pilih File atau Drag & drop file di sini</p>
+                        <p class="file-upload-text">{{ isset($knowledge) ? 'Pilih File Baru atau Drag & drop file di sini' : 'Pilih File atau Drag & drop file di sini' }}</p>
                         <button type="button" class="btn btn-primary file-select-btn" onclick="document.getElementById('file').click()">
-                            Pilih File
+                            {{ isset($knowledge) ? 'Pilih File Baru' : 'Pilih File' }}
                         </button>
                     </div>
-                                            <input 
-                            type="file" 
-                            id="file" 
-                            name="file" 
-                            class="file-input @error('file') error @enderror"
-                            accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4,.avi,.mov"
-                            {{ !isset($knowledge) ? 'required' : '' }}>
+                    <input 
+                        type="file" 
+                        id="file" 
+                        name="file" 
+                        class="file-input @error('file') error @enderror"
+                        accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4,.avi,.mov"
+                        {{ !isset($knowledge) ? 'required' : '' }}>
                 </div>
                 <div id="filePreview" class="file-preview" style="display: none;">
                     <div class="file-preview-content">
@@ -251,7 +270,7 @@
 
     <!-- ANCHOR: Form Actions -->
     <div class="form-actions">
-        <a href="{{ isset($knowledge) ? route('kelola.repositori') : route('unggah.pengetahuan') }}" class="btn btn-secondary">
+        <a href="{{ isset($knowledge) ? route('unggah.pengetahuan') : route('unggah.pengetahuan') }}" class="btn btn-secondary">
             Kembali ke Daftar
         </a>
         <button type="submit" class="btn btn-primary">
@@ -275,6 +294,12 @@ document.addEventListener('DOMContentLoaded', function() {
             fileName.textContent = file.name;
             fileUploadArea.style.display = 'none';
             filePreview.style.display = 'block';
+            
+            // Hide existing file info if in edit mode
+            const existingFileInfo = document.querySelector('.existing-file-info');
+            if (existingFileInfo) {
+                existingFileInfo.style.display = 'none';
+            }
         }
     });
 
@@ -307,6 +332,65 @@ function removeFile() {
     document.getElementById('file').value = '';
     document.getElementById('fileUploadArea').style.display = 'block';
     document.getElementById('filePreview').style.display = 'none';
+    
+    // Show existing file info if in edit mode
+    const existingFileInfo = document.querySelector('.existing-file-info');
+    if (existingFileInfo) {
+        existingFileInfo.style.display = 'block';
+    }
 }
 </script>
+
+<style>
+/* ANCHOR: Existing File Styles */
+.existing-file-info {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.existing-file-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.file-icon {
+    font-size: 2rem;
+}
+
+.file-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.file-info .file-name {
+    font-weight: 500;
+    color: #495057;
+}
+
+.file-info .file-size {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.file-replace-info {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.file-replace-info p {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+</style>
 @endsection 

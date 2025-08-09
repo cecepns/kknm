@@ -153,9 +153,15 @@
                                             Delete
                                         </button>
                                     </form>
+                                @elseif($pageType === 'user')
+                                    <a 
+                                        href="{{ route('unggah.pengetahuan.detail', $knowledge) }}" 
+                                        class="btn btn-primary btn-sm">
+                                        Lihat Detail
+                                    </a>
                                 @else
                                     <a 
-                                        href="{{ $pageType === 'validation' ? route('validasi.pengetahuan.detail', $knowledge) : ($pageType === 'user' ? route('unggah.pengetahuan.detail', $knowledge) : route('verifikasi.pengetahuan.detail', $knowledge)) }}" 
+                                        href="{{ $pageType === 'validation' ? route('validasi.pengetahuan.detail', $knowledge) : route('verifikasi.pengetahuan.detail', $knowledge) }}" 
                                         class="btn btn-primary btn-sm">
                                         Lihat Detail
                                     </a>
@@ -358,3 +364,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endif
+

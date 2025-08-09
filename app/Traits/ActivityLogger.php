@@ -153,4 +153,12 @@ trait ActivityLogger
     {
         $this->logActivity('menghapus_pengetahuan', "Menghapus pengetahuan: {$knowledgeTitle}");
     }
+
+    /**
+     * ANCHOR: Log knowledge update
+     */
+    protected function logKnowledgeUpdate($knowledgeTitle)
+    {
+        $this->logActivity('mengupdate_pengetahuan', "Mengupdate pengetahuan: {$knowledgeTitle}");
+    }
 } 

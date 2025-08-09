@@ -195,6 +195,44 @@
         </button>
     </form>
 </div>
+@elseif($pageType === 'user')
+<div class="detail-action">
+    @if(in_array($knowledge->status, ['pending', 'rejected']))
+        <div class="action-info">
+            <p class="action-info-text">
+                @if($knowledge->status === 'pending')
+                    Pengetahuan ini masih menunggu review. Anda dapat mengedit atau menghapusnya.
+                @else
+                    Pengetahuan ini ditolak. Anda dapat mengedit dan mengirim ulang atau menghapusnya.
+                @endif
+            </p>
+        </div>
+        <div class="action-buttons">
+            <a href="{{ route('unggah.pengetahuan.edit', $knowledge) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit Pengetahuan
+            </a>
+            <form action="{{ route('unggah.pengetahuan.destroy', $knowledge) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger" onclick="return confirmDelete('{{ $knowledge->title }}')">
+                    <i class="fas fa-trash"></i> Hapus Pengetahuan
+                </button>
+            </form>
+        </div>
+    @else
+        <div class="action-info">
+            <p class="action-info-text">
+                @if($knowledge->status === 'verified')
+                    Pengetahuan ini sudah diverifikasi dan sedang menunggu validasi akhir.
+                @elseif($knowledge->status === 'validated')
+                    Pengetahuan ini sudah tervalidasi dan tersedia di repositori publik.
+                @else
+                    Pengetahuan ini sedang dalam proses review.
+                @endif
+            </p>
+        </div>
+    @endif
+</div>
 @elseif(($pageType ?? null) !== 'public' && (auth()->user()->role_id == 1 || auth()->user()->role_id == 2))
 <div class="detail-action">
     @if(auth()->user()->role_id == 2)
@@ -309,11 +347,40 @@
 
     .detail-action {
         display: flex;
+        flex-direction: column;
+        margin-top: 1.6rem;
+        gap: 1rem;
+    }
+
+    .action-info {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+
+    .action-info-text {
+        margin: 0;
+        color: #6c757d;
+        font-size: 0.875rem;
+        line-height: 1.4;
+    }
+
+    .action-buttons {
+        display: flex;
         justify-content: flex-end;
         align-items: center;
-        margin-top: 1.6rem;
-        gap: 1.6rem;
+        gap: 1rem;
     }
 
 </style>
+
+@if($pageType === 'user')
+<script>
+// ANCHOR: Confirm delete functionality
+function confirmDelete(title) {
+    return confirm(`Apakah Anda yakin ingin menghapus pengetahuan "${title}"?\n\nTindakan ini tidak dapat dibatalkan.`);
+}
+</script>
+@endif
 @endsection 

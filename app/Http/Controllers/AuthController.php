@@ -138,7 +138,7 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', PasswordRules::defaults()],
             // NIP/NIDN optional, but if provided must be exactly 10 or 18 digits
-            'employee_id' => ['nullable', 'string', 'regex:/^(\\d{10}|\\d{18})$/', 'unique:users,employee_id'],
+            'employee_id' => ['required', 'string', 'regex:/^(\\d{10}|\\d{18})$/', 'unique:users,employee_id'],
             'faculty' => ['required', 'string'],
             'study_program' => ['required', 'string'],
         ], [

@@ -368,6 +368,7 @@ a:hover {
     margin-top: 60px;
     padding: 2rem;
     min-height: calc(100vh - 60px);
+    width: 100%;
 }
 
 .content-wrapper {
@@ -394,6 +395,20 @@ a:hover {
     color: #1e293b;
     margin: 0;
 }
+
+/** ANCHOR: Responsive style for .page-title */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.25rem;
+    }
+}
+
 
 /* ===== BUTTONS ===== */
 .btn {
@@ -474,9 +489,6 @@ a:hover {
 }
 
 /* ===== FORMS ===== */
-.form-group {
-    margin-bottom: 1.5rem;
-}
 
 .form-group label {
     display: block;
@@ -545,9 +557,9 @@ select.form-control {
 }
 
 .table {
-    width: 100%;
     border-collapse: collapse;
     font-size: 0.875rem;
+    overflow-x: auto;
 }
 
 .table thead {
@@ -1321,6 +1333,20 @@ trix-toolbar .trix-button.trix-active:hover {
     background-color: #f8fafc;
 }
 
+/** ANCHOR: Responsive style for .card-body */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-body {
+        padding: 0.75rem;
+    }
+}
+
+
 /* ===== GRID SYSTEM ===== */
 .grid {
     display: grid;
@@ -2018,8 +2044,6 @@ trix-toolbar .trix-button.trix-active:hover {
     justify-content: flex-end;
     gap: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid #e5e7eb;
-    margin-top: 1rem;
 }
 
 /* Responsive Design for Upload Form */
@@ -2036,14 +2060,6 @@ trix-toolbar .trix-button.trix-active:hover {
     
     .file-upload-area {
         padding: 1.5rem;
-    }
-    
-    .form-actions {
-        flex-direction: column;
-    }
-    
-    .form-actions .btn {
-        width: 100%;
     }
 }
 
@@ -2063,6 +2079,14 @@ trix-toolbar .trix-button.trix-active:hover {
     
     .checkbox-container {
         padding: 0.75rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .form-actions .btn {
+        width: 100%;
     }
 }
 

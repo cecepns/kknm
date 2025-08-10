@@ -166,6 +166,14 @@
     display: flex;
     gap: 0.5rem;
 }
+
+/* ANCHOR: Responsive style for .filters-container */
+@media (max-width: 600px) {
+    .filters-container {
+        flex-direction: column;
+    }
+}
+
 /* ANCHOR: Knowledge Items Styles */
 .knowledge-items-container {
     display: flex;

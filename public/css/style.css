@@ -559,7 +559,7 @@ select.form-control {
 .table {
     border-collapse: collapse;
     font-size: 0.875rem;
-    overflow-x: auto;
+    width: 100%;
 }
 
 .table thead {
@@ -1487,17 +1487,6 @@ trix-toolbar .trix-button.trix-active:hover {
     
     .faq-grid {
         flex-direction: column;
-    }
-    
-    .faq-card-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-    
-    .faq-actions {
-        width: 100%;
-        justify-content: flex-end;
     }
 }
 

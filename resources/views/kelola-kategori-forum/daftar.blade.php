@@ -6,10 +6,10 @@
 <div class="page-header">
     <div>
         <h1 class="page-title">Kelola Kategori Forum Diskusi</h1>
-        <p class="text-gray-600">Halaman ini menampilkan daftar semua kategori forum diskusi yang telah dibuat.</p>
+        <p class="text-gray-600 mt-2">Halaman ini menampilkan daftar semua kategori forum diskusi yang telah dibuat.</p>
     </div>
     <a href="{{ route('form.tambah.kelola.kategori.forum') }}" class="btn btn-primary">
-        Tambah Kategori Forum Diskusi
+        Tambah Kategori
     </a>
 </div>
 

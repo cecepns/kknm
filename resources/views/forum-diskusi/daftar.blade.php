@@ -23,7 +23,7 @@
         </form>
     </div>
     <a href="{{ route('form.tambah.forum.diskusi') }}" class="btn btn-primary">
-        + Tambah Forum Diskusi
+        Tambah Forum Diskusi
     </a>
 </div>
 
@@ -133,6 +133,29 @@
 .category-section {
     margin-bottom: 2rem;
 }
+
+/* ANCHOR: Responsive search-bar */
+@media (max-width: 640px) {
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+    .search-bar {
+        max-width: 100%;
+        width: 100%;
+    }
+    .search-bar form {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .search-bar input,
+    .search-bar button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
 
 .category-filters {
     display: flex;

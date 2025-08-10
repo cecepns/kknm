@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="faq-container">
-    <h1 style="text-align: center; margin-bottom: 2rem; color: #2d3748;">Pertanyaan Umum (FAQ)</h1>
+    <h1 class="page-title mb-4">Pertanyaan Umum (FAQ)</h1>
 
     @forelse ($faqs as $faq)
         <div class="faq-item">

@@ -4,9 +4,7 @@
 
 @section('content')
 <div class="page-header">
-    <div>
-        <h1 class="page-title">Kelola FAQ</h1>
-    </div>
+    <h1 class="page-title">Kelola FAQ</h1>
 </div>
 
 @if(session('success'))
@@ -27,7 +25,7 @@
 <div class="faq-section">
     <h2 style="font-size: 1.25rem; font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Frequently Asked Questions</h2>
     
-    <div class="faq-grid">
+    <div class="grid grid-cols-2 gap-6">
         @forelse($faqs as $faq)
         <div class="faq-card" data-question="{{ strtolower($faq->question) }}" data-answer="{{ strtolower($faq->answer) }}">
             <div class="faq-card-header">

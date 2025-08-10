@@ -6,12 +6,11 @@
 <div class="page-header">
     <div>
         <h1 class="page-title">Kelola Kategori Pengetahuan</h1>
+        <p class="text-gray-600 mt-2">Halaman ini menampilkan daftar semua kategori pengetahuan yang telah dibuat.</p>
     </div>
-    <div>
-        <a href="{{ route('kelola.kategori.pengetahuan.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Tambah Kategori
-        </a>
-    </div>
+    <a href="{{ route('kelola.kategori.pengetahuan.create') }}" class="btn btn-primary">
+        Tambah Kategori
+    </a>
 </div>
 
 <!-- ANCHOR: Flash Messages -->
@@ -75,35 +74,6 @@
 @endif
 
 <style>
-.table-container {
-    margin-top: 2rem;
-    background: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th,
-.table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.table th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #495057;
-}
-
-.table tbody tr:hover {
-    background-color: #f8f9fa;
-}
 
 .action {
     display: flex;

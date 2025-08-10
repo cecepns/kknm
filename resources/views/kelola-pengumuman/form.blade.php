@@ -7,51 +7,49 @@
     <h1 class="page-title">{{ isset($announcement) ? 'Edit Pengumuman' : 'Tambah Pengumuman' }}</h1>
 </div>
 
-<div class="card">
-    <div class="card-body">
-        <form action="{{ isset($announcement) ? route('edit.kelola.pengumuman', $announcement->id) : route('tambah.kelola.pengumuman') }}" method="POST">
-            @csrf
-            @if (isset($announcement))
-                @method('PUT')
-            @endif
+<form action="{{ isset($announcement) ? route('edit.kelola.pengumuman', $announcement->id) : route('tambah.kelola.pengumuman') }}" method="POST">
+    @csrf
+    @if (isset($announcement))
+        @method('PUT')
+    @endif
 
-            <div class="form-group">
-                <label for="title">Judul Pengumuman</label>
-                <input type="text" class="form-control @error('title') error @enderror" id="title" name="title" value="{{ old('title', $announcement->title ?? '') }}" required>
-                @error('title')
-                    <div class="error-message">{{ $message }}</div>
-                @enderror
-            </div>
+    <div class="grid grid-cols-2 gap-6">
+        <div class="form-group">
+            <label for="title">Judul Pengumuman</label>
+            <input type="text" class="form-control @error('title') error @enderror" id="title" name="title" value="{{ old('title', $announcement->title ?? '') }}" required>
+            @error('title')
+                <div class="error-message">{{ $message }}</div>
+            @enderror
+        </div>
 
-            <div class="form-group">
-                <label for="published_date">Tanggal Publikasi</label>
-                <input type="date" class="form-control @error('published_date') error @enderror" id="published_date" name="published_date" value="{{ old('published_date', $announcement->published_date ?? '') }}" required>
-                @error('published_date')
-                    <div class="error-message">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="content">Isi Pengumuman</label>
-                <trix-editor 
-                    id="content" 
-                    name="content" 
-                    class="trix-content @error('content') error @enderror"
-                    placeholder="Tulis isi pengumuman di sini..."
-                ></trix-editor>
-                <input type="hidden" name="content" id="content-input" value="{{ old('content', $announcement->content ?? '') }}">
-                @error('content')
-                    <div class="error-message">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="flex gap-4">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('daftar.kelola.pengumuman') }}" class="btn btn-secondary">Batal</a>
-            </div>
-        </form>
+        <div class="form-group">
+            <label for="published_date">Tanggal Publikasi</label>
+            <input type="date" class="form-control @error('published_date') error @enderror" id="published_date" name="published_date" value="{{ old('published_date', $announcement->published_date ?? '') }}" required>
+            @error('published_date')
+                <div class="error-message">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-</div>
+
+    <div class="form-group mt-6">
+        <label for="content">Isi Pengumuman</label>
+        <trix-editor 
+            id="content" 
+            name="content" 
+            class="trix-content @error('content') error @enderror"
+            placeholder="Tulis isi pengumuman di sini..."
+        ></trix-editor>
+        <input type="hidden" name="content" id="content-input" value="{{ old('content', $announcement->content ?? '') }}">
+        @error('content')
+            <div class="error-message">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="form-actions">
+        <a href="{{ route('daftar.kelola.pengumuman') }}" class="btn btn-secondary">Batal</a>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
+</form>
 
 <!-- Trix Editor CSS and JS -->
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">

@@ -7,11 +7,6 @@
     <div>
         <h1 class="page-title">Tambah Kategori Pengetahuan</h1>
     </div>
-    <div>
-        <a href="{{ route('kelola.kategori.pengetahuan.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Kembali
-        </a>
-    </div>
 </div>
 
 <!-- ANCHOR: Flash Messages -->

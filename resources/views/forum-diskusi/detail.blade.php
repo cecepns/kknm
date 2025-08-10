@@ -32,17 +32,17 @@
         </div>
         <div class="discussion-actions">
             <a href="{{ route('forum.diskusi') }}" class="btn btn-secondary">
-                ← Kembali
+                Kembali
             </a>
             @if(auth()->id() == $discussion->user_id)
                 <a href="{{ route('form.edit.forum.diskusi', $discussion->id) }}" class="btn btn-outline">
-                    ✏️ Edit
+                    Edit
                 </a>
-                <form action="{{ route('hapus.forum.diskusi', $discussion->id) }}" method="POST" class="d-inline">
+                <form action="{{ route('hapus.forum.diskusi', $discussion->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus diskusi ini?')">
-                        🗑️ Hapus
+                        Hapus
                     </button>
                 </form>
             @endif
@@ -211,6 +211,8 @@
     color: #374151;
     margin-bottom: 1rem;
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .content-stats {
@@ -313,6 +315,8 @@
     line-height: 1.5;
     margin-bottom: 0.75rem;
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .comment-actions {
@@ -363,6 +367,29 @@
 .like-toggle.active {
     color: #2563eb;
     background: rgba(37, 99, 235, 0.08);
+}
+
+/* Responsive media inside content */
+.content-body img,
+.comment-body img,
+.content-body video,
+.comment-body video,
+.content-body iframe,
+.comment-body iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Horizontal scroll for code blocks */
+.content-body pre,
+.comment-body pre {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+/* Prevent awkward button wrapping */
+.discussion-actions .btn {
+    white-space: nowrap;
 }
 
 .empty-comments {
@@ -496,11 +523,6 @@
         padding: 1rem;
     }
     
-    .discussion-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
-    }
     
     .discussion-title-section {
         margin-right: 0;
@@ -517,6 +539,35 @@
     
     .meta-item {
         font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .discussion-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    .page-title {
+        font-size: 1.5rem;
+    }
+    .discussion-title {
+        font-size: 1.25rem;
+    }
+    .detail-container {
+        padding: 0.75rem;
+    }
+    .content-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .discussion-actions {
+        gap: 0.5rem;
+    }
+
+    .discussion-actions form {
+        width: 100%;
     }
 }
 </style>

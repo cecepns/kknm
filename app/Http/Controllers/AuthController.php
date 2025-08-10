@@ -137,7 +137,8 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', PasswordRules::defaults()],
-            'employee_id' => ['required', 'string', 'max:255', 'unique:users,employee_id'],
+            // NIP/NIDN optional, but if provided must be exactly 10 or 18 digits
+            'employee_id' => ['nullable', 'string', 'regex:/^(\\d{10}|\\d{18})$/', 'unique:users,employee_id'],
             'faculty' => ['required', 'string'],
             'study_program' => ['required', 'string'],
         ], [
@@ -151,10 +152,9 @@ class AuthController extends Controller
             'email.unique' => 'Email sudah terdaftar.',
             'password.required' => 'Password wajib diisi.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'employee_id.required' => 'NIDN wajib diisi.',
-            'employee_id.string' => 'NIDN harus berupa teks.',
-            'employee_id.max' => 'NIDN tidak boleh lebih dari 255 karakter.',
-            'employee_id.unique' => 'NIDN sudah terdaftar.',
+            'employee_id.string' => 'NIP/NIDN harus berupa teks.',
+            'employee_id.regex' => 'NIP/NIDN harus berupa 10 atau 18 digit angka.',
+            'employee_id.unique' => 'NIP/NIDN sudah terdaftar.',
             'faculty.required' => 'Fakultas wajib diisi.',
             'faculty.string' => 'Fakultas harus berupa teks.',
             'study_program.required' => 'Program studi wajib diisi.',

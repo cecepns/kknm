@@ -53,8 +53,8 @@
                 
                 <div class="auth-form-row">
                     <div class="auth-form-group">
-                        <label for="employee_id">NIP/NIDN</label>
-                        <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ old('employee_id') }}" required autofocus>
+                        <label for="employee_id">NIP/NIDN <span class="text-muted">(opsional)</span></label>
+                        <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ old('employee_id') }}" autofocus>
                         @error('employee_id')
                             <span class="error-message">{{ $message }}</span>
                         @enderror

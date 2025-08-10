@@ -231,7 +231,7 @@
                         id="file" 
                         name="file" 
                         class="file-input @error('file') error @enderror"
-                        accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4,.avi,.mov"
+                        accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4"
                         {{ !isset($knowledge) ? 'required' : '' }}>
                 </div>
                 <div id="filePreview" class="file-preview" style="display: none;">

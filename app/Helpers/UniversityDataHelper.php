@@ -195,7 +195,6 @@ class UniversityDataHelper
             ['value' => 'presentasi', 'label' => 'Presentasi'],
             ['value' => 'video', 'label' => 'Video'],
             ['value' => 'gambar', 'label' => 'Gambar'],
-            ['value' => 'lainnya', 'label' => 'Lainnya'],
         ];
     }
 

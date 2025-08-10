@@ -62,7 +62,8 @@ class KnowledgeController extends Controller
             'description' => 'required|string|max:5000',
             'kkn_type' => 'required|string|max:255',
             'kkn_year' => 'required|integer|min:2020|max:' . (date('Y') + 50),
-            'file_type' => 'required|in:dokumen,presentasi,video,gambar,lainnya',
+            'file' => 'required|file|mimes:pdf,doc,docx,ppt,pptx,jpg,jpeg,png,mp4',
+            'file_type' => 'required|in:dokumen,presentasi,video,gambar',
             'category_id' => 'required|exists:knowledge_categories,id',
             'declaration' => 'required|accepted',
         ], [
@@ -240,7 +241,8 @@ class KnowledgeController extends Controller
             'description' => 'required|string|max:5000',
             'kkn_type' => 'required|string|max:255',
             'kkn_year' => 'required|integer|min:2020|max:' . (date('Y') + 50),
-            'file_type' => 'required|in:dokumen,presentasi,video,gambar,lainnya',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx,jpg,jpeg,png,mp4',
+            'file_type' => 'required|in:dokumen,presentasi,video,gambar',
             'category_id' => 'required|exists:knowledge_categories,id',
             'declaration' => 'required|accepted',
         ], [

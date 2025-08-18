@@ -208,7 +208,7 @@
                                 <span class="file-name">{{ $knowledge->file_name }}</span>
                                 <span class="file-size">{{ $knowledge->file_size_formatted }}</span>
                             </div>
-                            <a href="{{ route('unggah.pengetahuan.download', $knowledge) }}" class="btn btn-sm btn-outline-primary" download>
+                            <a href="{{ route('unggah.pengetahuan.download', $knowledge) }}" class="btn btn-sm btn-outline-primary" download="{{ $knowledge->file_name }}">
                                 Download
                             </a>
                         </div>
@@ -218,7 +218,7 @@
                     </div>
                 @endif
                 
-                <div class="file-upload-area" id="fileUploadArea" {{ isset($knowledge) ? 'style="display: none;"' : '' }}>
+                <div class="file-upload-area" id="fileUploadArea">
                     <div class="file-upload-content">
                         <div class="file-upload-icon">📁</div>
                         <p class="file-upload-text">{{ isset($knowledge) ? 'Pilih File Baru atau Drag & drop file di sini' : 'Pilih File atau Drag & drop file di sini' }}</p>

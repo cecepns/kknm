@@ -244,7 +244,6 @@ class KnowledgeController extends Controller
             'file' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx,jpg,jpeg,png,mp4',
             'file_type' => 'required|in:dokumen,presentasi,video,gambar',
             'category_id' => 'required|exists:knowledge_categories,id',
-            'declaration' => 'required|accepted',
         ], [
             'title.required' => 'Judul pengetahuan harus diisi.',
             'title.max' => 'Judul pengetahuan maksimal 255 karakter.',
@@ -261,8 +260,6 @@ class KnowledgeController extends Controller
             'file_type.in' => 'Jenis file tidak valid.',
             'category_id.required' => 'Kategori bidang harus dipilih.',
             'category_id.exists' => 'Kategori bidang tidak valid.',
-            'declaration.required' => 'Anda harus menyetujui deklarasi.',
-            'declaration.accepted' => 'Anda harus menyetujui deklarasi.',
         ]);
 
         if ($validator->fails()) {
@@ -272,6 +269,7 @@ class KnowledgeController extends Controller
         }
 
         try {
+            $wasRejected = ($knowledge->status === 'rejected');
             $oldFilePath = $knowledge->file_path;
             $newFilePath = null;
 
@@ -295,6 +293,11 @@ class KnowledgeController extends Controller
                 'group_number' => $request->group_number,
             ];
 
+            // If previously rejected, move back to pending for re-review
+            if ($knowledge->status === 'rejected') {
+                $updateData['status'] = 'pending';
+            }
+
             // Update file information if new file is uploaded
             if ($newFilePath) {
                 $updateData['file_name'] = $request->file('file')->getClientOriginalName();
@@ -313,8 +316,12 @@ class KnowledgeController extends Controller
             // ANCHOR: Log Knowledge Update Activity
             $this->logKnowledgeUpdate($knowledge->title);
 
+            $message = $wasRejected
+                ? 'Pengetahuan diperbarui dan dikirim ulang untuk review. Tim kami akan meninjau dalam 1-3 hari kerja.'
+                : 'Pengetahuan berhasil diperbarui! Tim kami akan melakukan review ulang dalam waktu 1-3 hari kerja.';
+
             return redirect()->route('unggah.pengetahuan')
-                ->with('success', 'Pengetahuan berhasil diperbarui! Tim kami akan melakukan review ulang dalam waktu 1-3 hari kerja.');
+                ->with('success', $message);
 
         } catch (\Exception $e) {
             // Delete uploaded file if database update fails
@@ -684,8 +691,8 @@ class KnowledgeController extends Controller
         if (!Storage::disk('public')->exists($knowledge->file_path)) {
             abort(404, 'File tidak ditemukan.');
         }
-
-        return Storage::disk('public')->download($knowledge->file_path);
+        
+        return Storage::disk('public')->download($knowledge->file_path, $knowledge->file_name);
     }
 
     // ANCHOR: Show Repository Management Index

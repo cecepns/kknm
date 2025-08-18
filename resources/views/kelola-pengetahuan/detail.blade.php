@@ -148,11 +148,11 @@
     <div class="preview-file-header">
         <h5 class="label">Preview File</h5>
         @if($pageType === 'public')
-            <a href="{{ route('repositori.publik.download', $knowledge) }}" class="btn btn-primary" download>
+            <a href="{{ route('repositori.publik.download', $knowledge) }}" class="btn btn-primary" download="{{ $knowledge->file_name ?? basename($knowledge->file_path) }}">
                 Unduh File
             </a>
         @else
-            <a href="{{ asset('storage/'.$knowledge->file_path) }}" class="btn btn-primary" download>
+            <a href="{{ asset('storage/'.$knowledge->file_path) }}" class="btn btn-primary" download="{{ $knowledge->file_name ?? basename($knowledge->file_path) }}">
                 Unduh File
             </a>
         @endif
